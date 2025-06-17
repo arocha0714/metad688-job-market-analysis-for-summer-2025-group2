@@ -168,14 +168,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>bla balal</p>
-<div id="cell-1" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>z<span class="op">=</span>x<span class="op">+</span>y</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x,y,z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-1" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1 2 3</code></pre>
+<pre><code>Collecting pyspark
+  Using cached pyspark-4.0.0-py2.py3-none-any.whl
+Collecting py4j==0.10.9.9 (from pyspark)
+  Using cached py4j-0.10.9.9-py2.py3-none-any.whl.metadata (1.3 kB)
+Using cached py4j-0.10.9.9-py2.py3-none-any.whl (203 kB)
+Installing collected packages: py4j, pyspark
+Successfully installed py4j-0.10.9.9 pyspark-4.0.0
+Note: you may need to restart the kernel to use updated packages.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/06/17 21:33:43 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[2]</span><span class="ansi-green-fg">, line 14</span>
+<span class="ansi-green-fg">     11</span> pio.renderers.default = <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">notebook</span><span class="ansi-yellow-fg">"</span>
+<span class="ansi-green-fg">     13</span> <span style="font-style:italic;color:rgb(95,135,135)"># Initialize Spark Session</span>
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">14</span> spark = <span class="ansi-yellow-bg">SparkSession</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">builder</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">appName</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">LightcastData</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">getOrCreate</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">     16</span> <span style="font-style:italic;color:rgb(95,135,135)"># Load Data</span>
+<span class="ansi-green-fg">     17</span> df = spark.read.option(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">header</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">true</span><span class="ansi-yellow-fg">"</span>).option(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">inferSchema</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">true</span><span class="ansi-yellow-fg">"</span>).option(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">multiLine</span><span class="ansi-yellow-fg">"</span>,<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">true</span><span class="ansi-yellow-fg">"</span>).option(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">escape</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span style="font-weight:bold;color:rgb(175,95,0)">\"</span><span class="ansi-yellow-fg">"</span>).csv(<span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">../data/lightcast_job_postings.csv</span><span class="ansi-yellow-fg">"</span>)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2-1/.venv/lib/python3.12/site-packages/pyspark/sql/session.py:559</span>, in <span class="ansi-cyan-fg">SparkSession.Builder.getOrCreate</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-fg">    556</span>     sc = SparkContext.getOrCreate(sparkConf)
+<span class="ansi-green-fg">    557</span>     <span style="font-style:italic;color:rgb(95,135,135)"># Do not update `SparkConf` for existing `SparkContext`, as it's shared</span>
+<span class="ansi-green-fg">    558</span>     <span style="font-style:italic;color:rgb(95,135,135)"># by all sessions.</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">559</span>     session = <span class="ansi-yellow-bg">SparkSession</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">sc</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">=</span><span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_options</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    560</span> <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
+<span class="ansi-green-fg">    561</span>     module = SparkSession._get_j_spark_session_module(session._jvm)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2-1/.venv/lib/python3.12/site-packages/pyspark/sql/session.py:635</span>, in <span class="ansi-cyan-fg">SparkSession.__init__</span><span class="ansi-blue-fg">(self, sparkContext, jsparkSession, options)</span>
+<span class="ansi-green-fg">    631</span> jSparkSessionModule = SparkSession._get_j_spark_session_module(<span style="color:rgb(0,135,0)">self</span>._jvm)
+<span class="ansi-green-fg">    633</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> jsparkSession <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">    634</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> (
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">635</span>         <span class="ansi-yellow-bg">jSparkSessionClass</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">getDefaultSession</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>.isDefined()
+<span class="ansi-green-fg">    636</span>         <span style="font-weight:bold;color:rgb(175,0,255)">and</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> jSparkSessionClass.getDefaultSession().get().sparkContext().isStopped()
+<span class="ansi-green-fg">    637</span>     ):
+<span class="ansi-green-fg">    638</span>         jsparkSession = jSparkSessionClass.getDefaultSession().get()
+<span class="ansi-green-fg">    639</span>         jSparkSessionModule.applyModifiableSettings(jsparkSession, options)
+
+<span class="ansi-red-fg">TypeError</span>: 'JavaPackage' object is not callable</pre>
+</div>
 </div>
 </div>
 
