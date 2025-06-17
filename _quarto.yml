@@ -9,6 +9,12 @@ website:
         text: Home
       - href: geographic_analysis.ipynb
         text: geographic data analysis
+      - href: market_trends.qmd
+        text: Market Trends
+      - href: skill_analysis.qmd
+        text: Skill Analysis
+      - href: career_strategy_recs.qmd
+        text: Career Strategy Recommendations  
 
 
 
