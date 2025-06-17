@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Geographic and Remote Job Market Analysis-Group2"
+  title: "Geographic & Remote Job Market Analysis-Group2"
   navbar:
     left:
       - href: index.qmd
