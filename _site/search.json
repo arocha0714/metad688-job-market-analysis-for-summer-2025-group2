@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Geographic Analysis Group 2",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "geographic_analysis.html",
+    "href": "geographic_analysis.html",
+    "title": "Geographic Analysis",
+    "section": "",
+    "text": "Introduction\nbla balal\n\nx=1\ny=2\nz=x+y\n\nprint(x,y,z)\n\n1 2 3"
+  },
+  {
+    "objectID": "index.html#history",
+    "href": "index.html#history",
+    "title": "Geographic Analysis Group 2",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  }
+]

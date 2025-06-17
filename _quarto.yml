@@ -1,0 +1,16 @@
+project:
+  type: website
+
+website:
+  title: "Geographic and Remote Job Market Analysis-Group2"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: geographic_analysis.ipynb
+        text: geographic data analysis
+
+
+
+
+
