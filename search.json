@@ -7,13 +7,6 @@
     "text": "Introduction\nbla balal\n\n\n\nCollecting pyspark\n  Using cached pyspark-4.0.0-py2.py3-none-any.whl\nCollecting py4j==0.10.9.9 (from pyspark)\n  Using cached py4j-0.10.9.9-py2.py3-none-any.whl.metadata (1.3 kB)\nUsing cached py4j-0.10.9.9-py2.py3-none-any.whl (203 kB)\nInstalling collected packages: py4j, pyspark\nSuccessfully installed py4j-0.10.9.9 pyspark-4.0.0\nNote: you may need to restart the kernel to use updated packages.\n\n\nSetting default log level to \"WARN\".\nTo adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).\n25/06/17 21:33:43 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable\n\n\n\n---------------------------------------------------------------------------\nTypeError                                 Traceback (most recent call last)\nCell In[2], line 14\n     11 pio.renderers.default = \"notebook\"\n     13 # Initialize Spark Session\n---&gt; 14 spark = SparkSession.builder.appName(\"LightcastData\").getOrCreate()\n     16 # Load Data\n     17 df = spark.read.option(\"header\", \"true\").option(\"inferSchema\", \"true\").option(\"multiLine\",\"true\").option(\"escape\", \"\\\"\").csv(\"../data/lightcast_job_postings.csv\")\n\nFile ~/metad688-job-market-analysis-for-summer-2025-group2-1/.venv/lib/python3.12/site-packages/pyspark/sql/session.py:559, in SparkSession.Builder.getOrCreate(self)\n    556     sc = SparkContext.getOrCreate(sparkConf)\n    557     # Do not update `SparkConf` for existing `SparkContext`, as it's shared\n    558     # by all sessions.\n--&gt; 559     session = SparkSession(sc, options=self._options)\n    560 else:\n    561     module = SparkSession._get_j_spark_session_module(session._jvm)\n\nFile ~/metad688-job-market-analysis-for-summer-2025-group2-1/.venv/lib/python3.12/site-packages/pyspark/sql/session.py:635, in SparkSession.__init__(self, sparkContext, jsparkSession, options)\n    631 jSparkSessionModule = SparkSession._get_j_spark_session_module(self._jvm)\n    633 if jsparkSession is None:\n    634     if (\n--&gt; 635         jSparkSessionClass.getDefaultSession().isDefined()\n    636         and not jSparkSessionClass.getDefaultSession().get().sparkContext().isStopped()\n    637     ):\n    638         jsparkSession = jSparkSessionClass.getDefaultSession().get()\n    639         jSparkSessionModule.applyModifiableSettings(jsparkSession, options)\n\nTypeError: 'JavaPackage' object is not callable"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "Hello\nAbout this site"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Geographic Analysis Group 2",
@@ -33,5 +26,12 @@
     "title": "Geographic Analysis Group 2",
     "section": "",
     "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hello\nAbout this site"
   }
 ]
