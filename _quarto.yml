@@ -16,6 +16,9 @@ website:
       - href: career_strategy_recs.qmd
         text: Career Strategy Recommendations  
 
+format:
+  html:
+    theme: minty
 
 
 
