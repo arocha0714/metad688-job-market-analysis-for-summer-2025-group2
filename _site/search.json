@@ -4,21 +4,28 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Geographic Analysis Group 2",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "Hello\nAbout this site"
   },
   {
     "objectID": "geographic_analysis.html",
     "href": "geographic_analysis.html",
     "title": "Geographic Analysis",
     "section": "",
-    "text": "Introduction\nbla balal\n\nx=1\ny=2\nz=x+y\n\nprint(x,y,z)\n\n1 2 3"
+    "text": "Introduction\nbla balal\n\n\n\nCollecting pyspark\n  Using cached pyspark-4.0.0-py2.py3-none-any.whl\nCollecting py4j==0.10.9.9 (from pyspark)\n  Using cached py4j-0.10.9.9-py2.py3-none-any.whl.metadata (1.3 kB)\nUsing cached py4j-0.10.9.9-py2.py3-none-any.whl (203 kB)\nInstalling collected packages: py4j, pyspark\nSuccessfully installed py4j-0.10.9.9 pyspark-4.0.0\nNote: you may need to restart the kernel to use updated packages.\n\n\nSetting default log level to \"WARN\".\nTo adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).\n25/06/17 21:33:43 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable\n\n\n\n---------------------------------------------------------------------------\nTypeError                                 Traceback (most recent call last)\nCell In[2], line 14\n     11 pio.renderers.default = \"notebook\"\n     13 # Initialize Spark Session\n---&gt; 14 spark = SparkSession.builder.appName(\"LightcastData\").getOrCreate()\n     16 # Load Data\n     17 df = spark.read.option(\"header\", \"true\").option(\"inferSchema\", \"true\").option(\"multiLine\",\"true\").option(\"escape\", \"\\\"\").csv(\"../data/lightcast_job_postings.csv\")\n\nFile ~/metad688-job-market-analysis-for-summer-2025-group2-1/.venv/lib/python3.12/site-packages/pyspark/sql/session.py:559, in SparkSession.Builder.getOrCreate(self)\n    556     sc = SparkContext.getOrCreate(sparkConf)\n    557     # Do not update `SparkConf` for existing `SparkContext`, as it's shared\n    558     # by all sessions.\n--&gt; 559     session = SparkSession(sc, options=self._options)\n    560 else:\n    561     module = SparkSession._get_j_spark_session_module(session._jvm)\n\nFile ~/metad688-job-market-analysis-for-summer-2025-group2-1/.venv/lib/python3.12/site-packages/pyspark/sql/session.py:635, in SparkSession.__init__(self, sparkContext, jsparkSession, options)\n    631 jSparkSessionModule = SparkSession._get_j_spark_session_module(self._jvm)\n    633 if jsparkSession is None:\n    634     if (\n--&gt; 635         jSparkSessionClass.getDefaultSession().isDefined()\n    636         and not jSparkSessionClass.getDefaultSession().get().sparkContext().isStopped()\n    637     ):\n    638         jsparkSession = jSparkSessionClass.getDefaultSession().get()\n    639         jSparkSessionModule.applyModifiableSettings(jsparkSession, options)\n\nTypeError: 'JavaPackage' object is not callable"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Geographic Analysis Group 2",
+    "section": "",
+    "text": "Artificial intelligence (AI) is a technology that allows computers and machines to mimic human abilities such as learning, understanding, solving problems, making decisions, being creative, and operating independently (Stryker, 2024). Over the next several years, generative AI will become the main focus of AI researchers and enthusiasts. Generative AI is a type of technology that can produce original text, images, and videos. With the rising popularity of generative AI, many companies are faced with the question of how to walk the line between technological advancements and ethical responsibility. Advocates of AI claim that when implemented properly, AI can boost productivity, accelerate product development, and improve business decision-making. In 2024, the International Monetary Fund estimated that 40% of jobs around the world will be affected by AI. Tech experts hypothesize that the industries and sectors like cybersecurity, financial services, and manufacturing (Expert Panel, 2021). As mentioned earlier, as AI becomes more deeply embedded in daily life, it sparks both optimism and concern, seen by some as a threat to civilization and by others as a transformative force. Regardless of opinion, its growth is undeniable. A new report by Chadix ranks the top 10 U.S. states leading the Artificial Intelligence (AI) revolution, using metrics like education, tech jobs, investment, and AI adoption. California tops the list due to its tech ecosystem, major companies, and educational programs. Florida follows, emerging as a rising AI hub with strong K–12 education efforts and $1 billion in venture funding. Massachusetts excels in research and public-private AI initiatives. Texas is advancing rapidly through legislative efforts and university programs, while New York is building a strong AI infrastructure supported by tech giants and statewide education mandates. Illinois, North Carolina, Colorado, Washington, and Pennsylvania round out the top ten, each demonstrating unique strengths—from fintech and healthcare innovation to AI in aerospace and robotics. Chadix CEO Danny Veiga emphasizes that AI leadership is spreading beyond Silicon Valley, offering new opportunities across the country and fueling a national AI revolution.\n\n\nWith this in mind, our research will look at the rising trends within different industries in regards to AI. Specifically, we will compare the differences between careers impacted by AI vs careers that are not. We will also examine which states have the most upcoming AI-related jobs by looking at the job postings dataset.\n\n\n\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "index.html#purpose",
+    "href": "index.html#purpose",
+    "title": "Geographic Analysis Group 2",
+    "section": "",
+    "text": "With this in mind, our research will look at the rising trends within different industries in regards to AI. Specifically, we will compare the differences between careers impacted by AI vs careers that are not. We will also examine which states have the most upcoming AI-related jobs by looking at the job postings dataset."
   },
   {
     "objectID": "index.html#history",
