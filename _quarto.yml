@@ -8,7 +8,7 @@ website:
       - href: index.qmd
         text: Home
       - href: geographic_analysis.ipynb
-        text: geographic data analysis
+        text: Geographic Data Analysis
       - href: market_trends.qmd
         text: Market Trends
       - href: skill_analysis.qmd
