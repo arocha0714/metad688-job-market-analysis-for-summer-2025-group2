@@ -16,9 +16,15 @@ Analyst Job Distribution Across the United States
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
+import plotly.graph_objects as go
 
-# Configure plotly for CI environments
-pio.renderers.default = "png"
+# Configure plotly for CI environments - try different renderer
+pio.renderers.default = "json"
+pio.templates.default = "plotly_white"
+
+# Disable browser opening in CI
+import os
+os.environ["PLOTLY_RENDERER"] = "json"
 
 # Load the data
 df = pd.read_csv("./data/lightcast_job_postings.csv")
