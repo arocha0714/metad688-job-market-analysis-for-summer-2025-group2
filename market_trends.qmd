@@ -6,7 +6,13 @@ title: Market Trends
 
 This analysis shows the nationwide distribution of analyst jobs across all US states using an interactive choropleth map.
 
+<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
+Analyst Job Distribution Across the United States
+</div>
+
 ```{python}
+#| echo: false
+#| warning: false
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
@@ -20,10 +26,6 @@ all_states_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst',
 # Group by all states and count jobs
 all_state_counts = all_states_df.groupby('STATE_NAME').size().reset_index(name='job_count')
 all_state_counts_sorted = all_state_counts.sort_values(by='job_count', ascending=False)
-
-print("Top 10 states with most analyst jobs:")
-print(all_state_counts_sorted.head(10))
-print(f"\nTotal states with analyst jobs: {len(all_state_counts_sorted)}")
 
 # Comprehensive state abbreviation mapping
 state_abbrev_map = {
@@ -46,12 +48,6 @@ all_state_counts_sorted['state_abbrev'] = all_state_counts_sorted['STATE_NAME'].
 # Filter out any states that couldn't be mapped (in case of data issues)
 mapped_states = all_state_counts_sorted.dropna(subset=['state_abbrev'])
 
-print(f"\nStates successfully mapped: {len(mapped_states)}")
-if len(mapped_states) < len(all_state_counts_sorted):
-    unmapped = all_state_counts_sorted[all_state_counts_sorted['state_abbrev'].isna()]
-    print("Unmapped states:")
-    print(unmapped['STATE_NAME'].tolist())
-
 # Create a choropleth map showing job counts for all states
 fig = px.choropleth(
     mapped_states,
@@ -61,20 +57,29 @@ fig = px.choropleth(
     color_continuous_scale='Greens',
     labels={'job_count': 'Number of Jobs', 'STATE_NAME': 'State'},
     hover_name='STATE_NAME',
-    hover_data={'state_abbrev': False, 'job_count': True}
+    hover_data={'state_abbrev': False, 'job_count': True},
+    range_color=[0, mapped_states['job_count'].max()]
 )
 
 # Update layout with no title to maximize map space
 fig.update_layout(
     geo_scope='usa',
-    width=1000,
-    height=700,
-    margin=dict(t=5, b=5, l=5, r=5),  # Minimal margins on all sides
+    width=750,
+    height=400,
+    margin=dict(t=0, b=0, l=0, r=0),
     geo=dict(
         projection_type='albers usa',
         showlakes=True,
+        domain=dict(x=[0, 0.95], y=[0, 1]),
         lakecolor='rgb(255, 255, 255)',
         bgcolor='rgba(0,0,0,0)'
+    ),
+    coloraxis_colorbar=dict(
+        len=0.9,  # Make colorbar same height as the plot
+        thickness=20,  # Width of the colorbar
+        x=0.96,  # Position from left edge
+        y=0.5,   # Center vertically
+        yanchor='middle'
     )
 )
 
