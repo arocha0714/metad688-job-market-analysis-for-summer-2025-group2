@@ -88,3 +88,45 @@ fig.show()
 ```
 
 According to the visual above, Texas and California are the two clear leaders in the total amount of jobs being offered that contain the word "analyst" in the title. Additionally, eastern states show a considerably greater amount of these jobs compared to western states.
+
+
+
+<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
+Analyst Job Distribution Across Cities in the United States
+</div>
+
+```{python}
+#| echo: false
+#| warning: false
+#| fig-align: left
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Filter for analyst jobs from all states (not just the selected 5)
+all_states_analyst_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
+
+# Group by CITY_NAME and count jobs for analysts
+city_counts_jobs = all_states_analyst_df.groupby('CITY_NAME').size().reset_index(name='job_count')
+
+# Sort city_counts_jobs from greatest to least by job_count and get top 10
+city_counts_jobs_sorted = city_counts_jobs.sort_values(by='job_count', ascending=False).head(10)
+
+# Create a minty color palette that matches the map theme
+minty_colors = ['#1a5d56', '#2c8577', '#42b883', '#7dd3c0', '#a8e6cf', '#cceeee', '#f0f9f9', '#e8f8f5', '#d5f0e8', '#c2e8db']
+
+# Plot column chart
+plt.figure(figsize=(8, 5))
+bars = plt.bar(city_counts_jobs_sorted['CITY_NAME'], city_counts_jobs_sorted['job_count'], color=minty_colors[:len(city_counts_jobs_sorted)])
+plt.xlabel('City', fontsize=12)
+plt.ylabel('Number of Jobs', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+
+# Add value labels on top of bars
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2., height + 10,
+             f'{int(height)}', ha='center', va='bottom', fontsize=10)
+
+plt.show()
+```
