@@ -30,6 +30,12 @@ jobs:
       - run: pip install jupyter
       - run: pip install -r requirements.txt
 
+      - name: Debug Git Environment
+        run: |
+            git remote -v
+            git config --get user.name || echo "no username set"
+            git config --get user.email || echo "no email set"
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
