@@ -381,15 +381,15 @@ only showing top 5 rows
 <pre><code>['ID', 'LAST_UPDATED_DATE', 'LAST_UPDATED_TIMESTAMP', 'DUPLICATES', 'POSTED', 'EXPIRED', 'DURATION', 'SOURCE_TYPES', 'SOURCES', 'URL', 'ACTIVE_URLS', 'ACTIVE_SOURCES_INFO', 'TITLE_RAW', 'BODY', 'MODELED_EXPIRED', 'MODELED_DURATION', 'COMPANY', 'COMPANY_NAME', 'COMPANY_RAW', 'COMPANY_IS_STAFFING', 'EDUCATION_LEVELS', 'EDUCATION_LEVELS_NAME', 'MIN_EDULEVELS', 'MIN_EDULEVELS_NAME', 'MAX_EDULEVELS', 'MAX_EDULEVELS_NAME', 'EMPLOYMENT_TYPE', 'EMPLOYMENT_TYPE_NAME', 'MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE', 'IS_INTERNSHIP', 'SALARY', 'REMOTE_TYPE', 'REMOTE_TYPE_NAME', 'ORIGINAL_PAY_PERIOD', 'SALARY_TO', 'SALARY_FROM', 'LOCATION', 'CITY', 'CITY_NAME', 'COUNTY', 'COUNTY_NAME', 'MSA', 'MSA_NAME', 'STATE', 'STATE_NAME', 'COUNTY_OUTGOING', 'COUNTY_NAME_OUTGOING', 'COUNTY_INCOMING', 'COUNTY_NAME_INCOMING', 'MSA_OUTGOING', 'MSA_NAME_OUTGOING', 'MSA_INCOMING', 'MSA_NAME_INCOMING', 'NAICS2', 'NAICS2_NAME', 'NAICS3', 'NAICS3_NAME', 'NAICS4', 'NAICS4_NAME', 'NAICS5', 'NAICS5_NAME', 'NAICS6', 'NAICS6_NAME', 'TITLE', 'TITLE_NAME', 'TITLE_CLEAN', 'SKILLS', 'SKILLS_NAME', 'SPECIALIZED_SKILLS', 'SPECIALIZED_SKILLS_NAME', 'CERTIFICATIONS', 'CERTIFICATIONS_NAME', 'COMMON_SKILLS', 'COMMON_SKILLS_NAME', 'SOFTWARE_SKILLS', 'SOFTWARE_SKILLS_NAME', 'ONET', 'ONET_NAME', 'ONET_2019', 'ONET_2019_NAME', 'CIP6', 'CIP6_NAME', 'CIP4', 'CIP4_NAME', 'CIP2', 'CIP2_NAME', 'SOC_2021_2', 'SOC_2021_2_NAME', 'SOC_2021_3', 'SOC_2021_3_NAME', 'SOC_2021_4', 'SOC_2021_4_NAME', 'SOC_2021_5', 'SOC_2021_5_NAME', 'LOT_CAREER_AREA', 'LOT_CAREER_AREA_NAME', 'LOT_OCCUPATION', 'LOT_OCCUPATION_NAME', 'LOT_SPECIALIZED_OCCUPATION', 'LOT_SPECIALIZED_OCCUPATION_NAME', 'LOT_OCCUPATION_GROUP', 'LOT_OCCUPATION_GROUP_NAME', 'LOT_V6_SPECIALIZED_OCCUPATION', 'LOT_V6_SPECIALIZED_OCCUPATION_NAME', 'LOT_V6_OCCUPATION', 'LOT_V6_OCCUPATION_NAME', 'LOT_V6_OCCUPATION_GROUP', 'LOT_V6_OCCUPATION_GROUP_NAME', 'LOT_V6_CAREER_AREA', 'LOT_V6_CAREER_AREA_NAME', 'SOC_2', 'SOC_2_NAME', 'SOC_3', 'SOC_3_NAME', 'SOC_4', 'SOC_4_NAME', 'SOC_5', 'SOC_5_NAME', 'LIGHTCAST_SECTORS', 'LIGHTCAST_SECTORS_NAME', 'NAICS_2022_2', 'NAICS_2022_2_NAME', 'NAICS_2022_3', 'NAICS_2022_3_NAME', 'NAICS_2022_4', 'NAICS_2022_4_NAME', 'NAICS_2022_5', 'NAICS_2022_5_NAME', 'NAICS_2022_6', 'NAICS_2022_6_NAME']</code></pre>
 </div>
 </div>
-<div id="cell-3" class="cell" data-execution_count="33">
+<div id="cell-3" class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'NAICS_2022_6'</span>] <span class="op">==</span> <span class="dv">518210</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="67">
 <div>
 
 
@@ -405,39 +405,39 @@ only showing top 5 rows
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">209</td>
-<td>Florida</td>
-<td>Information</td>
-<td>518210.0</td>
+<td data-quarto-table-cell-role="th">2</td>
+<td>Texas</td>
+<td>Finance and Insurance</td>
+<td>524291.0</td>
 <td>Data Analyst</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">408</td>
-<td>New York</td>
-<td>Information</td>
-<td>518210.0</td>
+<td data-quarto-table-cell-role="th">4</td>
+<td>California</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
 <td>Oracle Consultant / Analyst</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">472</td>
-<td>Texas</td>
-<td>Information</td>
-<td>518210.0</td>
-<td>SAP Analyst / Admin</td>
+<td data-quarto-table-cell-role="th">9</td>
+<td>New York</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541511.0</td>
+<td>Data Analyst</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">672</td>
-<td>Florida</td>
-<td>Information</td>
-<td>518210.0</td>
+<td data-quarto-table-cell-role="th">10</td>
+<td>California</td>
+<td>Wholesale Trade</td>
+<td>423830.0</td>
 <td>Data Analyst</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">846</td>
-<td>Texas</td>
-<td>Information</td>
-<td>518210.0</td>
-<td>General ERP Analyst / Consultant</td>
+<td data-quarto-table-cell-role="th">15</td>
+<td>Massachusetts</td>
+<td>Educational Services</td>
+<td>611310.0</td>
+<td>Data Analyst</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -447,39 +447,39 @@ only showing top 5 rows
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">23000</td>
+<td data-quarto-table-cell-role="th">294</td>
 <td>Florida</td>
-<td>Information</td>
-<td>518210.0</td>
-<td>Enterprise Architect</td>
+<td>Educational Services</td>
+<td>611310.0</td>
+<td>SAP Analyst / Admin</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">23288</td>
+<td data-quarto-table-cell-role="th">295</td>
 <td>California</td>
-<td>Information</td>
-<td>518210.0</td>
-<td>Data Quality Analyst</td>
+<td>Finance and Insurance</td>
+<td>524114.0</td>
+<td>Data Analyst</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">23437</td>
-<td>Texas</td>
-<td>Information</td>
-<td>518210.0</td>
+<td data-quarto-table-cell-role="th">296</td>
+<td>New York</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
 <td>General ERP Analyst / Consultant</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">23479</td>
+<td data-quarto-table-cell-role="th">297</td>
 <td>Texas</td>
-<td>Information</td>
-<td>518210.0</td>
-<td>Data Analyst</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541611.0</td>
+<td>SAP Analyst / Admin</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">23661</td>
-<td>California</td>
-<td>Information</td>
-<td>518210.0</td>
-<td>Data Analyst</td>
+<td data-quarto-table-cell-role="th">299</td>
+<td>Texas</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541511.0</td>
+<td>General ERP Analyst / Consultant</td>
 </tr>
 </tbody>
 </table>
@@ -488,7 +488,7 @@ only showing top 5 rows
 </div>
 </div>
 </div>
-<div id="cell-4" class="cell" data-execution_count="56">
+<div id="cell-4" class="cell" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -516,69 +516,22 @@ only showing top 5 rows
 </div>
 </div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-5" class="cell" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the total count of 'analyst' in LOT_SPECIALIZED_OCCUPATION_NAME</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>analyst_count <span class="op">=</span> final_df.shape[<span class="dv">0</span>]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total count of 'analyst' in LOT_SPECIALIZED_OCCUPATION_NAME: </span><span class="sc">{</span>analyst_count<span class="sc">}</span><span class="ss">"</span>)columns_to_drop <span class="op">=</span> [</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
-<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[57]</span><span class="ansi-green-fg">, line 6</span>
-<span class="ansi-green-fg">      1</span> columns_to_drop = [
-<span class="ansi-green-fg">      2</span>     <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">ID</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">URL</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">ACTIVE_URLS</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">DUPLICATES</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">LAST_UPDATED_TIMESTAMP</span><span class="ansi-yellow-fg">"</span>,
-<span class="ansi-green-fg">      3</span>     <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">NAICS2</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">NAICS3</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">NAICS4</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">NAICS5</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">NAICS6</span><span class="ansi-yellow-fg">"</span>,
-<span class="ansi-green-fg">      4</span>     <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">SOC_2</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">SOC_3</span><span class="ansi-yellow-fg">"</span>, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">SOC_5</span><span class="ansi-yellow-fg">"</span>
-<span class="ansi-green-fg">      5</span> ]
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span> <span class="ansi-yellow-bg">df</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">drop</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">columns</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">columns_to_drop</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">inplace</span><span class="ansi-yellow-bg">=</span><span style="font-weight:bold;color:rgb(0,135,0)" class="ansi-yellow-bg">True</span><span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2-4/.venv/lib/python3.12/site-packages/pandas/core/frame.py:5581</span>, in <span class="ansi-cyan-fg">DataFrame.drop</span><span class="ansi-blue-fg">(self, labels, axis, index, columns, level, inplace, errors)</span>
-<span class="ansi-green-fg">   5433</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">drop</span>(
-<span class="ansi-green-fg">   5434</span>     <span style="color:rgb(0,135,0)">self</span>,
-<span class="ansi-green-fg">   5435</span>     labels: IndexLabel | <span style="font-weight:bold;color:rgb(0,135,0)">None</span> = <span style="font-weight:bold;color:rgb(0,135,0)">None</span>,
-<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">   5442</span>     errors: IgnoreRaise = <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">raise</span><span class="ansi-yellow-fg">"</span>,
-<span class="ansi-green-fg">   5443</span> ) -&gt; DataFrame | <span style="font-weight:bold;color:rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">   5444</span> <span style="color:rgb(188,188,188)">    </span><span style="font-style:italic" class="ansi-yellow-fg">"""</span>
-<span class="ansi-green-fg">   5445</span> <span style="font-style:italic" class="ansi-yellow-fg">    Drop specified labels from rows or columns.</span>
-<span class="ansi-green-fg">   5446</span> 
-<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">   5579</span> <span style="font-style:italic" class="ansi-yellow-fg">            weight  1.0     0.8</span>
-<span class="ansi-green-fg">   5580</span> <span style="font-style:italic" class="ansi-yellow-fg">    """</span>
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">5581</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">super</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">drop</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-fg">   5582</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">labels</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">labels</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   5583</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">axis</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">axis</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   5584</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">index</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">index</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   5585</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">columns</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">columns</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   5586</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">level</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">level</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   5587</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">inplace</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">inplace</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   5588</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-fg">   5589</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2-4/.venv/lib/python3.12/site-packages/pandas/core/generic.py:4788</span>, in <span class="ansi-cyan-fg">NDFrame.drop</span><span class="ansi-blue-fg">(self, labels, axis, index, columns, level, inplace, errors)</span>
-<span class="ansi-green-fg">   4786</span> <span style="font-weight:bold;color:rgb(0,135,0)">for</span> axis, labels <span style="font-weight:bold;color:rgb(175,0,255)">in</span> axes.items():
-<span class="ansi-green-fg">   4787</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> labels <span style="font-weight:bold;color:rgb(175,0,255)">is</span> <span style="font-weight:bold;color:rgb(175,0,255)">not</span> <span style="font-weight:bold;color:rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">4788</span>         obj = <span class="ansi-yellow-bg">obj</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_drop_axis</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">labels</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">axis</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">level</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">level</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">   4790</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> inplace:
-<span class="ansi-green-fg">   4791</span>     <span style="color:rgb(0,135,0)">self</span>._update_inplace(obj)
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2-4/.venv/lib/python3.12/site-packages/pandas/core/generic.py:4830</span>, in <span class="ansi-cyan-fg">NDFrame._drop_axis</span><span class="ansi-blue-fg">(self, labels, axis, level, errors, only_slice)</span>
-<span class="ansi-green-fg">   4828</span>         new_axis = axis.drop(labels, level=level, errors=errors)
-<span class="ansi-green-fg">   4829</span>     <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">4830</span>         new_axis = <span class="ansi-yellow-bg">axis</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">drop</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">labels</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">   4831</span>     indexer = axis.get_indexer(new_axis)
-<span class="ansi-green-fg">   4833</span> <span style="font-style:italic;color:rgb(95,135,135)"># Case for non-unique axis</span>
-<span class="ansi-green-fg">   4834</span> <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2-4/.venv/lib/python3.12/site-packages/pandas/core/indexes/base.py:7070</span>, in <span class="ansi-cyan-fg">Index.drop</span><span class="ansi-blue-fg">(self, labels, errors)</span>
-<span class="ansi-green-fg">   7068</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> mask.any():
-<span class="ansi-green-fg">   7069</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> errors != <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">ignore</span><span class="ansi-yellow-fg">"</span>:
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">7070</span>         <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">KeyError</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>labels[mask].tolist()<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span class="ansi-yellow-fg"> not found in axis</span><span class="ansi-yellow-fg">"</span>)
-<span class="ansi-green-fg">   7071</span>     indexer = indexer[~mask]
-<span class="ansi-green-fg">   7072</span> <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span style="color:rgb(0,135,0)">self</span>.delete(indexer)
-
-<span class="ansi-red-fg">KeyError</span>: "['ID', 'URL', 'ACTIVE_URLS', 'DUPLICATES', 'LAST_UPDATED_TIMESTAMP', 'NAICS2', 'NAICS3', 'NAICS4', 'NAICS5', 'NAICS6', 'SOC_2', 'SOC_3', 'SOC_5'] not found in axis"</pre>
+<pre>  <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[71]</span><span class="ansi-green-fg">, line 3</span>
+<span class="ansi-red-fg">    </span><span class="ansi-red-fg">print(f"Total count of 'analyst' in LOT_SPECIALIZED_OCCUPATION_NAME: {analyst_count}")columns_to_drop = [</span>
+                                                                                          ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
 </div>
 </div>
 </div>
