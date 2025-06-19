@@ -17,6 +17,9 @@ import pandas as pd
 import plotly.express as px
 import plotly.io as pio
 
+# Configure plotly for CI environments
+pio.renderers.default = "png"
+
 # Load the data
 df = pd.read_csv("./data/lightcast_job_postings.csv")
 
@@ -99,6 +102,8 @@ Analyst Job Distribution Across Cities in the United States
 #| echo: false
 #| warning: false
 #| fig-align: left
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend for CI
 import matplotlib.pyplot as plt
 import numpy as np
 
