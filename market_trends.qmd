@@ -6,7 +6,7 @@ title: Market Trends
 
 Our group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word "analyst" and categorized them by state. The results of this are shown below.
 
-<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
+<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0 40px 0;">
 Analyst Job Distribution Across the United States
 </div>
 
