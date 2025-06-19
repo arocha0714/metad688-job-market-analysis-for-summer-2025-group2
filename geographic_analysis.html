@@ -371,12 +371,54 @@ only showing top 5 rows
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_3672/3265774581.py:4: DtypeWarning: Columns (19,30) have mixed types. Specify dtype option on import or set low_memory=False.
+<pre><code>/tmp/ipykernel_3501/3265774581.py:4: DtypeWarning: Columns (19,30) have mixed types. Specify dtype option on import or set low_memory=False.
   df = pd.read_csv("./data/lightcast_job_postings.csv")</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['ID', 'LAST_UPDATED_DATE', 'LAST_UPDATED_TIMESTAMP', 'DUPLICATES', 'POSTED', 'EXPIRED', 'DURATION', 'SOURCE_TYPES', 'SOURCES', 'URL', 'ACTIVE_URLS', 'ACTIVE_SOURCES_INFO', 'TITLE_RAW', 'BODY', 'MODELED_EXPIRED', 'MODELED_DURATION', 'COMPANY', 'COMPANY_NAME', 'COMPANY_RAW', 'COMPANY_IS_STAFFING', 'EDUCATION_LEVELS', 'EDUCATION_LEVELS_NAME', 'MIN_EDULEVELS', 'MIN_EDULEVELS_NAME', 'MAX_EDULEVELS', 'MAX_EDULEVELS_NAME', 'EMPLOYMENT_TYPE', 'EMPLOYMENT_TYPE_NAME', 'MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE', 'IS_INTERNSHIP', 'SALARY', 'REMOTE_TYPE', 'REMOTE_TYPE_NAME', 'ORIGINAL_PAY_PERIOD', 'SALARY_TO', 'SALARY_FROM', 'LOCATION', 'CITY', 'CITY_NAME', 'COUNTY', 'COUNTY_NAME', 'MSA', 'MSA_NAME', 'STATE', 'STATE_NAME', 'COUNTY_OUTGOING', 'COUNTY_NAME_OUTGOING', 'COUNTY_INCOMING', 'COUNTY_NAME_INCOMING', 'MSA_OUTGOING', 'MSA_NAME_OUTGOING', 'MSA_INCOMING', 'MSA_NAME_INCOMING', 'NAICS2', 'NAICS2_NAME', 'NAICS3', 'NAICS3_NAME', 'NAICS4', 'NAICS4_NAME', 'NAICS5', 'NAICS5_NAME', 'NAICS6', 'NAICS6_NAME', 'TITLE', 'TITLE_NAME', 'TITLE_CLEAN', 'SKILLS', 'SKILLS_NAME', 'SPECIALIZED_SKILLS', 'SPECIALIZED_SKILLS_NAME', 'CERTIFICATIONS', 'CERTIFICATIONS_NAME', 'COMMON_SKILLS', 'COMMON_SKILLS_NAME', 'SOFTWARE_SKILLS', 'SOFTWARE_SKILLS_NAME', 'ONET', 'ONET_NAME', 'ONET_2019', 'ONET_2019_NAME', 'CIP6', 'CIP6_NAME', 'CIP4', 'CIP4_NAME', 'CIP2', 'CIP2_NAME', 'SOC_2021_2', 'SOC_2021_2_NAME', 'SOC_2021_3', 'SOC_2021_3_NAME', 'SOC_2021_4', 'SOC_2021_4_NAME', 'SOC_2021_5', 'SOC_2021_5_NAME', 'LOT_CAREER_AREA', 'LOT_CAREER_AREA_NAME', 'LOT_OCCUPATION', 'LOT_OCCUPATION_NAME', 'LOT_SPECIALIZED_OCCUPATION', 'LOT_SPECIALIZED_OCCUPATION_NAME', 'LOT_OCCUPATION_GROUP', 'LOT_OCCUPATION_GROUP_NAME', 'LOT_V6_SPECIALIZED_OCCUPATION', 'LOT_V6_SPECIALIZED_OCCUPATION_NAME', 'LOT_V6_OCCUPATION', 'LOT_V6_OCCUPATION_NAME', 'LOT_V6_OCCUPATION_GROUP', 'LOT_V6_OCCUPATION_GROUP_NAME', 'LOT_V6_CAREER_AREA', 'LOT_V6_CAREER_AREA_NAME', 'SOC_2', 'SOC_2_NAME', 'SOC_3', 'SOC_3_NAME', 'SOC_4', 'SOC_4_NAME', 'SOC_5', 'SOC_5_NAME', 'LIGHTCAST_SECTORS', 'LIGHTCAST_SECTORS_NAME', 'NAICS_2022_2', 'NAICS_2022_2_NAME', 'NAICS_2022_3', 'NAICS_2022_3_NAME', 'NAICS_2022_4', 'NAICS_2022_4_NAME', 'NAICS_2022_5', 'NAICS_2022_5_NAME', 'NAICS_2022_6', 'NAICS_2022_6_NAME']</code></pre>
 </div>
+</div>
+<div id="cell-3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> missingno <span class="im">as</span> msno</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missing data</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>msno.heatmap(df)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Missing Values Heatmap"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop columns with &gt;50% missing values</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>df.dropna(thresh<span class="op">=</span><span class="bu">len</span>(df) <span class="op">*</span> <span class="fl">0.5</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill missing values</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Salary"</span>].fillna(df[<span class="st">"Salary"</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Industry"</span>].fillna(<span class="st">"Unknown"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[5]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg ansi-bold">missingno</span><span style="color:rgb(188,188,188)"> </span><span style="font-weight:bold;color:rgb(0,135,0)">as</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg ansi-bold">msno</span>
+<span class="ansi-green-fg">      3</span> <span style="font-style:italic;color:rgb(95,135,135)"># Visualize missing data</span>
+<span class="ansi-green-fg">      4</span> msno.heatmap(df)
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named 'missingno'</pre>
+</div>
+</div>
+</div>
+<div id="cell-5" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span>[<span class="st">"TITLE"</span>, <span class="st">"COMPANY"</span>, <span class="st">"LOCATION"</span>, <span class="st">"POSTED"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-6" class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(df[<span class="st">"Industry"</span>].value_counts(), title<span class="op">=</span><span class="st">"Job Postings by Industry"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
