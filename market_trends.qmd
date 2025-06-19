@@ -2,7 +2,7 @@
 title: Market Trends
 ---
 
-### Introduction
+# Introduction
 
 Our group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word "analyst" and categorized them by state. The results of this are shown below.
 
@@ -11,8 +11,12 @@ Analyst Job Distribution Across the United States
 </div>
 
 ```{python}
+#| eval: false
 #| echo: false
 #| warning: false
+#| fig-cap: "Analyst Job Distribution Across the United States"
+#| fig-align: center
+#| label: fig-analyst-distribution
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
@@ -93,7 +97,11 @@ fig.update_layout(
 )
 
 # Show the interactive map
-fig
+fig.write_html("./figures/analyst_job_distribution.html", include_plotlyjs='cdn')
+```
+
+```{=html}
+<iframe width="1000" height="700" src="./figures/analyst_job_distribution.html" title="Analyst Distribution"></iframe>
 ```
 
 According to the visual above, Texas and California are the two clear leaders in the total amount of jobs being offered that contain the word "analyst" in the title. Additionally, eastern states show a considerably greater amount of these jobs compared to western states.
@@ -106,7 +114,11 @@ Analyst Job Distribution Across Cities in the United States
 
 ```{python}
 #| echo: false
+#| eval: false
 #| warning: false
+#| fig-cap: "Analyst Job Distribution Across Cities in the United States"
+#| fig-align: center
+#| label: fig-job-distribution-cities
 
 # Filter for analyst jobs from all states (not just the selected 5)
 all_states_analyst_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
@@ -145,5 +157,10 @@ fig_cities.update_layout(
 )
 
 # Show the interactive chart
-fig_cities.show()
+fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs='cdn')
+```
+
+```{=html}
+<iframe width="1000" height="700" src="./figures/job_distribution_cities.html" title="Analyst Distribution"></iframe>
+```
 ```
