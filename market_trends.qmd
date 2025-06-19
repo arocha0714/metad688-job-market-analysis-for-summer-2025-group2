@@ -107,11 +107,6 @@ Analyst Job Distribution Across Cities in the United States
 ```{python}
 #| echo: false
 #| warning: false
-#| fig-align: left
-import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend for CI
-import matplotlib.pyplot as plt
-import numpy as np
 
 # Filter for analyst jobs from all states (not just the selected 5)
 all_states_analyst_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
@@ -122,22 +117,33 @@ city_counts_jobs = all_states_analyst_df.groupby('CITY_NAME').size().reset_index
 # Sort city_counts_jobs from greatest to least by job_count and get top 10
 city_counts_jobs_sorted = city_counts_jobs.sort_values(by='job_count', ascending=False).head(10)
 
-# Create a minty color palette that matches the map theme
-minty_colors = ['#1a5d56', '#2c8577', '#42b883', '#7dd3c0', '#a8e6cf', '#cceeee', '#f0f9f9', '#e8f8f5', '#d5f0e8', '#c2e8db']
+# Create discrete colors for each bar
+colors = ['#1a5d56', '#2c8577', '#42b883', '#42b883', '#7dd3c0', '#7dd3c0', '#a8e6cf', '#cceeee', '#f0f9f9', '#f0f9f9']
 
-# Plot column chart
-plt.figure(figsize=(8, 5))
-bars = plt.bar(city_counts_jobs_sorted['CITY_NAME'], city_counts_jobs_sorted['job_count'], color=minty_colors[:len(city_counts_jobs_sorted)])
-plt.xlabel('City', fontsize=12)
-plt.ylabel('Number of Jobs', fontsize=12)
-plt.xticks(rotation=45, ha='right')
-plt.tight_layout()
+# Create bar chart using plotly with discrete colors
+fig_cities = go.Figure(data=[
+    go.Bar(
+        x=city_counts_jobs_sorted['CITY_NAME'],
+        y=city_counts_jobs_sorted['job_count'],
+        text=city_counts_jobs_sorted['job_count'],
+        textposition='outside',
+        marker_color=colors[:len(city_counts_jobs_sorted)]
+    )
+])
 
-# Add value labels on top of bars
-for bar in bars:
-    height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2., height + 10,
-             f'{int(height)}', ha='center', va='bottom', fontsize=10)
+# Update layout and styling
+fig_cities.update_layout(
+    title='',
+    xaxis_title='City',
+    yaxis_title='Number of Jobs',
+    width=750,
+    height=400,
+    margin=dict(t=20, b=80, l=50, r=50),
+    showlegend=False,
+    xaxis=dict(tickangle=45),
+    template='plotly_white'
+)
 
-plt.show()
+# Show the interactive chart
+fig_cities.show()
 ```
