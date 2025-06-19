@@ -172,3 +172,4 @@ cython_debug/
 data/lightcast_job_postings.csv
 
 /.quarto/
+lightcast_job_postings.csv
