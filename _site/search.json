@@ -18,7 +18,7 @@
     "href": "market_trends.html",
     "title": "Market Trends",
     "section": "",
-    "text": "Geographic Distribution of Analyst Jobs\nThis analysis shows the nationwide distribution of analyst jobs across all US states using an interactive choropleth map.\n\nAnalyst Job Distribution Across the United States"
+    "text": "Introduction\nOur group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word “analyst” and categorized them by state. The results of this are shown below.\n\nAnalyst Job Distribution Across the United States\n\n\n\n        \n        \n        \n\n\n                            \n                                            \n\n\nAccording to the visual above, Texas and California are the two clear leaders in the total amount of jobs being offered that contain the word “analyst” in the title. Additionally, eastern states show a considerably greater amount of these jobs compared to western states."
   },
   {
     "objectID": "ADAM geographic_analysis copy.html",
@@ -54,5 +54,12 @@
     "title": "Geographic Analysis Group 2",
     "section": "",
     "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "market_trends.html#introduction",
+    "href": "market_trends.html#introduction",
+    "title": "Market Trends",
+    "section": "",
+    "text": "Our group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word “analyst” and categorized them by state. The results of this are shown below.\n\nAnalyst Job Distribution Across the United States"
   }
 ]
