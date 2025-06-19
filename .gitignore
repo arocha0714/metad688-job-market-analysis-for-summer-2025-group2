@@ -170,3 +170,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 data/lightcast_job_postings.csv
+
+/.quarto/
