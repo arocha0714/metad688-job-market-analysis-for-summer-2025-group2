@@ -488,7 +488,7 @@ only showing top 5 rows
 </div>
 </div>
 </div>
-<div id="cell-4" class="cell" data-execution_count="68">
+<div id="cell-4" class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -504,7 +504,7 @@ only showing top 5 rows
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>plt.bar(state_counts_jobs_sorted[<span class="st">'STATE_NAME'</span>], state_counts_jobs_sorted[<span class="st">'job_count'</span>], color<span class="op">=</span>colors)</span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Jobs'</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State'</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State (Job Title Contains "Analyst")'</span>)</span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -516,7 +516,7 @@ only showing top 5 rows
 </div>
 </div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="71">
+<div id="cell-5" class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the total count of 'analyst' in LOT_SPECIALIZED_OCCUPATION_NAME</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>analyst_count <span class="op">=</span> final_df.shape[<span class="dv">0</span>]</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total count of 'analyst' in LOT_SPECIALIZED_OCCUPATION_NAME: </span><span class="sc">{</span>analyst_count<span class="sc">}</span><span class="ss">"</span>)columns_to_drop <span class="op">=</span> [</span>
@@ -527,7 +527,7 @@ only showing top 5 rows
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
-<pre>  <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[71]</span><span class="ansi-green-fg">, line 3</span>
+<pre>  <span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[73]</span><span class="ansi-green-fg">, line 3</span>
 <span class="ansi-red-fg">    </span><span class="ansi-red-fg">print(f"Total count of 'analyst' in LOT_SPECIALIZED_OCCUPATION_NAME: {analyst_count}")columns_to_drop = [</span>
                                                                                           ^
 <span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
