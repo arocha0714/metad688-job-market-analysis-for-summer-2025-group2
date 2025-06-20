@@ -826,15 +826,518 @@ Non-AI-Impacted Industries:</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="cell-18" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Clean and convert date columns</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'NAICS_2022_2_NAME'</span>] <span class="op">!=</span> <span class="st">'Unclassified Industry'</span>]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'POSTED'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'EXPIRED'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'EXPIRED'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with missing POSTED or EXPIRED dates</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">'POSTED'</span>, <span class="st">'EXPIRED'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-19" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract month from POSTED and EXPIRED</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'EXPIRED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'EXPIRED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Define AI and non-AI industry codes using NAICS 2-digit level</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>ai_impacted_naics <span class="op">=</span> [<span class="dv">31</span>, <span class="dv">32</span>, <span class="dv">33</span>, <span class="dv">42</span>, <span class="dv">44</span>, <span class="dv">45</span>, <span class="dv">51</span>, <span class="dv">52</span>, <span class="dv">54</span>, <span class="dv">55</span>, <span class="dv">56</span>]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>non_ai_impacted_naics <span class="op">=</span> [<span class="dv">11</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">48</span>, <span class="dv">49</span>, <span class="dv">61</span>, <span class="dv">62</span>, <span class="dv">71</span>, <span class="dv">72</span>]</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> label_ai(naics):</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        code <span class="op">=</span> <span class="bu">int</span>(naics)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> code <span class="kw">in</span> ai_naics:</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"AI-Impacted"</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> code <span class="kw">in</span> non_ai_naics:</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Non-AI-Impacted"</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Unclassified"</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Unclassified"</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'AI_IMPACTED'</span>] <span class="op">=</span> df[<span class="st">'NAICS_2022_2'</span>].<span class="bu">apply</span>(label_ai)</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[df[<span class="st">'AI_IMPACTED'</span>] <span class="op">!=</span> <span class="st">'Unclassified'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract posting month</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count jobs by month, state, and AI impact</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>monthly_counts <span class="op">=</span> (</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    df.groupby([<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>, <span class="st">'AI_IMPACTED'</span>])</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    .size()</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    .reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-22" class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot table to split AI vs Non-AI job counts</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>pivoted <span class="op">=</span> monthly_counts.pivot_table(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>],</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span><span class="st">'AI_IMPACTED'</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'Job_Count'</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    fill_value<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by month for each state</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>pivoted.sort_values(by<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-23" class="cell" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 6: Sort and calculate percent growth</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>pivoted.sort_values([<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>pivoted[<span class="st">'AI_Growth'</span>] <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[<span class="st">'AI-Impacted'</span>].pct_change() <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>pivoted[<span class="st">'Non_AI_Growth'</span>] <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[<span class="st">'Non-AI-Impacted'</span>].pct_change() <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with NaN (typically the first month per state)</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>pivoted.dropna(subset<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 7: Average monthly growth by state</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>average_growth <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth'</span>, <span class="st">'Non_AI_Growth'</span>]].mean().reset_index()</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(average_growth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AI_IMPACTED                               STATE_NAME  AI_Growth  Non_AI_Growth
+0                                            Alabama   1.825137      31.250000
+1                                             Alaska -18.633952     116.666667
+2                                            Arizona   8.845947     -13.677419
+3                                           Arkansas  -6.250000      -9.649123
+4                                         California  -6.559680     -30.057340
+5                                           Colorado   5.324124      -3.195489
+6                                        Connecticut -13.587474     -33.333333
+7                                           Delaware  -9.814815      20.000000
+8                                            Florida -13.261402     -32.946938
+9                                            Georgia -11.300198     -29.653680
+10                                            Hawaii  -2.547022      25.000000
+11                                             Idaho -27.073820      37.272727
+12                                          Illinois -25.572481     -25.241935
+13                                           Indiana  -6.784512      21.285714
+14                                              Iowa -12.772010      31.250000
+15                                            Kansas  -6.884682      -4.220779
+16                                          Kentucky   5.959900       6.875000
+17                                         Louisiana  -3.323529      -6.071429
+18                                             Maine  -6.683359     -24.545455
+19                                          Maryland -21.654035     -18.169643
+20                                     Massachusetts  -1.951255     -34.632035
+21                                          Michigan  -2.101348     -21.949405
+22                                         Minnesota -15.489939     -15.126812
+23                                       Mississippi -15.333333      -6.868132
+24                                          Missouri  -8.569418     -19.242424
+25                                           Montana  64.574899     116.666667
+26                                          Nebraska -21.158375     -16.666667
+27                                            Nevada -34.198966      15.476190
+28                                     New Hampshire -12.554113      49.166667
+29                                        New Jersey -16.460084      10.737179
+30                                        New Mexico  10.673077      15.178571
+31                                          New York -16.823089     -32.141495
+32                                    North Carolina -11.306848      -4.385054
+33                                      North Dakota -12.836022     533.333333
+34                                              Ohio  -8.099979     -22.724138
+35                                          Oklahoma  13.716049      41.245791
+36                                            Oregon -12.896815       8.333333
+37                                      Pennsylvania  -2.832512     -21.671196
+38                                      Rhode Island  -2.780243      -8.750000
+39                                    South Carolina -17.152174     -31.066176
+40                                      South Dakota  29.133065     -18.750000
+41                                         Tennessee -11.141930      -2.423113
+42                                             Texas  -9.363613     -14.960317
+43                                              Utah  26.428571     -34.893048
+44                                           Vermont   6.586022      75.000000
+45                                          Virginia -20.802897     -25.357143
+46                                        Washington -10.750487     -10.336538
+47           Washington, D.C. (District of Columbia)  -6.428571      13.589744
+48                                     West Virginia  65.102639     105.000000
+49                                         Wisconsin -18.273500     -16.666667
+50                                           Wyoming  78.532609      75.000000</code></pre>
+</div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step: Average growth per state and sort by AI job growth</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>avg_growth <span class="op">=</span> (</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]]</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'AI_Growth_Pct'</span>: <span class="st">'Avg_AI_Job_Growth'</span>,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Non_AI_Growth_Pct'</span>: <span class="st">'Avg_Non_AI_Job_Growth'</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span><span class="st">'Avg_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Display result</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(avg_growth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AI_IMPACTED                               STATE_NAME  Avg_AI_Job_Growth  \
+25                                           Montana          45.827710   
+50                                           Wyoming          35.688406   
+48                                     West Virginia          32.985093   
+40                                      South Dakota          12.755376   
+33                                      North Dakota          11.442652   
+36                                            Oregon           1.779482   
+16                                          Kentucky           1.127738   
+30                                        New Mexico           0.865385   
+43                                              Utah           0.158730   
+20                                     Massachusetts           0.114257   
+44                                           Vermont          -0.238949   
+39                                    South Carolina          -0.958592   
+17                                         Louisiana          -5.787115   
+18                                             Maine          -6.583232   
+2                                            Arizona          -6.807105   
+0                                            Alabama          -6.864050   
+5                                           Colorado          -7.344893   
+35                                          Oklahoma          -8.316285   
+42                                             Texas          -8.385932   
+37                                      Pennsylvania          -8.555008   
+47           Washington, D.C. (District of Columbia)          -9.163763   
+4                                         California          -9.413591   
+22                                         Minnesota         -10.162423   
+7                                           Delaware         -10.368346   
+14                                              Iowa         -10.498800   
+21                                          Michigan         -10.526374   
+34                                              Ohio         -10.639372   
+49                                         Wisconsin         -10.753762   
+41                                         Tennessee         -11.313434   
+38                                      Rhode Island         -11.515331   
+10                                            Hawaii         -12.015475   
+8                                            Florida         -12.071175   
+32                                    North Carolina         -12.379168   
+3                                           Arkansas         -12.401961   
+31                                          New York         -12.571054   
+24                                          Missouri         -12.623515   
+9                                            Georgia         -12.640243   
+13                                           Indiana         -12.913031   
+45                                          Virginia         -14.371743   
+27                                            Nevada         -14.465978   
+46                                        Washington         -14.859299   
+15                                            Kansas         -15.058107   
+29                                        New Jersey         -15.172190   
+28                                     New Hampshire         -16.121346   
+26                                          Nebraska         -16.279496   
+12                                          Illinois         -19.575643   
+11                                             Idaho         -20.965880   
+1                                             Alaska         -21.589302   
+23                                       Mississippi         -21.816425   
+6                                        Connecticut         -22.032368   
+19                                          Maryland         -22.448844   
+
+AI_IMPACTED  Avg_Non_AI_Job_Growth  
+25                       77.777778  
+50                             inf  
+48                       53.333333  
+40                      220.833333  
+33                             inf  
+36                        1.851852  
+16                        4.583333  
+30                       43.452381  
+43                       -0.185109  
+20                       -5.088023  
+44                       38.888889  
+39                       26.908263  
+17                       -1.483516  
+18                       11.414141  
+2                       -11.138482  
+0                         8.012821  
+5                       -10.238434  
+35                       20.354337  
+42                      -15.334850  
+37                      -22.077986  
+47                        5.138260  
+4                       -14.038227  
+22                      -12.648644  
+7                        -8.095238  
+14                       11.742424  
+21                      -21.950010  
+34                       -6.816092  
+49                      -19.444444  
+41                       -4.740409  
+38                       94.166667  
+10                       -3.333333  
+8                        -8.716762  
+32                       10.869734  
+3                        65.789474  
+31                      -20.983219  
+24                      -13.903552  
+9                       -22.546898  
+13                        4.190476  
+45                      -25.012870  
+27                        5.555556  
+46                      -11.335470  
+15                       -9.956710  
+29                        2.396215  
+28                       20.277778  
+26                       18.055556  
+12                        1.505376  
+11                       47.070707  
+1                        53.968254  
+23                       -6.959707  
+6                       -10.101010  
+19                      -21.204004  </code></pre>
+</div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="85">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 states for AI job growth</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>top_ai <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span><span class="st">'Avg_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🔹 Top 10 States for AI Job Growth:"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_ai)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 states for Non-AI job growth</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>top_non_ai <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span><span class="st">'Avg_Non_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">🔹 Top 10 States for Non-AI Job Growth:"</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_non_ai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>🔹 Top 10 States for AI Job Growth:
+AI_IMPACTED     STATE_NAME  Avg_AI_Job_Growth  Avg_Non_AI_Job_Growth
+25                 Montana          45.827710              77.777778
+50                 Wyoming          35.688406                    inf
+48           West Virginia          32.985093              53.333333
+40            South Dakota          12.755376             220.833333
+33            North Dakota          11.442652                    inf
+36                  Oregon           1.779482               1.851852
+16                Kentucky           1.127738               4.583333
+30              New Mexico           0.865385              43.452381
+43                    Utah           0.158730              -0.185109
+20           Massachusetts           0.114257              -5.088023
+
+🔹 Top 10 States for Non-AI Job Growth:
+AI_IMPACTED     STATE_NAME  Avg_AI_Job_Growth  Avg_Non_AI_Job_Growth
+50                 Wyoming          35.688406                    inf
+33            North Dakota          11.442652                    inf
+40            South Dakota          12.755376             220.833333
+38            Rhode Island         -11.515331              94.166667
+25                 Montana          45.827710              77.777778
+3                 Arkansas         -12.401961              65.789474
+1                   Alaska         -21.589302              53.968254
+48           West Virginia          32.985093              53.333333
+11                   Idaho         -20.965880              47.070707
+30              New Mexico           0.865385              43.452381</code></pre>
+</div>
+</div>
+<div id="cell-26" class="cell" data-execution_count="86">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Replace infinite values (result of division by zero) with NaN</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>pivoted.replace([np.inf, <span class="op">-</span>np.inf], np.nan, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Drop rows with missing percentage growth values</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>pivoted.dropna(subset<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Group by state and calculate average percent growth</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>avg_growth <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]].mean().reset_index()</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Sort states by AI and Non-AI growth</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>ranked <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Display top states for AI and Non-AI job growth</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top states by AI job growth:"</span>)</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>display(ranked[[<span class="st">'STATE_NAME'</span>, <span class="st">'AI_Growth_Pct'</span>]].head(<span class="dv">10</span>))</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Top states by Non-AI job growth:"</span>)</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>display(ranked[[<span class="st">'STATE_NAME'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]].sort_values(by<span class="op">=</span><span class="st">'Non_AI_Growth_Pct'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Top states by AI job growth:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">AI_IMPACTED</th>
+<th data-quarto-table-cell-role="th">STATE_NAME</th>
+<th data-quarto-table-cell-role="th">AI_Growth_Pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50</td>
+<td>Wyoming</td>
+<td>78.532609</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>Montana</td>
+<td>45.827710</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">48</td>
+<td>West Virginia</td>
+<td>32.985093</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">40</td>
+<td>South Dakota</td>
+<td>12.755376</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>Oregon</td>
+<td>1.779482</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">16</td>
+<td>Kentucky</td>
+<td>1.127738</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>New Mexico</td>
+<td>0.865385</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">43</td>
+<td>Utah</td>
+<td>0.158730</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>Massachusetts</td>
+<td>0.114257</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">44</td>
+<td>Vermont</td>
+<td>-0.238949</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Top states by Non-AI job growth:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">AI_IMPACTED</th>
+<th data-quarto-table-cell-role="th">STATE_NAME</th>
+<th data-quarto-table-cell-role="th">Non_AI_Growth_Pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">33</td>
+<td>North Dakota</td>
+<td>533.333333</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">40</td>
+<td>South Dakota</td>
+<td>220.833333</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>Rhode Island</td>
+<td>94.166667</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>Montana</td>
+<td>77.777778</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50</td>
+<td>Wyoming</td>
+<td>75.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Arkansas</td>
+<td>65.789474</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Alaska</td>
+<td>53.968254</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">48</td>
+<td>West Virginia</td>
+<td>53.333333</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>Idaho</td>
+<td>47.070707</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">30</td>
+<td>New Mexico</td>
+<td>43.452381</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="cell-27" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 9: Visualize</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">6</span>))</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>avg_growth[[<span class="st">'AI_Growth'</span>, <span class="st">'Non_AI_Growth'</span>]].head(<span class="dv">10</span>).plot(kind<span class="op">=</span><span class="st">'bar'</span>)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Monthly Job Growth (Top 10 States) for AI vs. Non-AI Careers'</span>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Monthly Job Growth'</span>)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[65]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-green-fg">      4</span> <span style="font-style:italic;color:rgb(95,135,135)"># Step 9: Visualize</span>
+<span class="ansi-green-fg">      5</span> plt.figure(figsize=(<span class="ansi-green-fg">14</span>, <span class="ansi-green-fg">6</span>))
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span> <span class="ansi-yellow-bg">avg_growth</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-fg ansi-yellow-bg">AI_Growth</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-fg ansi-yellow-bg">Non_AI_Growth</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">]</span>.head(<span class="ansi-green-fg">10</span>).plot(kind=<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">bar</span><span class="ansi-yellow-fg">'</span>)
+<span class="ansi-green-fg">      7</span> plt.title(<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Average Monthly Job Growth (Top 10 States) for AI vs. Non-AI Careers</span><span class="ansi-yellow-fg">'</span>)
+<span class="ansi-green-fg">      8</span> plt.ylabel(<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Average Monthly Job Growth</span><span class="ansi-yellow-fg">'</span>)
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2/.venv/lib/python3.12/site-packages/pandas/core/frame.py:4108</span>, in <span class="ansi-cyan-fg">DataFrame.__getitem__</span><span class="ansi-blue-fg">(self, key)</span>
+<span class="ansi-green-fg">   4106</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> is_iterator(key):
+<span class="ansi-green-fg">   4107</span>         key = <span style="color:rgb(0,135,0)">list</span>(key)
+<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">4108</span>     indexer = <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">columns</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_get_indexer_strict</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">key</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">columns</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>[<span class="ansi-green-fg">1</span>]
+<span class="ansi-green-fg">   4110</span> <span style="font-style:italic;color:rgb(95,135,135)"># take() does not accept boolean indexers</span>
+<span class="ansi-green-fg">   4111</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">getattr</span>(indexer, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">dtype</span><span class="ansi-yellow-fg">"</span>, <span style="font-weight:bold;color:rgb(0,135,0)">None</span>) == <span style="color:rgb(0,135,0)">bool</span>:
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2/.venv/lib/python3.12/site-packages/pandas/core/indexes/base.py:6200</span>, in <span class="ansi-cyan-fg">Index._get_indexer_strict</span><span class="ansi-blue-fg">(self, key, axis_name)</span>
+<span class="ansi-green-fg">   6197</span> <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
+<span class="ansi-green-fg">   6198</span>     keyarr, indexer, new_indexer = <span style="color:rgb(0,135,0)">self</span>._reindex_non_unique(keyarr)
+<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">6200</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_raise_if_missing</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">keyarr</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">indexer</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">axis_name</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">   6202</span> keyarr = <span style="color:rgb(0,135,0)">self</span>.take(indexer)
+<span class="ansi-green-fg">   6203</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(key, Index):
+<span class="ansi-green-fg">   6204</span>     <span style="font-style:italic;color:rgb(95,135,135)"># GH 42790 - Preserve name from an Index</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2/.venv/lib/python3.12/site-packages/pandas/core/indexes/base.py:6249</span>, in <span class="ansi-cyan-fg">Index._raise_if_missing</span><span class="ansi-blue-fg">(self, key, indexer, axis_name)</span>
+<span class="ansi-green-fg">   6247</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> nmissing:
+<span class="ansi-green-fg">   6248</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> nmissing == <span style="color:rgb(0,135,0)">len</span>(indexer):
+<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">6249</span>         <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">KeyError</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">None of [</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>key<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span class="ansi-yellow-fg">] are in the [</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>axis_name<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span class="ansi-yellow-fg">]</span><span class="ansi-yellow-fg">"</span>)
+<span class="ansi-green-fg">   6251</span>     not_found = <span style="color:rgb(0,135,0)">list</span>(ensure_index(key)[missing_mask.nonzero()[<span class="ansi-green-fg">0</span>]].unique())
+<span class="ansi-green-fg">   6252</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">KeyError</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>not_found<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span class="ansi-yellow-fg"> not in index</span><span class="ansi-yellow-fg">"</span>)
+
+<span class="ansi-red-fg">KeyError</span>: "None of [Index(['AI_Growth', 'Non_AI_Growth'], dtype='object')] are in the [columns]"</pre>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;Figure size 1400x600 with 0 Axes&gt;</code></pre>
+</div>
+</div>
+<div id="cell-28" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
 <div>
 
 
@@ -857,32 +1360,32 @@ Non-AI-Impacted Industries:</code></pre>
 <td>Data Analyst</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">4</td>
-<td>California</td>
-<td>Unclassified Industry</td>
-<td>999999.0</td>
-<td>Oracle Consultant / Analyst</td>
-</tr>
-<tr class="odd">
 <td data-quarto-table-cell-role="th">9</td>
 <td>New York</td>
 <td>Professional, Scientific, and Technical Services</td>
 <td>541511.0</td>
 <td>Data Analyst</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td data-quarto-table-cell-role="th">10</td>
 <td>California</td>
 <td>Wholesale Trade</td>
 <td>423830.0</td>
 <td>Data Analyst</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td data-quarto-table-cell-role="th">15</td>
 <td>Massachusetts</td>
 <td>Educational Services</td>
 <td>611310.0</td>
 <td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>Massachusetts</td>
+<td>Finance and Insurance</td>
+<td>522320.0</td>
+<td>Business Intelligence Analyst</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -892,39 +1395,39 @@ Non-AI-Impacted Industries:</code></pre>
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">294</td>
-<td>Florida</td>
+<td data-quarto-table-cell-role="th">462</td>
+<td>Texas</td>
 <td>Educational Services</td>
-<td>611310.0</td>
-<td>SAP Analyst / Admin</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">295</td>
-<td>California</td>
-<td>Finance and Insurance</td>
-<td>524114.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">296</td>
-<td>New York</td>
-<td>Unclassified Industry</td>
-<td>999999.0</td>
+<td>611210.0</td>
 <td>General ERP Analyst / Consultant</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">297</td>
+<td data-quarto-table-cell-role="th">465</td>
 <td>Texas</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>541611.0</td>
-<td>SAP Analyst / Admin</td>
+<td>Finance and Insurance</td>
+<td>522320.0</td>
+<td>Business Analyst (General)</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">299</td>
+<td data-quarto-table-cell-role="th">472</td>
+<td>Texas</td>
+<td>Information</td>
+<td>518210.0</td>
+<td>SAP Analyst / Admin</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">473</td>
 <td>Texas</td>
 <td>Professional, Scientific, and Technical Services</td>
 <td>541511.0</td>
-<td>General ERP Analyst / Consultant</td>
+<td>Oracle Consultant / Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">487</td>
+<td>New York</td>
+<td>Administrative and Support and Waste Managemen...</td>
+<td>561320.0</td>
+<td>Data Analyst</td>
 </tr>
 </tbody>
 </table>
@@ -933,15 +1436,15 @@ Non-AI-Impacted Industries:</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-29" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-20" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-30" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
@@ -1041,30 +1544,30 @@ Non-AI-Impacted Industries:</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by STATE_NAME and count jobs for NAICS_2022_6 = 518210</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>state_counts_jobs <span class="op">=</span> final_df.groupby(<span class="st">'STATE_NAME'</span>).size().reset_index(name<span class="op">=</span><span class="st">'job_count'</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort state_counts_jobs from greatest to least by job_count</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>state_counts_jobs_sorted <span class="op">=</span> state_counts_jobs.sort_values(by<span class="op">=</span><span class="st">'job_count'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot column chart</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(state_counts_jobs_sorted)))</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plt.bar(state_counts_jobs_sorted[<span class="st">'STATE_NAME'</span>], state_counts_jobs_sorted[<span class="st">'job_count'</span>], color<span class="op">=</span>colors)</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Jobs'</span>)</span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State (Job Title Contains "Analyst")'</span>)</span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-31" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by STATE_NAME and count jobs for NAICS_2022_6 = 518210</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>state_counts_jobs <span class="op">=</span> final_df.groupby(<span class="st">'STATE_NAME'</span>).size().reset_index(name<span class="op">=</span><span class="st">'job_count'</span>)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort state_counts_jobs from greatest to least by job_count</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>state_counts_jobs_sorted <span class="op">=</span> state_counts_jobs.sort_values(by<span class="op">=</span><span class="st">'job_count'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot column chart</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(state_counts_jobs_sorted)))</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>plt.bar(state_counts_jobs_sorted[<span class="st">'STATE_NAME'</span>], state_counts_jobs_sorted[<span class="st">'job_count'</span>], color<span class="op">=</span>colors)</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Jobs'</span>)</span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State (Job Title Contains "Analyst")'</span>)</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="geographic_analysis_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="geographic_analysis_files/figure-html/cell-32-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
