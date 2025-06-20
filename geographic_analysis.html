@@ -184,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>bla balal</p>
-<div id="cell-1" class="cell" data-execution_count="17">
+<div id="cell-1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> findspark</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>findspark.init()</span>
@@ -211,7 +211,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>df.printSchema() <span class="co"># comment this line when rendering the submission</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>                                                                                </code></pre>
+<pre><code>Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+25/06/20 18:35:59 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+                                                                                </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>---This is Diagnostic check, No need to print it in the final doc---
@@ -347,8 +350,14 @@ root
  |-- NAICS_2022_5_NAME: string (nullable = true)
  |-- NAICS_2022_6: integer (nullable = true)
  |-- NAICS_2022_6_NAME: string (nullable = true)
-
-+--------------------+-----------------+----------------------+----------+--------+---------+--------+--------------------+--------------------+--------------------+-----------+-------------------+--------------------+--------------------+---------------+----------------+--------+--------------------+-----------+-------------------+----------------+---------------------+-------------+-------------------+-------------+------------------+---------------+--------------------+--------------------+--------------------+-------------+------+-----------+----------------+-------------------+---------+-----------+--------------------+--------------------+-------------+------+--------------+-----+--------------------+-----+----------+---------------+--------------------+---------------+--------------------+------------+--------------------+------------+--------------------+------+--------------------+------+--------------------+------+--------------------+------+--------------------+------+--------------------+------------------+-------------------+--------------------+--------------------+--------------------+--------------------+-----------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+--------------------+----------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+--------------------+----------+--------------------+----------+---------------+----------+---------------+---------------+--------------------+--------------+--------------------+--------------------------+-------------------------------+--------------------+-------------------------+-----------------------------+----------------------------------+-----------------+----------------------+-----------------------+----------------------------+------------------+-----------------------+-------+--------------------+-------+--------------------+-------+---------------+-------+---------------+-----------------+----------------------+------------+--------------------+------------+--------------------+------------+--------------------+------------+--------------------+------------+--------------------+
+</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>25/06/20 18:36:16 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+                                                                                </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+--------------------+-----------------+----------------------+----------+--------+---------+--------+--------------------+--------------------+--------------------+-----------+-------------------+--------------------+--------------------+---------------+----------------+--------+--------------------+-----------+-------------------+----------------+---------------------+-------------+-------------------+-------------+------------------+---------------+--------------------+--------------------+--------------------+-------------+------+-----------+----------------+-------------------+---------+-----------+--------------------+--------------------+-------------+------+--------------+-----+--------------------+-----+----------+---------------+--------------------+---------------+--------------------+------------+--------------------+------------+--------------------+------+--------------------+------+--------------------+------+--------------------+------+--------------------+------+--------------------+------------------+-------------------+--------------------+--------------------+--------------------+--------------------+-----------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+--------------------+----------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+--------------------+----------+--------------------+----------+---------------+----------+---------------+---------------+--------------------+--------------+--------------------+--------------------------+-------------------------------+--------------------+-------------------------+-----------------------------+----------------------------------+-----------------+----------------------+-----------------------+----------------------------+------------------+-----------------------+-------+--------------------+-------+--------------------+-------+---------------+-------+---------------+-----------------+----------------------+------------+--------------------+------------+--------------------+------------+--------------------+------------+--------------------+------------+--------------------+
 |                  ID|LAST_UPDATED_DATE|LAST_UPDATED_TIMESTAMP|DUPLICATES|  POSTED|  EXPIRED|DURATION|        SOURCE_TYPES|             SOURCES|                 URL|ACTIVE_URLS|ACTIVE_SOURCES_INFO|           TITLE_RAW|                BODY|MODELED_EXPIRED|MODELED_DURATION| COMPANY|        COMPANY_NAME|COMPANY_RAW|COMPANY_IS_STAFFING|EDUCATION_LEVELS|EDUCATION_LEVELS_NAME|MIN_EDULEVELS| MIN_EDULEVELS_NAME|MAX_EDULEVELS|MAX_EDULEVELS_NAME|EMPLOYMENT_TYPE|EMPLOYMENT_TYPE_NAME|MIN_YEARS_EXPERIENCE|MAX_YEARS_EXPERIENCE|IS_INTERNSHIP|SALARY|REMOTE_TYPE|REMOTE_TYPE_NAME|ORIGINAL_PAY_PERIOD|SALARY_TO|SALARY_FROM|            LOCATION|                CITY|    CITY_NAME|COUNTY|   COUNTY_NAME|  MSA|            MSA_NAME|STATE|STATE_NAME|COUNTY_OUTGOING|COUNTY_NAME_OUTGOING|COUNTY_INCOMING|COUNTY_NAME_INCOMING|MSA_OUTGOING|   MSA_NAME_OUTGOING|MSA_INCOMING|   MSA_NAME_INCOMING|NAICS2|         NAICS2_NAME|NAICS3|         NAICS3_NAME|NAICS4|         NAICS4_NAME|NAICS5|         NAICS5_NAME|NAICS6|         NAICS6_NAME|             TITLE|         TITLE_NAME|         TITLE_CLEAN|              SKILLS|         SKILLS_NAME|  SPECIALIZED_SKILLS|SPECIALIZED_SKILLS_NAME|      CERTIFICATIONS| CERTIFICATIONS_NAME|       COMMON_SKILLS|  COMMON_SKILLS_NAME|     SOFTWARE_SKILLS|SOFTWARE_SKILLS_NAME|      ONET|           ONET_NAME| ONET_2019|      ONET_2019_NAME|                CIP6|           CIP6_NAME|                CIP4|           CIP4_NAME|                CIP2|           CIP2_NAME|SOC_2021_2|     SOC_2021_2_NAME|SOC_2021_3|     SOC_2021_3_NAME|SOC_2021_4|SOC_2021_4_NAME|SOC_2021_5|SOC_2021_5_NAME|LOT_CAREER_AREA|LOT_CAREER_AREA_NAME|LOT_OCCUPATION| LOT_OCCUPATION_NAME|LOT_SPECIALIZED_OCCUPATION|LOT_SPECIALIZED_OCCUPATION_NAME|LOT_OCCUPATION_GROUP|LOT_OCCUPATION_GROUP_NAME|LOT_V6_SPECIALIZED_OCCUPATION|LOT_V6_SPECIALIZED_OCCUPATION_NAME|LOT_V6_OCCUPATION|LOT_V6_OCCUPATION_NAME|LOT_V6_OCCUPATION_GROUP|LOT_V6_OCCUPATION_GROUP_NAME|LOT_V6_CAREER_AREA|LOT_V6_CAREER_AREA_NAME|  SOC_2|          SOC_2_NAME|  SOC_3|          SOC_3_NAME|  SOC_4|     SOC_4_NAME|  SOC_5|     SOC_5_NAME|LIGHTCAST_SECTORS|LIGHTCAST_SECTORS_NAME|NAICS_2022_2|   NAICS_2022_2_NAME|NAICS_2022_3|   NAICS_2022_3_NAME|NAICS_2022_4|   NAICS_2022_4_NAME|NAICS_2022_5|   NAICS_2022_5_NAME|NAICS_2022_6|   NAICS_2022_6_NAME|
 +--------------------+-----------------+----------------------+----------+--------+---------+--------+--------------------+--------------------+--------------------+-----------+-------------------+--------------------+--------------------+---------------+----------------+--------+--------------------+-----------+-------------------+----------------+---------------------+-------------+-------------------+-------------+------------------+---------------+--------------------+--------------------+--------------------+-------------+------+-----------+----------------+-------------------+---------+-----------+--------------------+--------------------+-------------+------+--------------+-----+--------------------+-----+----------+---------------+--------------------+---------------+--------------------+------------+--------------------+------------+--------------------+------+--------------------+------+--------------------+------+--------------------+------+--------------------+------+--------------------+------------------+-------------------+--------------------+--------------------+--------------------+--------------------+-----------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+--------------------+----------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+----------+--------------------+----------+--------------------+----------+---------------+----------+---------------+---------------+--------------------+--------------+--------------------+--------------------------+-------------------------------+--------------------+-------------------------+-----------------------------+----------------------------------+-----------------+----------------------+-----------------------+----------------------------+------------------+-----------------------+-------+--------------------+-------+--------------------+-------+---------------+-------+---------------+-----------------+----------------------+------------+--------------------+------------+--------------------+------------+--------------------+------------+--------------------+------------+--------------------+
 |1f57d95acf4dc67ed...|         9/6/2024|  2024-09-06 20:32:...|         0|6/2/2024| 6/8/2024|       6|   [\n  "Company"\n]|[\n  "brassring.c...|[\n  "https://sjo...|         []|               NULL|Enterprise Analys...|31-May-2024\n\nEn...|       6/8/2024|               6|  894731|          Murphy USA| Murphy USA|              false|       [\n  2\n]| [\n  "Bachelor's ...|            2|  Bachelor's degree|         NULL|              NULL|              1|Full-time (&gt; 32 h...|                   2|                   2|        false|  NULL|          0|          [None]|               NULL|     NULL|       NULL|{\n  "lat": 33.20...|RWwgRG9yYWRvLCBBUg==|El Dorado, AR|  5139|     Union, AR|20980|       El Dorado, AR|    5|  Arkansas|           5139|           Union, AR|           5139|           Union, AR|       20980|       El Dorado, AR|       20980|       El Dorado, AR|    44|        Retail Trade|   441|Motor Vehicle and...|  4413|Automotive Parts,...| 44133|Automotive Parts ...|441330|Automotive Parts ...|ET29C073C03D1F86B4|Enterprise Analysts|enterprise analys...|[\n  "KS126DB6T06...|[\n  "Merchandisi...|[\n  "KS126DB6T06...|   [\n  "Merchandisi...|                  []|                  []|[\n  "KS126706DPF...|[\n  "Mathematics...|[\n  "KS440W865GC...|[\n  "SQL (Progra...|15-2051.01|Business Intellig...|15-2051.01|Business Intellig...|[\n  "45.0601",\n...|[\n  "Economics, ...|[\n  "45.06",\n  ...|[\n  "Economics",...|[\n  "45",\n  "27...|[\n  "Social Scie...|   15-0000|Computer and Math...|   15-2000|Mathematical Scie...|   15-2050|Data Scientists|   15-2051|Data Scientists|             23|Information Techn...|        231010|Business Intellig...|                  23101011|           General ERP Analy...|                2310|     Business Intellig...|                     23101011|              General ERP Analy...|           231010|  Business Intellig...|                   2310|        Business Intellig...|                23|   Information Techn...|15-0000|Computer and Math...|15-2000|Mathematical Scie...|15-2050|Data Scientists|15-2051|Data Scientists|        [\n  7\n]|  [\n  "Artificial ...|          44|        Retail Trade|         441|Motor Vehicle and...|        4413|Automotive Parts,...|       44133|Automotive Parts ...|      441330|Automotive Parts ...|
@@ -361,14 +370,14 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<div id="cell-2" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Listing Columns So We Can Reference them in Visuals</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Listing Columns So We Can Reference them in Visuals</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_1825/3265774581.py:4: DtypeWarning:
+<pre><code>/tmp/ipykernel_2210/3265774581.py:4: DtypeWarning:
 
 Columns (19,30) have mixed types. Specify dtype option on import or set low_memory=False.
 </code></pre>
@@ -377,36 +386,35 @@ Columns (19,30) have mixed types. Specify dtype option on import or set low_memo
 <pre><code>['ID', 'LAST_UPDATED_DATE', 'LAST_UPDATED_TIMESTAMP', 'DUPLICATES', 'POSTED', 'EXPIRED', 'DURATION', 'SOURCE_TYPES', 'SOURCES', 'URL', 'ACTIVE_URLS', 'ACTIVE_SOURCES_INFO', 'TITLE_RAW', 'BODY', 'MODELED_EXPIRED', 'MODELED_DURATION', 'COMPANY', 'COMPANY_NAME', 'COMPANY_RAW', 'COMPANY_IS_STAFFING', 'EDUCATION_LEVELS', 'EDUCATION_LEVELS_NAME', 'MIN_EDULEVELS', 'MIN_EDULEVELS_NAME', 'MAX_EDULEVELS', 'MAX_EDULEVELS_NAME', 'EMPLOYMENT_TYPE', 'EMPLOYMENT_TYPE_NAME', 'MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE', 'IS_INTERNSHIP', 'SALARY', 'REMOTE_TYPE', 'REMOTE_TYPE_NAME', 'ORIGINAL_PAY_PERIOD', 'SALARY_TO', 'SALARY_FROM', 'LOCATION', 'CITY', 'CITY_NAME', 'COUNTY', 'COUNTY_NAME', 'MSA', 'MSA_NAME', 'STATE', 'STATE_NAME', 'COUNTY_OUTGOING', 'COUNTY_NAME_OUTGOING', 'COUNTY_INCOMING', 'COUNTY_NAME_INCOMING', 'MSA_OUTGOING', 'MSA_NAME_OUTGOING', 'MSA_INCOMING', 'MSA_NAME_INCOMING', 'NAICS2', 'NAICS2_NAME', 'NAICS3', 'NAICS3_NAME', 'NAICS4', 'NAICS4_NAME', 'NAICS5', 'NAICS5_NAME', 'NAICS6', 'NAICS6_NAME', 'TITLE', 'TITLE_NAME', 'TITLE_CLEAN', 'SKILLS', 'SKILLS_NAME', 'SPECIALIZED_SKILLS', 'SPECIALIZED_SKILLS_NAME', 'CERTIFICATIONS', 'CERTIFICATIONS_NAME', 'COMMON_SKILLS', 'COMMON_SKILLS_NAME', 'SOFTWARE_SKILLS', 'SOFTWARE_SKILLS_NAME', 'ONET', 'ONET_NAME', 'ONET_2019', 'ONET_2019_NAME', 'CIP6', 'CIP6_NAME', 'CIP4', 'CIP4_NAME', 'CIP2', 'CIP2_NAME', 'SOC_2021_2', 'SOC_2021_2_NAME', 'SOC_2021_3', 'SOC_2021_3_NAME', 'SOC_2021_4', 'SOC_2021_4_NAME', 'SOC_2021_5', 'SOC_2021_5_NAME', 'LOT_CAREER_AREA', 'LOT_CAREER_AREA_NAME', 'LOT_OCCUPATION', 'LOT_OCCUPATION_NAME', 'LOT_SPECIALIZED_OCCUPATION', 'LOT_SPECIALIZED_OCCUPATION_NAME', 'LOT_OCCUPATION_GROUP', 'LOT_OCCUPATION_GROUP_NAME', 'LOT_V6_SPECIALIZED_OCCUPATION', 'LOT_V6_SPECIALIZED_OCCUPATION_NAME', 'LOT_V6_OCCUPATION', 'LOT_V6_OCCUPATION_NAME', 'LOT_V6_OCCUPATION_GROUP', 'LOT_V6_OCCUPATION_GROUP_NAME', 'LOT_V6_CAREER_AREA', 'LOT_V6_CAREER_AREA_NAME', 'SOC_2', 'SOC_2_NAME', 'SOC_3', 'SOC_3_NAME', 'SOC_4', 'SOC_4_NAME', 'SOC_5', 'SOC_5_NAME', 'LIGHTCAST_SECTORS', 'LIGHTCAST_SECTORS_NAME', 'NAICS_2022_2', 'NAICS_2022_2_NAME', 'NAICS_2022_3', 'NAICS_2022_3_NAME', 'NAICS_2022_4', 'NAICS_2022_4_NAME', 'NAICS_2022_5', 'NAICS_2022_5_NAME', 'NAICS_2022_6', 'NAICS_2022_6_NAME']</code></pre>
 </div>
 </div>
-<div id="cell-3" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-3" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_1825/304705447.py:3: DtypeWarning:
+<pre><code>/tmp/ipykernel_2210/304705447.py:3: DtypeWarning:
 
 Columns (19,30) have mixed types. Specify dtype option on import or set low_memory=False.
 </code></pre>
 </div>
 </div>
-<div id="cell-4" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-4" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['LAST_UPDATED_DATE', 'POSTED', 'EXPIRED', 'DURATION', 'SOURCE_TYPES', 'SOURCES', 'ACTIVE_SOURCES_INFO', 'TITLE_RAW', 'BODY', 'MODELED_EXPIRED', 'MODELED_DURATION', 'COMPANY', 'COMPANY_NAME', 'COMPANY_RAW', 'COMPANY_IS_STAFFING', 'EDUCATION_LEVELS', 'EDUCATION_LEVELS_NAME', 'MIN_EDULEVELS', 'MIN_EDULEVELS_NAME', 'MAX_EDULEVELS', 'MAX_EDULEVELS_NAME', 'EMPLOYMENT_TYPE', 'EMPLOYMENT_TYPE_NAME', 'MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE', 'IS_INTERNSHIP', 'SALARY', 'REMOTE_TYPE', 'REMOTE_TYPE_NAME', 'ORIGINAL_PAY_PERIOD', 'SALARY_TO', 'SALARY_FROM', 'LOCATION', 'CITY', 'CITY_NAME', 'COUNTY', 'COUNTY_NAME', 'MSA', 'MSA_NAME', 'STATE', 'STATE_NAME', 'COUNTY_OUTGOING', 'COUNTY_NAME_OUTGOING', 'COUNTY_INCOMING', 'COUNTY_NAME_INCOMING', 'MSA_OUTGOING', 'MSA_NAME_OUTGOING', 'MSA_INCOMING', 'MSA_NAME_INCOMING', 'NAICS2_NAME', 'NAICS3_NAME', 'NAICS4_NAME', 'NAICS5_NAME', 'NAICS6_NAME', 'TITLE', 'TITLE_NAME', 'TITLE_CLEAN', 'SKILLS', 'SKILLS_NAME', 'SPECIALIZED_SKILLS', 'SPECIALIZED_SKILLS_NAME', 'CERTIFICATIONS', 'CERTIFICATIONS_NAME', 'COMMON_SKILLS', 'COMMON_SKILLS_NAME', 'SOFTWARE_SKILLS', 'SOFTWARE_SKILLS_NAME', 'ONET', 'ONET_NAME', 'ONET_2019', 'ONET_2019_NAME', 'CIP6', 'CIP6_NAME', 'CIP4', 'CIP4_NAME', 'CIP2', 'CIP2_NAME', 'SOC_2021_2', 'SOC_2021_2_NAME', 'SOC_2021_3', 'SOC_2021_3_NAME', 'SOC_2021_4', 'SOC_2021_4_NAME', 'SOC_2021_5', 'SOC_2021_5_NAME', 'LOT_CAREER_AREA', 'LOT_CAREER_AREA_NAME', 'LOT_OCCUPATION', 'LOT_OCCUPATION_NAME', 'LOT_SPECIALIZED_OCCUPATION', 'LOT_SPECIALIZED_OCCUPATION_NAME', 'LOT_OCCUPATION_GROUP', 'LOT_OCCUPATION_GROUP_NAME', 'LOT_V6_SPECIALIZED_OCCUPATION', 'LOT_V6_SPECIALIZED_OCCUPATION_NAME', 'LOT_V6_OCCUPATION', 'LOT_V6_OCCUPATION_NAME', 'LOT_V6_OCCUPATION_GROUP', 'LOT_V6_OCCUPATION_GROUP_NAME', 'LOT_V6_CAREER_AREA', 'LOT_V6_CAREER_AREA_NAME', 'SOC_2_NAME', 'SOC_3_NAME', 'SOC_4', 'SOC_4_NAME', 'SOC_5_NAME', 'LIGHTCAST_SECTORS', 'LIGHTCAST_SECTORS_NAME', 'NAICS_2022_2', 'NAICS_2022_2_NAME', 'NAICS_2022_3', 'NAICS_2022_3_NAME', 'NAICS_2022_4', 'NAICS_2022_4_NAME', 'NAICS_2022_5', 'NAICS_2022_5_NAME', 'NAICS_2022_6', 'NAICS_2022_6_NAME']</code></pre>
 </div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install missingno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-5" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install missingno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Collecting missingno
-  Using cached missingno-0.5.2-py3-none-any.whl.metadata (639 bytes)
+<pre><code>Requirement already satisfied: missingno in ./.venv/lib/python3.12/site-packages (0.5.2)
 Requirement already satisfied: numpy in ./.venv/lib/python3.12/site-packages (from missingno) (2.2.6)
 Requirement already satisfied: matplotlib in ./.venv/lib/python3.12/site-packages (from missingno) (3.10.3)
 Requirement already satisfied: scipy in ./.venv/lib/python3.12/site-packages (from missingno) (1.15.3)
@@ -422,27 +430,24 @@ Requirement already satisfied: python-dateutil&gt;=2.7 in ./.venv/lib/python3.12
 Requirement already satisfied: pandas&gt;=1.2 in ./.venv/lib/python3.12/site-packages (from seaborn-&gt;missingno) (2.2.3)
 Requirement already satisfied: pytz&gt;=2020.1 in ./.venv/lib/python3.12/site-packages (from pandas&gt;=1.2-&gt;seaborn-&gt;missingno) (2025.2)
 Requirement already satisfied: tzdata&gt;=2022.7 in ./.venv/lib/python3.12/site-packages (from pandas&gt;=1.2-&gt;seaborn-&gt;missingno) (2025.2)
-Requirement already satisfied: six&gt;=1.5 in ./.venv/lib/python3.12/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib-&gt;missingno) (1.17.0)
-Using cached missingno-0.5.2-py3-none-any.whl (8.7 kB)
-Installing collected packages: missingno
-Successfully installed missingno-0.5.2</code></pre>
+Requirement already satisfied: six&gt;=1.5 in ./.venv/lib/python3.12/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib-&gt;missingno) (1.17.0)</code></pre>
 </div>
 </div>
-<div id="cell-6" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> missingno <span class="im">as</span> msno</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missing values</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>msno.heatmap(df)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Missing Values Heatmap"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop columns with &gt;50% missing values</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>df.dropna(thresh<span class="op">=</span><span class="bu">len</span>(df) <span class="op">*</span> <span class="fl">0.5</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill only the columns you actually have</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'Industry'</span> <span class="kw">in</span> df.columns:</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Industry"</span>].fillna(<span class="st">"Unknown"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Salary"</span>].fillna(df[<span class="st">"Salary"</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-6" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> missingno <span class="im">as</span> msno</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missing values</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>msno.heatmap(df)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Missing Values Heatmap"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop columns with &gt;50% missing values</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>df.dropna(thresh<span class="op">=</span><span class="bu">len</span>(df) <span class="op">*</span> <span class="fl">0.5</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill only the columns you actually have</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'Industry'</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Industry"</span>].fillna(<span class="st">"Unknown"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Salary"</span>].fillna(df[<span class="st">"Salary"</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -451,266 +456,47 @@ Successfully installed missingno-0.5.2</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-7" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span>[<span class="st">"TITLE"</span>, <span class="st">"COMPANY"</span>, <span class="st">"LOCATION"</span>, <span class="st">"POSTED"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-7" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span>[<span class="st">"TITLE"</span>, <span class="st">"COMPANY"</span>, <span class="st">"LOCATION"</span>, <span class="st">"POSTED"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="67">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">STATE_NAME</th>
-<th data-quarto-table-cell-role="th">NAICS2_NAME</th>
-<th data-quarto-table-cell-role="th">NAICS_2022_6</th>
-<th data-quarto-table-cell-role="th">LOT_SPECIALIZED_OCCUPATION_NAME</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>Texas</td>
-<td>Finance and Insurance</td>
-<td>524291.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">4</td>
-<td>California</td>
-<td>Unclassified Industry</td>
-<td>999999.0</td>
-<td>Oracle Consultant / Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">9</td>
-<td>New York</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>541511.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">10</td>
-<td>California</td>
-<td>Wholesale Trade</td>
-<td>423830.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">15</td>
-<td>Massachusetts</td>
-<td>Educational Services</td>
-<td>611310.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">294</td>
-<td>Florida</td>
-<td>Educational Services</td>
-<td>611310.0</td>
-<td>SAP Analyst / Admin</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">295</td>
-<td>California</td>
-<td>Finance and Insurance</td>
-<td>524114.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">296</td>
-<td>New York</td>
-<td>Unclassified Industry</td>
-<td>999999.0</td>
-<td>General ERP Analyst / Consultant</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">297</td>
-<td>Texas</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>541611.0</td>
-<td>SAP Analyst / Admin</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">299</td>
-<td>Texas</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>541511.0</td>
-<td>General ERP Analyst / Consultant</td>
-</tr>
-</tbody>
-</table>
-
-<p>100 rows × 4 columns</p>
+<div id="cell-8" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'NAICS_2022_2_NAME'</span>] <span class="op">!=</span> <span class="st">'Unclassified Industry'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="cell-9" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Define AI classification lists</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ai_impacted_naics <span class="op">=</span> [<span class="dv">31</span>, <span class="dv">32</span>, <span class="dv">33</span>, <span class="dv">42</span>, <span class="dv">44</span>, <span class="dv">45</span>, <span class="dv">51</span>, <span class="dv">52</span>, <span class="dv">54</span>, <span class="dv">55</span>, <span class="dv">56</span>]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>non_ai_impacted_naics <span class="op">=</span> [<span class="dv">11</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">48</span>, <span class="dv">49</span>, <span class="dv">61</span>, <span class="dv">62</span>, <span class="dv">71</span>, <span class="dv">72</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div id="cell-10" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> label_ai_impact(naics):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        code <span class="op">=</span> <span class="bu">int</span>(naics)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> code <span class="kw">in</span> ai_impacted_naics:</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"AI-Impacted"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> code <span class="kw">in</span> non_ai_impacted_naics:</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Non-AI-Impacted"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Unclassified"</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Unclassified"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-9" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-10" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="27">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">STATE_NAME</th>
-<th data-quarto-table-cell-role="th">NAICS2_NAME</th>
-<th data-quarto-table-cell-role="th">NAICS_2022_6</th>
-<th data-quarto-table-cell-role="th">LOT_SPECIALIZED_OCCUPATION_NAME</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>Texas</td>
-<td>Finance and Insurance</td>
-<td>524291.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">4</td>
-<td>California</td>
-<td>Unclassified Industry</td>
-<td>999999.0</td>
-<td>Oracle Consultant / Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">9</td>
-<td>New York</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>541511.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">10</td>
-<td>California</td>
-<td>Wholesale Trade</td>
-<td>423830.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">15</td>
-<td>Massachusetts</td>
-<td>Educational Services</td>
-<td>611310.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">294</td>
-<td>Florida</td>
-<td>Educational Services</td>
-<td>611310.0</td>
-<td>SAP Analyst / Admin</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">295</td>
-<td>California</td>
-<td>Finance and Insurance</td>
-<td>524114.0</td>
-<td>Data Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">296</td>
-<td>New York</td>
-<td>Unclassified Industry</td>
-<td>999999.0</td>
-<td>General ERP Analyst / Consultant</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">297</td>
-<td>Texas</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>541611.0</td>
-<td>SAP Analyst / Admin</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">299</td>
-<td>Texas</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>541511.0</td>
-<td>General ERP Analyst / Consultant</td>
-</tr>
-</tbody>
-</table>
-
-<p>100 rows × 4 columns</p>
-</div>
-</div>
-</div>
-<div id="cell-11" class="cell" data-execution_count="72">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by STATE_NAME and count jobs for NAICS_2022_6 = 518210</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>state_counts_jobs <span class="op">=</span> final_df.groupby(<span class="st">'STATE_NAME'</span>).size().reset_index(name<span class="op">=</span><span class="st">'job_count'</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort state_counts_jobs from greatest to least by job_count</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>state_counts_jobs_sorted <span class="op">=</span> state_counts_jobs.sort_values(by<span class="op">=</span><span class="st">'job_count'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot column chart</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(state_counts_jobs_sorted)))</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>plt.bar(state_counts_jobs_sorted[<span class="st">'STATE_NAME'</span>], state_counts_jobs_sorted[<span class="st">'job_count'</span>], color<span class="op">=</span>colors)</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Jobs'</span>)</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State (Job Title Contains "Analyst")'</span>)</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="geographic_analysis_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-12" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Filter to only top 5 states</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>selected_states <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_states)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-13" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Flag AI-related job titles</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ai_keywords <span class="op">=</span> [<span class="st">'ai'</span>, <span class="st">'artificial intelligence'</span>, <span class="st">'machine learning'</span>, <span class="st">'data scientist'</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">'deep learning'</span>, <span class="st">'llm'</span>, <span class="st">'nlp'</span>, <span class="st">'gen ai'</span>, <span class="st">'computer vision'</span>]</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>filtered_df[<span class="st">'IS_AI'</span>] <span class="op">=</span> filtered_df[<span class="st">'TITLE_CLEAN'</span>].<span class="bu">str</span>.contains(<span class="st">'|'</span>.join(ai_keywords), case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-11" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'AI_IMPACTED'</span>] <span class="op">=</span> df[<span class="st">'NAICS_2022_2'</span>].<span class="bu">apply</span>(label_ai_impact)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter only AI and Non-AI impacted</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">"AI_IMPACTED"</span>].isin([<span class="st">"AI-Impacted"</span>, <span class="st">"Non-AI-Impacted"</span>])]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Now split the data</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>ai_df <span class="op">=</span> df[df[<span class="st">"AI_IMPACTED"</span>] <span class="op">==</span> <span class="st">"AI-Impacted"</span>][</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"STATE_NAME"</span>, <span class="st">"NAICS_2022_2"</span>, <span class="st">"NAICS_2022_2_NAME"</span>, <span class="st">"LOT_SPECIALIZED_OCCUPATION_NAME"</span>]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>non_ai_df <span class="op">=</span> df[df[<span class="st">"AI_IMPACTED"</span>] <span class="op">==</span> <span class="st">"Non-AI-Impacted"</span>][</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"STATE_NAME"</span>, <span class="st">"NAICS_2022_2"</span>, <span class="st">"NAICS_2022_2_NAME"</span>, <span class="st">"LOT_SPECIALIZED_OCCUPATION_NAME"</span>]</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_1825/1061623280.py:4: SettingWithCopyWarning:
+<pre><code>/tmp/ipykernel_2210/3931456421.py:1: SettingWithCopyWarning:
 
 
 A value is trying to be set on a copy of a slice from a DataFrame.
@@ -720,125 +506,335 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </code></pre>
 </div>
 </div>
-<div id="cell-14" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Group by industry (e.g. NAICS_2022_2_NAME) and AI status</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>industry_ai_summary <span class="op">=</span> (</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    filtered_df</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    .groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'IS_AI'</span>])</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    .size()</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    .reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span>[<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'IS_AI'</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>])</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-15" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(industry_ai_summary.head(<span class="dv">20</span>))  <span class="co"># or just display the full table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-12" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"AI-Impacted Industries:"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>display(ai_df)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Non-AI-Impacted Industries:"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>display(non_ai_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                    NAICS_2022_2_NAME  IS_AI  Job_Count
-1                     Accommodation and Food Services   True          4
-0                     Accommodation and Food Services  False        180
-3   Administrative and Support and Waste Managemen...   True         67
-2   Administrative and Support and Waste Managemen...  False       2607
-5          Agriculture, Forestry, Fishing and Hunting   True          1
-4          Agriculture, Forestry, Fishing and Hunting  False         28
-7                 Arts, Entertainment, and Recreation   True          1
-6                 Arts, Entertainment, and Recreation  False         61
-9                                        Construction   True          3
-8                                        Construction  False        130
-11                               Educational Services   True         23
-10                               Educational Services  False        702
-13                              Finance and Insurance   True         62
-12                              Finance and Insurance  False       1993
-15                  Health Care and Social Assistance   True         37
-14                  Health Care and Social Assistance  False        987
-17                                        Information   True         36
-16                                        Information  False       1178
-19            Management of Companies and Enterprises   True          2
-18            Management of Companies and Enterprises  False         52</code></pre>
+<pre><code>AI-Impacted Industries:</code></pre>
 </div>
-</div>
-<div id="cell-16" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by state and AI status</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>state_ai_summary <span class="op">=</span> (</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    filtered_df</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    .groupby([<span class="st">'STATE_NAME'</span>, <span class="st">'IS_AI'</span>])</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    .size()</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    .reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'IS_AI'</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">False</span>])</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-17" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show results</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(state_ai_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      STATE_NAME  IS_AI  Job_Count
-1     California   True        264
-0     California  False       6567
-3        Florida   True         98
-2        Florida  False       3394
-5  Massachusetts   True         79
-4  Massachusetts  False       1881
-7       New York   True        121
-6       New York  False       3134
-9          Texas   True        234
-8          Texas  False       7565</code></pre>
-</div>
-</div>
-<div id="cell-18" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot the summary table for plotting</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>pivot_df <span class="op">=</span> state_ai_summary.pivot(index<span class="op">=</span><span class="st">'STATE_NAME'</span>, columns<span class="op">=</span><span class="st">'IS_AI'</span>, values<span class="op">=</span><span class="st">'Job_Count'</span>).fillna(<span class="dv">0</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>pivot_df.columns <span class="op">=</span> [<span class="st">'Non-AI Jobs'</span>, <span class="st">'AI Jobs'</span>]  <span class="co"># Rename for clarity</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot grouped bar chart</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>pivot_df.plot(kind<span class="op">=</span><span class="st">'bar'</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>), color<span class="op">=</span>[<span class="st">'#cccccc'</span>, <span class="st">'#1f77b4'</span>])</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'AI vs Non-AI Job Postings by State'</span>)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Job Postings'</span>)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Job Type'</span>)</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="geographic_analysis_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATE_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_2</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_2_NAME</th>
+<th data-quarto-table-cell-role="th">LOT_SPECIALIZED_OCCUPATION_NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Arkansas</td>
+<td>44.0</td>
+<td>Retail Trade</td>
+<td>General ERP Analyst / Consultant</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Maine</td>
+<td>56.0</td>
+<td>Administrative and Support and Waste Managemen...</td>
+<td>Oracle Consultant / Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Texas</td>
+<td>52.0</td>
+<td>Finance and Insurance</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Arizona</td>
+<td>52.0</td>
+<td>Finance and Insurance</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Arkansas</td>
+<td>51.0</td>
+<td>Information</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72493</td>
+<td>Virginia</td>
+<td>54.0</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">72494</td>
+<td>Massachusetts</td>
+<td>51.0</td>
+<td>Information</td>
+<td>Enterprise Architect</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72495</td>
+<td>Michigan</td>
+<td>56.0</td>
+<td>Administrative and Support and Waste Managemen...</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">72496</td>
+<td>Maine</td>
+<td>51.0</td>
+<td>Information</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72497</td>
+<td>Texas</td>
+<td>54.0</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>Oracle Consultant / Analyst</td>
+</tr>
+</tbody>
+</table>
+
+<p>49905 rows × 4 columns</p>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Non-AI-Impacted Industries:</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATE_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_2</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_2_NAME</th>
+<th data-quarto-table-cell-role="th">LOT_SPECIALIZED_OCCUPATION_NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Massachusetts</td>
+<td>61.0</td>
+<td>Educational Services</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Alabama</td>
+<td>62.0</td>
+<td>Health Care and Social Assistance</td>
+<td>Enterprise Architect</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">37</td>
+<td>Virginia</td>
+<td>62.0</td>
+<td>Health Care and Social Assistance</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">77</td>
+<td>Ohio</td>
+<td>23.0</td>
+<td>Construction</td>
+<td>Enterprise Architect</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">94</td>
+<td>Texas</td>
+<td>61.0</td>
+<td>Educational Services</td>
+<td>Business Analyst (General)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72450</td>
+<td>Oklahoma</td>
+<td>48.0</td>
+<td>Transportation and Warehousing</td>
+<td>Financial Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">72451</td>
+<td>South Carolina</td>
+<td>62.0</td>
+<td>Health Care and Social Assistance</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72460</td>
+<td>California</td>
+<td>11.0</td>
+<td>Agriculture, Forestry, Fishing and Hunting</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">72479</td>
+<td>Wyoming</td>
+<td>61.0</td>
+<td>Educational Services</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72489</td>
+<td>Texas</td>
+<td>22.0</td>
+<td>Utilities</td>
+<td>SAP Analyst / Admin</td>
+</tr>
+</tbody>
+</table>
+
+<p>7627 rows × 4 columns</p>
 </div>
 </div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define keywords linked to AI exposure</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>ai_keywords <span class="op">=</span> [<span class="st">'data analyst'</span>, <span class="st">'erp'</span>, <span class="st">'oracle'</span>, <span class="st">'sap'</span>, <span class="st">'business intelligence'</span>, <span class="st">'ml'</span>, <span class="st">'ai'</span>, <span class="st">'artificial intelligence'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-13" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Count total jobs by state</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>total_jobs_by_state <span class="op">=</span> df.groupby(<span class="st">'STATE_NAME'</span>).size().rename(<span class="st">'Total_Jobs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-20" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create lowercase version of occupation safely</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'OCC_LOWER'</span>] <span class="op">=</span> df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].fillna(<span class="st">''</span>).<span class="bu">str</span>.lower()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-14" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Count AI-impacted jobs by state</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>ai_jobs_by_state <span class="op">=</span> df[df[<span class="st">'AI_IMPACTED'</span>] <span class="op">==</span> <span class="st">'AI-Impacted'</span>].groupby(<span class="st">'STATE_NAME'</span>).size().rename(<span class="st">'AI_Impacted_Jobs'</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Merge the two counts into a single DataFrame</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>ai_impact_summary <span class="op">=</span> pd.concat([total_jobs_by_state, ai_jobs_by_state], axis<span class="op">=</span><span class="dv">1</span>).fillna(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for the top 5 states only</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>top_states <span class="op">=</span> [<span class="st">'Texas'</span>, <span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'New York'</span>, <span class="st">'Massachusetts'</span>]</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(top_states)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-15" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Calculate percentage of AI-impacted jobs</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>ai_impact_summary[<span class="st">'AI_Impact_Percentage'</span>] <span class="op">=</span> (ai_impact_summary[<span class="st">'AI_Impacted_Jobs'</span>] <span class="op">/</span> ai_impact_summary[<span class="st">'Total_Jobs'</span>]) <span class="op">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag AI-related occupations</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'IS_AI'</span>] <span class="op">=</span> df[<span class="st">'OCC_LOWER'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">any</span>(keyword <span class="kw">in</span> x <span class="cf">for</span> keyword <span class="kw">in</span> ai_keywords))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-16" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Sort states by highest percentage</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>ai_impact_summary_sorted <span class="op">=</span> ai_impact_summary.sort_values(by<span class="op">=</span><span class="st">'AI_Impact_Percentage'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-23" class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop helper column</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span><span class="st">'OCC_LOWER'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: count how many from each state</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>state_counts <span class="op">=</span> df[<span class="st">'STATE_NAME'</span>].value_counts().loc[top_states]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-17" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 6: Display the top 10 states (or all if you prefer)</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>display(ai_impact_summary_sorted.head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Total_Jobs</th>
+<th data-quarto-table-cell-role="th">AI_Impacted_Jobs</th>
+<th data-quarto-table-cell-role="th">AI_Impact_Percentage</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">STATE_NAME</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">New Jersey</td>
+<td>2156</td>
+<td>1976</td>
+<td>91.651206</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Vermont</td>
+<td>201</td>
+<td>183</td>
+<td>91.044776</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Idaho</td>
+<td>399</td>
+<td>361</td>
+<td>90.476190</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">North Carolina</td>
+<td>2225</td>
+<td>2013</td>
+<td>90.471910</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Connecticut</td>
+<td>723</td>
+<td>654</td>
+<td>90.456432</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Hawaii</td>
+<td>183</td>
+<td>165</td>
+<td>90.163934</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Washington, D.C. (District of Columbia)</td>
+<td>933</td>
+<td>839</td>
+<td>89.924973</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Wisconsin</td>
+<td>852</td>
+<td>766</td>
+<td>89.906103</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Illinois</td>
+<td>2802</td>
+<td>2515</td>
+<td>89.757316</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Virginia</td>
+<td>2919</td>
+<td>2619</td>
+<td>89.722508</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<div id="cell-24" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>, <span class="st">'IS_AI'</span>]].head(<span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="40">
+</div>
+</div>
+<div id="cell-18" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -848,8 +844,8 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">STATE_NAME</th>
 <th data-quarto-table-cell-role="th">NAICS2_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_6</th>
 <th data-quarto-table-cell-role="th">LOT_SPECIALIZED_OCCUPATION_NAME</th>
-<th data-quarto-table-cell-role="th">IS_AI</th>
 </tr>
 </thead>
 <tbody>
@@ -857,355 +853,219 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 <td data-quarto-table-cell-role="th">2</td>
 <td>Texas</td>
 <td>Finance and Insurance</td>
+<td>524291.0</td>
 <td>Data Analyst</td>
-<td>True</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
 <td>California</td>
 <td>Unclassified Industry</td>
+<td>999999.0</td>
 <td>Oracle Consultant / Analyst</td>
-<td>True</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">9</td>
 <td>New York</td>
 <td>Professional, Scientific, and Technical Services</td>
+<td>541511.0</td>
 <td>Data Analyst</td>
-<td>True</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">10</td>
 <td>California</td>
 <td>Wholesale Trade</td>
+<td>423830.0</td>
 <td>Data Analyst</td>
-<td>True</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">15</td>
 <td>Massachusetts</td>
 <td>Educational Services</td>
+<td>611310.0</td>
 <td>Data Analyst</td>
-<td>True</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">19</td>
-<td>California</td>
-<td>Unclassified Industry</td>
-<td>Data Analyst</td>
-<td>True</td>
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">26</td>
-<td>Texas</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>Enterprise Architect</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">28</td>
-<td>Massachusetts</td>
-<td>Finance and Insurance</td>
-<td>Business Intelligence Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">44</td>
-<td>California</td>
-<td>Public Administration</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">45</td>
+<td data-quarto-table-cell-role="th">294</td>
 <td>Florida</td>
-<td>Unclassified Industry</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">46</td>
-<td>Florida</td>
-<td>Unclassified Industry</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">47</td>
-<td>Florida</td>
-<td>Unclassified Industry</td>
+<td>Educational Services</td>
+<td>611310.0</td>
 <td>SAP Analyst / Admin</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">48</td>
-<td>Texas</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>Business Intelligence Analyst</td>
-<td>True</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">51</td>
-<td>Florida</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">52</td>
-<td>California</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>General ERP Analyst / Consultant</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">53</td>
-<td>California</td>
-<td>Unclassified Industry</td>
-<td>Financial Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">54</td>
-<td>Florida</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">57</td>
-<td>Texas</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">61</td>
-<td>Texas</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>General ERP Analyst / Consultant</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">63</td>
-<td>California</td>
-<td>Unclassified Industry</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">66</td>
-<td>California</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">69</td>
-<td>California</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">75</td>
-<td>California</td>
-<td>Professional, Scientific, and Technical Services</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">78</td>
+<td data-quarto-table-cell-role="th">295</td>
 <td>California</td>
 <td>Finance and Insurance</td>
-<td>General ERP Analyst / Consultant</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">91</td>
-<td>Massachusetts</td>
-<td>Retail Trade</td>
-<td>Enterprise Architect</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">93</td>
-<td>Massachusetts</td>
-<td>Public Administration</td>
+<td>524114.0</td>
 <td>Data Analyst</td>
-<td>True</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">94</td>
-<td>Texas</td>
-<td>Educational Services</td>
-<td>Business Analyst (General)</td>
-<td>False</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">95</td>
+<td data-quarto-table-cell-role="th">296</td>
 <td>New York</td>
 <td>Unclassified Industry</td>
-<td>Business Analyst (General)</td>
-<td>False</td>
+<td>999999.0</td>
+<td>General ERP Analyst / Consultant</td>
 </tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">97</td>
+<tr class="even">
+<td data-quarto-table-cell-role="th">297</td>
 <td>Texas</td>
 <td>Professional, Scientific, and Technical Services</td>
-<td>Financial Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">102</td>
-<td>Florida</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">103</td>
-<td>Texas</td>
-<td>Public Administration</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">104</td>
-<td>Massachusetts</td>
-<td>Unclassified Industry</td>
-<td>Enterprise Architect</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">105</td>
-<td>California</td>
-<td>Unclassified Industry</td>
+<td>541611.0</td>
 <td>SAP Analyst / Admin</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">108</td>
-<td>Texas</td>
-<td>Manufacturing</td>
-<td>Business Analyst (General)</td>
-<td>False</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">111</td>
-<td>California</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">112</td>
-<td>New York</td>
-<td>Educational Services</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">115</td>
-<td>Texas</td>
-<td>Educational Services</td>
-<td>Financial Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">116</td>
-<td>New York</td>
-<td>Manufacturing</td>
-<td>Enterprise Architect</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">117</td>
-<td>California</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>General ERP Analyst / Consultant</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">118</td>
-<td>Texas</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>General ERP Analyst / Consultant</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">120</td>
-<td>California</td>
-<td>Unclassified Industry</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">126</td>
-<td>California</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">128</td>
-<td>Florida</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">129</td>
-<td>Texas</td>
-<td>Retail Trade</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">131</td>
-<td>Florida</td>
-<td>Transportation and Warehousing</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">134</td>
-<td>Texas</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>Data Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">140</td>
-<td>Texas</td>
-<td>Unclassified Industry</td>
-<td>General ERP Analyst / Consultant</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">144</td>
+<td data-quarto-table-cell-role="th">299</td>
 <td>Texas</td>
 <td>Professional, Scientific, and Technical Services</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">149</td>
-<td>Texas</td>
-<td>Unclassified Industry</td>
-<td>Oracle Consultant / Analyst</td>
-<td>True</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">154</td>
-<td>New York</td>
-<td>Unclassified Industry</td>
-<td>Data Analyst</td>
-<td>True</td>
+<td>541511.0</td>
+<td>General ERP Analyst / Consultant</td>
 </tr>
 </tbody>
 </table>
 
+<p>100 rows × 4 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-19" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-20" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">STATE_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS2_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_6</th>
+<th data-quarto-table-cell-role="th">LOT_SPECIALIZED_OCCUPATION_NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Texas</td>
+<td>Finance and Insurance</td>
+<td>524291.0</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>California</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
+<td>Oracle Consultant / Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>New York</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541511.0</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>California</td>
+<td>Wholesale Trade</td>
+<td>423830.0</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Massachusetts</td>
+<td>Educational Services</td>
+<td>611310.0</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">294</td>
+<td>Florida</td>
+<td>Educational Services</td>
+<td>611310.0</td>
+<td>SAP Analyst / Admin</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">295</td>
+<td>California</td>
+<td>Finance and Insurance</td>
+<td>524114.0</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">296</td>
+<td>New York</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
+<td>General ERP Analyst / Consultant</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">297</td>
+<td>Texas</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541611.0</td>
+<td>SAP Analyst / Admin</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">299</td>
+<td>Texas</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541511.0</td>
+<td>General ERP Analyst / Consultant</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 4 columns</p>
+</div>
+</div>
+</div>
+<div id="cell-21" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by STATE_NAME and count jobs for NAICS_2022_6 = 518210</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>state_counts_jobs <span class="op">=</span> final_df.groupby(<span class="st">'STATE_NAME'</span>).size().reset_index(name<span class="op">=</span><span class="st">'job_count'</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort state_counts_jobs from greatest to least by job_count</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>state_counts_jobs_sorted <span class="op">=</span> state_counts_jobs.sort_values(by<span class="op">=</span><span class="st">'job_count'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot column chart</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(state_counts_jobs_sorted)))</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plt.bar(state_counts_jobs_sorted[<span class="st">'STATE_NAME'</span>], state_counts_jobs_sorted[<span class="st">'job_count'</span>], color<span class="op">=</span>colors)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Jobs'</span>)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State (Job Title Contains "Analyst")'</span>)</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="geographic_analysis_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
