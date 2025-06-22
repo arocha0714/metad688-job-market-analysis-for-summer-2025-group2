@@ -213,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-25/06/20 18:35:59 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/06/22 01:56:10 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
                                                                                 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -353,7 +353,7 @@ root
 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>25/06/20 18:36:16 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+<pre><code>25/06/22 01:56:28 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
                                                                                 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -370,14 +370,14 @@ only showing top 5 rows
 </code></pre>
 </div>
 </div>
-<div id="cell-2" class="cell" data-execution_count="2">
+<div id="cell-2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Listing Columns So We Can Reference them in Visuals</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_2210/3265774581.py:4: DtypeWarning:
+<pre><code>/tmp/ipykernel_3323/3265774581.py:4: DtypeWarning:
 
 Columns (19,30) have mixed types. Specify dtype option on import or set low_memory=False.
 </code></pre>
@@ -826,7 +826,7 @@ Non-AI-Impacted Industries:</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-18" class="cell" data-execution_count="46">
+<div id="cell-18" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Clean and convert date columns</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'NAICS_2022_2_NAME'</span>] <span class="op">!=</span> <span class="st">'Unclassified Industry'</span>]</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'POSTED'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
@@ -835,65 +835,126 @@ Non-AI-Impacted Industries:</code></pre>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with missing POSTED or EXPIRED dates</span></span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">'POSTED'</span>, <span class="st">'EXPIRED'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-19" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract month from POSTED and EXPIRED</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'EXPIRED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'EXPIRED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-19" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Count postings per industry</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>industry_counts <span class="op">=</span> df[<span class="st">'NAICS2_NAME'</span>].value_counts().reset_index()</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>industry_counts.columns <span class="op">=</span> [<span class="st">'NAICS2_NAME'</span>, <span class="st">'count'</span>]</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort values for better readability</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>industry_counts <span class="op">=</span> industry_counts.sort_values(by<span class="op">=</span><span class="st">'count'</span>, ascending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Horizontal bar plot</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    industry_counts,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'count'</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'NAICS2_NAME'</span>,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    orientation<span class="op">=</span><span class="st">'h'</span>,</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Job Postings by Industry'</span>,</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>{<span class="st">'NAICS2_NAME'</span>: <span class="st">'Industry'</span>, <span class="st">'count'</span>: <span class="st">'Number of Postings'</span>},</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'count'</span>,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    color_continuous_scale<span class="op">=</span><span class="st">'Blues'</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean layout</span></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">'Industry'</span>,</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">'Number of Postings'</span>,</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    title_font_size<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(showgrid<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(showgrid<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                    <div id="f5cfdd62-ad17-496b-a55a-d1dd3159bc27" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("f5cfdd62-ad17-496b-a55a-d1dd3159bc27")) {                    Plotly.newPlot(                        "f5cfdd62-ad17-496b-a55a-d1dd3159bc27",                        [{"hovertemplate":"Number of Postings=%{marker.color}\u003cbr\u003eIndustry=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":{"dtype":"i2","bdata":"PwCGAIgA5wAsAi4CMwKJApgC+wJZA3sGtAZxBw0Ksg34DxkZGh8qUg=="},"coloraxis":"coloraxis","pattern":{"shape":""}},"name":"","orientation":"h","showlegend":false,"textposition":"auto","x":{"dtype":"i2","bdata":"PwCGAIgA5wAsAi4CMwKJApgC+wJZA3sGtAZxBw0Ksg34DxkZGh8qUg=="},"xaxis":"x","y":["Agriculture, Forestry, Fishing and Hunting","Arts, Entertainment, and Recreation","Mining, Quarrying, and Oil and Gas Extraction","Management of Companies and Enterprises","Construction","Accommodation and Food Services","Utilities","Transportation and Warehousing","Other Services (except Public Administration)","Real Estate and Rental and Leasing","Public Administration","Educational Services","Retail Trade","Wholesale Trade","Health Care and Social Assistance","Information","Manufacturing","Finance and Insurance","Administrative and Support and Waste Management and Remediation Services","Professional, Scientific, and Technical Services"],"yaxis":"y","type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Number of Postings"},"showgrid":true},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Industry"},"showgrid":false},"coloraxis":{"colorbar":{"title":{"text":"Number of Postings"}},"colorscale":[[0.0,"rgb(247,251,255)"],[0.125,"rgb(222,235,247)"],[0.25,"rgb(198,219,239)"],[0.375,"rgb(158,202,225)"],[0.5,"rgb(107,174,214)"],[0.625,"rgb(66,146,198)"],[0.75,"rgb(33,113,181)"],[0.875,"rgb(8,81,156)"],[1.0,"rgb(8,48,107)"]]},"legend":{"tracegroupgap":0},"title":{"text":"Job Postings by Industry","font":{"size":20}},"barmode":"relative","plot_bgcolor":"white"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('f5cfdd62-ad17-496b-a55a-d1dd3159bc27');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
 </div>
-<div id="cell-20" class="cell" data-execution_count="76">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Define AI and non-AI industry codes using NAICS 2-digit level</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>ai_impacted_naics <span class="op">=</span> [<span class="dv">31</span>, <span class="dv">32</span>, <span class="dv">33</span>, <span class="dv">42</span>, <span class="dv">44</span>, <span class="dv">45</span>, <span class="dv">51</span>, <span class="dv">52</span>, <span class="dv">54</span>, <span class="dv">55</span>, <span class="dv">56</span>]</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>non_ai_impacted_naics <span class="op">=</span> [<span class="dv">11</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">48</span>, <span class="dv">49</span>, <span class="dv">61</span>, <span class="dv">62</span>, <span class="dv">71</span>, <span class="dv">72</span>]</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> label_ai(naics):</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        code <span class="op">=</span> <span class="bu">int</span>(naics)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> code <span class="kw">in</span> ai_naics:</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"AI-Impacted"</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> code <span class="kw">in</span> non_ai_naics:</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Non-AI-Impacted"</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Unclassified"</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Unclassified"</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'AI_IMPACTED'</span>] <span class="op">=</span> df[<span class="st">'NAICS_2022_2'</span>].<span class="bu">apply</span>(label_ai)</span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[df[<span class="st">'AI_IMPACTED'</span>] <span class="op">!=</span> <span class="st">'Unclassified'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-21" class="cell" data-execution_count="78">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract posting month</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count jobs by month, state, and AI impact</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>monthly_counts <span class="op">=</span> (</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    df.groupby([<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>, <span class="st">'AI_IMPACTED'</span>])</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    .size()</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    .reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract month from POSTED and EXPIRED</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'EXPIRED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'EXPIRED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-22" class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot table to split AI vs Non-AI job counts</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>pivoted <span class="op">=</span> monthly_counts.pivot_table(</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>],</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span><span class="st">'AI_IMPACTED'</span>,</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'Job_Count'</span>,</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    fill_value<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by month for each state</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>pivoted.sort_values(by<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-21" class="cell" data-execution_count="76">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Define AI and non-AI industry codes using NAICS 2-digit level</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ai_impacted_naics <span class="op">=</span> [<span class="dv">31</span>, <span class="dv">32</span>, <span class="dv">33</span>, <span class="dv">42</span>, <span class="dv">44</span>, <span class="dv">45</span>, <span class="dv">51</span>, <span class="dv">52</span>, <span class="dv">54</span>, <span class="dv">55</span>, <span class="dv">56</span>]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>non_ai_impacted_naics <span class="op">=</span> [<span class="dv">11</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">48</span>, <span class="dv">49</span>, <span class="dv">61</span>, <span class="dv">62</span>, <span class="dv">71</span>, <span class="dv">72</span>]</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> label_ai(naics):</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        code <span class="op">=</span> <span class="bu">int</span>(naics)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> code <span class="kw">in</span> ai_naics:</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"AI-Impacted"</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> code <span class="kw">in</span> non_ai_naics:</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Non-AI-Impacted"</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Unclassified"</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Unclassified"</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'AI_IMPACTED'</span>] <span class="op">=</span> df[<span class="st">'NAICS_2022_2'</span>].<span class="bu">apply</span>(label_ai)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[df[<span class="st">'AI_IMPACTED'</span>] <span class="op">!=</span> <span class="st">'Unclassified'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-23" class="cell" data-execution_count="79">
+<div id="cell-22" class="cell" data-execution_count="78">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract posting month</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_MONTH'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count jobs by month, state, and AI impact</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>monthly_counts <span class="op">=</span> (</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    df.groupby([<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>, <span class="st">'AI_IMPACTED'</span>])</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    .size()</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    .reset_index(name<span class="op">=</span><span class="st">'Job_Count'</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-23" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 6: Sort and calculate percent growth</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>pivoted.sort_values([<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>pivoted[<span class="st">'AI_Growth'</span>] <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[<span class="st">'AI-Impacted'</span>].pct_change() <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>pivoted[<span class="st">'Non_AI_Growth'</span>] <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[<span class="st">'Non-AI-Impacted'</span>].pct_change() <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with NaN (typically the first month per state)</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>pivoted.dropna(subset<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 7: Average monthly growth by state</span></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>average_growth <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth'</span>, <span class="st">'Non_AI_Growth'</span>]].mean().reset_index()</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(average_growth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot table to split AI vs Non-AI job counts</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>pivoted <span class="op">=</span> monthly_counts.pivot_table(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>],</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span><span class="st">'AI_IMPACTED'</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'Job_Count'</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    fill_value<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by month for each state</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>pivoted.sort_values(by<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="79">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 6: Sort and calculate percent growth</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>pivoted.sort_values([<span class="st">'STATE_NAME'</span>, <span class="st">'POSTED_MONTH'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>pivoted[<span class="st">'AI_Growth'</span>] <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[<span class="st">'AI-Impacted'</span>].pct_change() <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>pivoted[<span class="st">'Non_AI_Growth'</span>] <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[<span class="st">'Non-AI-Impacted'</span>].pct_change() <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with NaN (typically the first month per state)</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>pivoted.dropna(subset<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 7: Average monthly growth by state</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>average_growth <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth'</span>, <span class="st">'Non_AI_Growth'</span>]].mean().reset_index()</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(average_growth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>AI_IMPACTED                               STATE_NAME  AI_Growth  Non_AI_Growth
 0                                            Alabama   1.825137      31.250000
@@ -949,21 +1010,21 @@ Non-AI-Impacted Industries:</code></pre>
 50                                           Wyoming  78.532609      75.000000</code></pre>
 </div>
 </div>
-<div id="cell-24" class="cell" data-execution_count="81">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step: Average growth per state and sort by AI job growth</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>avg_growth <span class="op">=</span> (</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]]</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'AI_Growth_Pct'</span>: <span class="st">'Avg_AI_Job_Growth'</span>,</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Non_AI_Growth_Pct'</span>: <span class="st">'Avg_Non_AI_Job_Growth'</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span><span class="st">'Avg_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Display result</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(avg_growth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-25" class="cell" data-execution_count="81">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step: Average growth per state and sort by AI job growth</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>avg_growth <span class="op">=</span> (</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]]</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'AI_Growth_Pct'</span>: <span class="st">'Avg_AI_Job_Growth'</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Non_AI_Growth_Pct'</span>: <span class="st">'Avg_Non_AI_Job_Growth'</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span><span class="st">'Avg_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Display result</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(avg_growth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>AI_IMPACTED                               STATE_NAME  Avg_AI_Job_Growth  \
 25                                           Montana          45.827710   
@@ -1072,16 +1133,16 @@ AI_IMPACTED  Avg_Non_AI_Job_Growth
 19                      -21.204004  </code></pre>
 </div>
 </div>
-<div id="cell-25" class="cell" data-execution_count="85">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 states for AI job growth</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>top_ai <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span><span class="st">'Avg_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🔹 Top 10 States for AI Job Growth:"</span>)</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_ai)</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 states for Non-AI job growth</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>top_non_ai <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span><span class="st">'Avg_Non_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">🔹 Top 10 States for Non-AI Job Growth:"</span>)</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_non_ai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-execution_count="85">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 states for AI job growth</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>top_ai <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span><span class="st">'Avg_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"🔹 Top 10 States for AI Job Growth:"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_ai)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Top 10 states for Non-AI job growth</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>top_non_ai <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span><span class="st">'Avg_Non_AI_Job_Growth'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">🔹 Top 10 States for Non-AI Job Growth:"</span>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_non_ai)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>🔹 Top 10 States for AI Job Growth:
 AI_IMPACTED     STATE_NAME  Avg_AI_Job_Growth  Avg_Non_AI_Job_Growth
@@ -1110,28 +1171,28 @@ AI_IMPACTED     STATE_NAME  Avg_AI_Job_Growth  Avg_Non_AI_Job_Growth
 30              New Mexico           0.865385              43.452381</code></pre>
 </div>
 </div>
-<div id="cell-26" class="cell" data-execution_count="86">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Replace infinite values (result of division by zero) with NaN</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>pivoted.replace([np.inf, <span class="op">-</span>np.inf], np.nan, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Drop rows with missing percentage growth values</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>pivoted.dropna(subset<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Group by state and calculate average percent growth</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>avg_growth <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]].mean().reset_index()</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Sort states by AI and Non-AI growth</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>ranked <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Display top states for AI and Non-AI job growth</span></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top states by AI job growth:"</span>)</span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>display(ranked[[<span class="st">'STATE_NAME'</span>, <span class="st">'AI_Growth_Pct'</span>]].head(<span class="dv">10</span>))</span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Top states by Non-AI job growth:"</span>)</span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>display(ranked[[<span class="st">'STATE_NAME'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]].sort_values(by<span class="op">=</span><span class="st">'Non_AI_Growth_Pct'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-27" class="cell" data-execution_count="86">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Replace infinite values (result of division by zero) with NaN</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>pivoted.replace([np.inf, <span class="op">-</span>np.inf], np.nan, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Drop rows with missing percentage growth values</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>pivoted.dropna(subset<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Group by state and calculate average percent growth</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>avg_growth <span class="op">=</span> pivoted.groupby(<span class="st">'STATE_NAME'</span>)[[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]].mean().reset_index()</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Sort states by AI and Non-AI growth</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>ranked <span class="op">=</span> avg_growth.sort_values(by<span class="op">=</span>[<span class="st">'AI_Growth_Pct'</span>, <span class="st">'Non_AI_Growth_Pct'</span>], ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Display top states for AI and Non-AI job growth</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top states by AI job growth:"</span>)</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>display(ranked[[<span class="st">'STATE_NAME'</span>, <span class="st">'AI_Growth_Pct'</span>]].head(<span class="dv">10</span>))</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Top states by Non-AI job growth:"</span>)</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>display(ranked[[<span class="st">'STATE_NAME'</span>, <span class="st">'Non_AI_Growth_Pct'</span>]].sort_values(by<span class="op">=</span><span class="st">'Non_AI_Growth_Pct'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Top states by AI job growth:</code></pre>
 </div>
@@ -1276,68 +1337,46 @@ Top states by Non-AI job growth:</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-27" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 9: Visualize</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">6</span>))</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>avg_growth[[<span class="st">'AI_Growth'</span>, <span class="st">'Non_AI_Growth'</span>]].head(<span class="dv">10</span>).plot(kind<span class="op">=</span><span class="st">'bar'</span>)</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Monthly Job Growth (Top 10 States) for AI vs. Non-AI Careers'</span>)</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Monthly Job Growth'</span>)</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 9: Visualize</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">6</span>))</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>avg_growth[[<span class="st">'AI_Growth'</span>, <span class="st">'Non_AI_Growth'</span>]].head(<span class="dv">10</span>).plot(kind<span class="op">=</span><span class="st">'bar'</span>)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Monthly Job Growth (Top 10 States) for AI vs. Non-AI Careers'</span>)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Monthly Job Growth'</span>)</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
-<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[65]</span><span class="ansi-green-fg">, line 6</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[4]</span><span class="ansi-green-fg">, line 6</span>
 <span class="ansi-green-fg">      4</span> <span style="font-style:italic;color:rgb(95,135,135)"># Step 9: Visualize</span>
 <span class="ansi-green-fg">      5</span> plt.figure(figsize=(<span class="ansi-green-fg">14</span>, <span class="ansi-green-fg">6</span>))
-<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span> <span class="ansi-yellow-bg">avg_growth</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-fg ansi-yellow-bg">AI_Growth</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-fg ansi-yellow-bg">Non_AI_Growth</span><span class="ansi-yellow-fg ansi-yellow-bg">'</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">]</span>.head(<span class="ansi-green-fg">10</span>).plot(kind=<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">bar</span><span class="ansi-yellow-fg">'</span>)
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">6</span> <span class="ansi-yellow-bg">avg_growth</span>[[<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">AI_Growth</span><span class="ansi-yellow-fg">'</span>, <span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Non_AI_Growth</span><span class="ansi-yellow-fg">'</span>]].head(<span class="ansi-green-fg">10</span>).plot(kind=<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">bar</span><span class="ansi-yellow-fg">'</span>)
 <span class="ansi-green-fg">      7</span> plt.title(<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Average Monthly Job Growth (Top 10 States) for AI vs. Non-AI Careers</span><span class="ansi-yellow-fg">'</span>)
 <span class="ansi-green-fg">      8</span> plt.ylabel(<span class="ansi-yellow-fg">'</span><span class="ansi-yellow-fg">Average Monthly Job Growth</span><span class="ansi-yellow-fg">'</span>)
 
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2/.venv/lib/python3.12/site-packages/pandas/core/frame.py:4108</span>, in <span class="ansi-cyan-fg">DataFrame.__getitem__</span><span class="ansi-blue-fg">(self, key)</span>
-<span class="ansi-green-fg">   4106</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> is_iterator(key):
-<span class="ansi-green-fg">   4107</span>         key = <span style="color:rgb(0,135,0)">list</span>(key)
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">4108</span>     indexer = <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">columns</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_get_indexer_strict</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">key</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">columns</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>[<span class="ansi-green-fg">1</span>]
-<span class="ansi-green-fg">   4110</span> <span style="font-style:italic;color:rgb(95,135,135)"># take() does not accept boolean indexers</span>
-<span class="ansi-green-fg">   4111</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">getattr</span>(indexer, <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">dtype</span><span class="ansi-yellow-fg">"</span>, <span style="font-weight:bold;color:rgb(0,135,0)">None</span>) == <span style="color:rgb(0,135,0)">bool</span>:
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2/.venv/lib/python3.12/site-packages/pandas/core/indexes/base.py:6200</span>, in <span class="ansi-cyan-fg">Index._get_indexer_strict</span><span class="ansi-blue-fg">(self, key, axis_name)</span>
-<span class="ansi-green-fg">   6197</span> <span style="font-weight:bold;color:rgb(0,135,0)">else</span>:
-<span class="ansi-green-fg">   6198</span>     keyarr, indexer, new_indexer = <span style="color:rgb(0,135,0)">self</span>._reindex_non_unique(keyarr)
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">6200</span> <span style="color:rgb(0,135,0)" class="ansi-yellow-bg">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_raise_if_missing</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">keyarr</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">indexer</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">axis_name</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">   6202</span> keyarr = <span style="color:rgb(0,135,0)">self</span>.take(indexer)
-<span class="ansi-green-fg">   6203</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span style="color:rgb(0,135,0)">isinstance</span>(key, Index):
-<span class="ansi-green-fg">   6204</span>     <span style="font-style:italic;color:rgb(95,135,135)"># GH 42790 - Preserve name from an Index</span>
-
-<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/metad688-job-market-analysis-for-summer-2025-group2/.venv/lib/python3.12/site-packages/pandas/core/indexes/base.py:6249</span>, in <span class="ansi-cyan-fg">Index._raise_if_missing</span><span class="ansi-blue-fg">(self, key, indexer, axis_name)</span>
-<span class="ansi-green-fg">   6247</span> <span style="font-weight:bold;color:rgb(0,135,0)">if</span> nmissing:
-<span class="ansi-green-fg">   6248</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> nmissing == <span style="color:rgb(0,135,0)">len</span>(indexer):
-<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">6249</span>         <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">KeyError</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">None of [</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>key<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span class="ansi-yellow-fg">] are in the [</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>axis_name<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span class="ansi-yellow-fg">]</span><span class="ansi-yellow-fg">"</span>)
-<span class="ansi-green-fg">   6251</span>     not_found = <span style="color:rgb(0,135,0)">list</span>(ensure_index(key)[missing_mask.nonzero()[<span class="ansi-green-fg">0</span>]].unique())
-<span class="ansi-green-fg">   6252</span>     <span style="font-weight:bold;color:rgb(0,135,0)">raise</span> <span style="font-weight:bold;color:rgb(215,95,95)">KeyError</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">"</span><span style="font-weight:bold;color:rgb(175,95,135)">{</span>not_found<span style="font-weight:bold;color:rgb(175,95,135)">}</span><span class="ansi-yellow-fg"> not in index</span><span class="ansi-yellow-fg">"</span>)
-
-<span class="ansi-red-fg">KeyError</span>: "None of [Index(['AI_Growth', 'Non_AI_Growth'], dtype='object')] are in the [columns]"</pre>
+<span class="ansi-red-fg">NameError</span>: name 'avg_growth' is not defined</pre>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>&lt;Figure size 1400x600 with 0 Axes&gt;</code></pre>
 </div>
 </div>
-<div id="cell-28" class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="45">
+<div id="cell-29" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -1360,32 +1399,32 @@ Top states by Non-AI job growth:</code></pre>
 <td>Data Analyst</td>
 </tr>
 <tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>California</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
+<td>Oracle Consultant / Analyst</td>
+</tr>
+<tr class="odd">
 <td data-quarto-table-cell-role="th">9</td>
 <td>New York</td>
 <td>Professional, Scientific, and Technical Services</td>
 <td>541511.0</td>
 <td>Data Analyst</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td data-quarto-table-cell-role="th">10</td>
 <td>California</td>
 <td>Wholesale Trade</td>
 <td>423830.0</td>
 <td>Data Analyst</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td data-quarto-table-cell-role="th">15</td>
 <td>Massachusetts</td>
 <td>Educational Services</td>
 <td>611310.0</td>
 <td>Data Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">28</td>
-<td>Massachusetts</td>
-<td>Finance and Insurance</td>
-<td>522320.0</td>
-<td>Business Intelligence Analyst</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -1395,39 +1434,39 @@ Top states by Non-AI job growth:</code></pre>
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">462</td>
-<td>Texas</td>
+<td data-quarto-table-cell-role="th">294</td>
+<td>Florida</td>
 <td>Educational Services</td>
-<td>611210.0</td>
-<td>General ERP Analyst / Consultant</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">465</td>
-<td>Texas</td>
-<td>Finance and Insurance</td>
-<td>522320.0</td>
-<td>Business Analyst (General)</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">472</td>
-<td>Texas</td>
-<td>Information</td>
-<td>518210.0</td>
+<td>611310.0</td>
 <td>SAP Analyst / Admin</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">473</td>
+<td data-quarto-table-cell-role="th">295</td>
+<td>California</td>
+<td>Finance and Insurance</td>
+<td>524114.0</td>
+<td>Data Analyst</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">296</td>
+<td>New York</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
+<td>General ERP Analyst / Consultant</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">297</td>
+<td>Texas</td>
+<td>Professional, Scientific, and Technical Services</td>
+<td>541611.0</td>
+<td>SAP Analyst / Admin</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">299</td>
 <td>Texas</td>
 <td>Professional, Scientific, and Technical Services</td>
 <td>541511.0</td>
-<td>Oracle Consultant / Analyst</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">487</td>
-<td>New York</td>
-<td>Administrative and Support and Waste Managemen...</td>
-<td>561320.0</td>
-<td>Data Analyst</td>
+<td>General ERP Analyst / Consultant</td>
 </tr>
 </tbody>
 </table>
@@ -1436,15 +1475,15 @@ Top states by Non-AI job growth:</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-29" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-30" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for Boston, MA and Austin, TX</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>selected_state <span class="op">=</span> [<span class="st">'California'</span>, <span class="st">'Florida'</span>, <span class="st">'Massachusetts'</span>, <span class="st">'Texas'</span>, <span class="st">'New York'</span>]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="op">=</span> df[df[<span class="st">'STATE_NAME'</span>].isin(selected_state)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-30" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-31" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Further filter for NAICS_2022_6 = 518210 and show relevant columns</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> filtered_df[filtered_df[<span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>].<span class="bu">str</span>.contains(<span class="st">'analyst'</span>, case<span class="op">=</span><span class="va">False</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>final_df[[<span class="st">'STATE_NAME'</span>, <span class="st">'NAICS2_NAME'</span>, <span class="st">'NAICS_2022_6'</span>, <span class="st">'LOT_SPECIALIZED_OCCUPATION_NAME'</span>]].head(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
@@ -1544,30 +1583,30 @@ Top states by Non-AI job growth:</code></pre>
 </div>
 </div>
 </div>
-<div id="cell-31" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by STATE_NAME and count jobs for NAICS_2022_6 = 518210</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>state_counts_jobs <span class="op">=</span> final_df.groupby(<span class="st">'STATE_NAME'</span>).size().reset_index(name<span class="op">=</span><span class="st">'job_count'</span>)</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort state_counts_jobs from greatest to least by job_count</span></span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>state_counts_jobs_sorted <span class="op">=</span> state_counts_jobs.sort_values(by<span class="op">=</span><span class="st">'job_count'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot column chart</span></span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(state_counts_jobs_sorted)))</span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>plt.bar(state_counts_jobs_sorted[<span class="st">'STATE_NAME'</span>], state_counts_jobs_sorted[<span class="st">'job_count'</span>], color<span class="op">=</span>colors)</span>
-<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
-<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Jobs'</span>)</span>
-<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State (Job Title Contains "Analyst")'</span>)</span>
-<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-32" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by STATE_NAME and count jobs for NAICS_2022_6 = 518210</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>state_counts_jobs <span class="op">=</span> final_df.groupby(<span class="st">'STATE_NAME'</span>).size().reset_index(name<span class="op">=</span><span class="st">'job_count'</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort state_counts_jobs from greatest to least by job_count</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>state_counts_jobs_sorted <span class="op">=</span> state_counts_jobs.sort_values(by<span class="op">=</span><span class="st">'job_count'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot column chart</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> plt.cm.coolwarm(np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="bu">len</span>(state_counts_jobs_sorted)))</span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>plt.bar(state_counts_jobs_sorted[<span class="st">'STATE_NAME'</span>], state_counts_jobs_sorted[<span class="st">'job_count'</span>], color<span class="op">=</span>colors)</span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'State'</span>)</span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Jobs'</span>)</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Tech Jobs by State (Job Title Contains "Analyst")'</span>)</span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="geographic_analysis_files/figure-html/cell-32-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="geographic_analysis_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
