@@ -163,4 +163,71 @@ fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs
 ```{=html}
 <iframe width="1000" height="700" src="./figures/job_distribution_cities.html" title="Analyst Distribution"></iframe>
 ```
+
+
+```{python}
+import plotly.express as px
+
+analyst_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
+analyst_salary_df = analyst_df[analyst_df['SALARY'].notna()]
+
+print(f"Total analyst jobs: {len(analyst_df)}")
+print(f"Analyst jobs with salary data: {len(analyst_salary_df)}")
+
+# Group by state and calculate metrics
+bubble_data = analyst_salary_df.groupby('STATE_NAME').agg({
+    'SALARY': 'mean',  # Average salary for bubble size
+    'STATE_NAME': 'count'  # Count of jobs for y-axis
+}).rename(columns={'STATE_NAME': 'job_count'})
+
+bubble_data = bubble_data.reset_index()
+
+print(f"\nStates with analyst salary data: {len(bubble_data)}")
+print("\nTop 10 states by job count:")
+print(bubble_data.sort_values('job_count', ascending=False).head(10))
+
+# Filter to top 10 states by job count
+top_10_states = bubble_data.sort_values('job_count', ascending=False).head(10)
+
+# Create the bubble chart
+fig = px.scatter(
+    top_10_states,
+    x='STATE_NAME',
+    y='job_count',
+    size='SALARY',
+    color='SALARY',
+    hover_name='STATE_NAME',
+    hover_data={
+        'SALARY': ':,.0f',
+        'job_count': True,
+        'STATE_NAME': False
+    },
+    labels={
+        'SALARY': 'Average Salary ($)',
+        'STATE_NAME': 'State',
+        'job_count': 'Number of Jobs (Excludes Null Salaries)'
+    },
+    title='Top 10 States for Analyst Jobs (Bubble Size = Salary)',
+    color_continuous_scale='Greens'
+)
+
+# Customize the layout
+fig.update_layout(
+    width=1200,
+    height=700,
+    xaxis_tickangle=-45,
+    showlegend=True
+)
+
+# Update traces for better bubble appearance
+fig.update_traces(
+    marker=dict(
+        sizemode='diameter',
+        sizeref=2.0*max(top_10_states['SALARY'])/(15.**2),
+        sizemin=4,
+        line=dict(width=1, color='white')
+    )
+)
+
+fig_salaries.write_html("./figures/job_distribution_cities.html", include_plotlyjs='cdn')
 ```
