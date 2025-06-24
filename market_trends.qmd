@@ -166,7 +166,13 @@ fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs
 
 
 ```{python}
+#| echo: false
+#| eval: false
+import pandas as pd
 import plotly.express as px
+
+# Load the data
+df = pd.read_csv("./data/lightcast_job_postings.csv")
 
 analyst_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
 analyst_salary_df = analyst_df[analyst_df['SALARY'].notna()]
@@ -229,5 +235,10 @@ fig.update_traces(
     )
 )
 
-fig_salaries.write_html("./figures/job_distribution_cities.html", include_plotlyjs='cdn')
+fig_salaries = fig
+fig_salaries.write_html("./figures/salary_distribution_states.html", include_plotlyjs='cdn')
+```
+
+```{=html}
+<iframe width="1000" height="700" src="./figures/salary_distribution_states.html" title="Analyst Distribution (with Salaries)"></iframe>
 ```
