@@ -15,7 +15,7 @@ From a geographic perspective, McElheran et al. (2024) offers important insight 
 
 
 ## Purpose
-With this in mind, our research will look at the rising trends within different industries in regards to AI. Specifically, we will compare the differences between careers impacted or related to AI vs careers that may not be as exposed. We will also examine which states have the most upcoming AI-related jobs by looking at the job postings dataset.
+With this in mind, our research will look at the rising trends within the job market, with a particular focus on roles that align with our own career interests. This includes analyst positions, some of which may be influenced by advances in AI. We will also look at what working conditions, more specifically remote versus not remote jobs.
 
 ## History
 
