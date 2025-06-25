@@ -7,14 +7,11 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: geographic_analysis.ipynb
-        text: Geographic Data Analysis
-      - href: market_trends.qmd
-        text: Market Trends
-      - href: skill_analysis.qmd
-        text: Skill Analysis
-      - href: career_strategy_recs.qmd
-        text: Career Strategy Recommendations  
+        text: Menu
+      -   href: market_trends.qmd
+          text: Market Trends / Geographic Analysis
+      -   href: skill_analysis.qmd
+          text: Skill Analysis & Career Recommendations
 
 format:
   html:
