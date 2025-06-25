@@ -93,22 +93,21 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./geographic_analysis.html"> 
-<span class="menu-text">Geographic Data Analysis</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
+        <li>
+    <a class="dropdown-item" href="./market_trends.html">
+ <span class="dropdown-text">Market Trends / Geographic Analysis</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./market_trends.html"> 
-<span class="menu-text">Market Trends</span></a>
+        <li>
+    <a class="dropdown-item" href="./skill_analysis.html">
+ <span class="dropdown-text">Skill Analysis &amp; Career Recommendations</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./skill_analysis.html"> 
-<span class="menu-text">Skill Analysis</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="./career_strategy_recs.html" aria-current="page"> 
-<span class="menu-text">Career Strategy Recommendations</span></a>
-  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -203,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("\.");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

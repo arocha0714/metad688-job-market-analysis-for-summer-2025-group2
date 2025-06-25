@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>./index.html</loc>
-    <lastmod>2025-06-19T23:13:31.568Z</lastmod>
+    <loc>./about.html</loc>
+    <lastmod>2025-06-17T21:25:07.555Z</lastmod>
   </url>
   <url>
     <loc>./geographic_analysis.html</loc>
     <lastmod>2025-06-25T01:29:46.178Z</lastmod>
+  </url>
+  <url>
+    <loc>./career_strategy_recs.html</loc>
+    <lastmod>2025-06-17T21:40:50.366Z</lastmod>
+  </url>
+  <url>
+    <loc>./market_trends.html</loc>
+    <lastmod>2025-06-25T01:01:52.249Z</lastmod>
+  </url>
+  <url>
+    <loc>./ADAM geographic_analysis copy.html</loc>
+    <lastmod>2025-06-24T18:57:23.999Z</lastmod>
+  </url>
+  <url>
+    <loc>./skill_analysis.html</loc>
+    <lastmod>2025-06-17T21:40:39.508Z</lastmod>
+  </url>
+  <url>
+    <loc>./index.html</loc>
+    <lastmod>2025-06-19T23:13:31.568Z</lastmod>
   </url>
 </urlset>
