@@ -3,15 +3,18 @@ project:
 
 website:
   title: "Geographic & Remote Job Market Analysis"
+  page-navigation: true
+  site-url: "."
   navbar:
     left:
       - href: index.qmd
         text: Home
-        text: Menu
-      -   href: market_trends.qmd
-          text: Market Trends / Geographic Analysis
-      -   href: skill_analysis.qmd
-          text: Skill Analysis & Career Recommendations
+      - text: "Analysis"
+        menu:
+          - href: market_trends.qmd
+            text: Market Trends / Geographic Analysis
+          - href: skill_analysis.qmd
+            text: Skill Analysis & Career Recommendations
 
 format:
   html:
