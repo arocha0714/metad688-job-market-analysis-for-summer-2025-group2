@@ -1,5 +1,13 @@
 ---
 title: Market Trends
+format:
+    html:
+        code-fold: true
+        toc: true
+        toc-depth: 2
+exeucte:
+    eval: true
+    freeze: auto
 ---
 
 # Introduction
@@ -167,7 +175,8 @@ fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs
 
 ```{python}
 #| echo: false
-#| eval: false
+#| eval: true
+#| output: false
 import pandas as pd
 import plotly.express as px
 
@@ -219,18 +228,19 @@ fig = px.scatter(
 
 # Customize the layout
 fig.update_layout(
-    width=1200,
-    height=700,
+    width=950,
+    height=650,
     xaxis_tickangle=-45,
-    showlegend=True
+    showlegend=True,
+    margin=dict(t=60, b=80, l=50, r=50)
 )
 
 # Update traces for better bubble appearance
 fig.update_traces(
     marker=dict(
         sizemode='diameter',
-        sizeref=2.0*max(top_10_states['SALARY'])/(15.**2),
-        sizemin=4,
+        sizeref=max(top_10_states['SALARY'])/50,
+        sizemin=8,
         line=dict(width=1, color='white')
     )
 )
