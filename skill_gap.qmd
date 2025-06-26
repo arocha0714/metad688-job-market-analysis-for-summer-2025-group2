@@ -210,3 +210,19 @@ Incorporate real world data within AWS to create a storage structure, run querie
 #### Advanced
 
 Consider learning more about best practices and cost structuring, which will be crucial components of AWS design in a real world company. The goal of this is to begin optimizing your pipelines to make sure that they are production quality. To achieve this, consider completing the AWS Certified Data Analytics course.
+
+
+### Power BI
+
+#### Beginner
+
+At the beginner level it is important to understand the basic UI interface of the application, such as importing data and generating visuals (bar charts, line charts, cards, etc.). Microsoft Learn can help to achieve this with their beginner course.
+
+
+#### Intermediate 
+
+At this point, you should have the ability to use more complicated processes such as data cleaning, DAX functions, and establishing relationships between multiple datasets. Again, Microsoft Learn has courses called "Design Power BI reports" and "Configure Power BI report filters" that will help achieve this competency.
+
+#### Advanced
+
+By now, you should be able to connect your dashboard to other applications like SQL or APIs. Your dashboards should have multiple pages, which include dynamic formatting and the ability to automatically refresh.
