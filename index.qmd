@@ -1,7 +1,7 @@
 ---
 title: "Research Introduction: The Job Trends by State and their Impact on AI"
 author: "Group 2"
-date: tday
+date: June 26, 2025
 format: 
   html:
     bibliography: references.bib
