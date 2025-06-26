@@ -966,3 +966,11 @@ fig_salaries.write_html("./figures/salary_distribution_states.html", include_plo
 ```{=html}
 <iframe width="1000" height="700" src="./figures/salary_distribution_states.html" title="Analyst Distribution (with Salaries)"></iframe>
 ```
+
+
+![Remote jobs Administrative and Support and Waste Management and Remediation Services](./figures/Remote_jobs_Administrative and Support and Waste Management and Remediation Services.jpg){width=90% fig-align="center"}
+
+
+```{=html}
+<iframe width="1000" height="700" src="./figures/top_industries.html" title="Analyst Distribution (with Salaries)"></iframe>
+```
