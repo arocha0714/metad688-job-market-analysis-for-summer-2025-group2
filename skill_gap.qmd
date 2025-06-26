@@ -1,0 +1,142 @@
+---
+title: Skill Gap Analysis
+format:
+    html:
+        code-fold: true
+        toc: true
+        toc-depth: 2
+exeucte:
+    eval: false
+    echo: true
+    freeze: auto
+---
+```{python}
+
+import findspark
+findspark.init()
+
+from pyspark.sql import SparkSession
+import pandas as pd
+import plotly.express as px
+import plotly.io as pio
+import numpy as np
+
+np.random.seed(42)
+
+pio.renderers.default = "notebook"
+
+# Initialize Spark Session
+spark = SparkSession.builder.appName("LightcastData").getOrCreate()
+
+# Load Data
+df = spark.read.option("header", "true").option("inferSchema", "true").option("multiLine","true").option("escape", "\"").csv("./data/lightcast_job_postings.csv")
+
+# Show Schema and Sample Data
+print("---This is Diagnostic check, No need to print it in the final doc---")
+
+df.printSchema() # comment this line when rendering the submission
+df.show(5)
+```
+
+```{python}
+
+df.createOrReplaceTempView("jobs")
+```
+
+```{python}
+software_skill_counts_by_type = spark.sql("""
+    SELECT software_skills_name, COUNT(*) AS count
+    FROM jobs
+    WHERE LOWER(title_name) LIKE '%analyst%'
+       OR LOWER(title_name) LIKE '%analysis%'
+       OR LOWER(title_name) LIKE '%analytics%'
+    GROUP BY software_skills_name
+    ORDER BY count DESC
+    LIMIT 10
+""")
+software_skill_counts_by_type.show(truncate=False)
+```
+
+```{python}
+skill_counts_by_type = spark.sql("""
+    SELECT skills_name, COUNT(*) AS count
+    FROM jobs
+    WHERE LOWER(title_name) LIKE '%analyst%'
+    OR LOWER(title_name) LIKE '%analysis%'
+    OR LOWER(title_name) LIKE '%analytics%'
+    GROUP BY skills_name
+    ORDER BY count DESC
+    LIMIT 10
+""")
+skill_counts_by_type.show(truncate=False)
+```
+
+```{python}
+import pandas as pd
+
+skills_data = {
+    "Name": ["Alyssa", "Adam", "Yihan"],
+    "Microsoft Office": [4, 5, 3],
+    "Dashboard": [3, 3, 1],
+    "SQL": [2, 2, 2],
+    "OneStream": [1, 1, 1],
+    "Cloud Computing": [2, 2, 2]
+}
+
+df_skills = pd.DataFrame(skills_data)
+df_skills.set_index("Name", inplace=True)
+df_skills
+```
+
+```{python}
+
+import pandas as pd
+import plotly.graph_objects as go
+
+# Your data
+skills_data = {
+    "Name": ["Alyssa", "Adam", "Yihan"],
+    "Microsoft Office": [4, 5, 3],
+    "Dashboard": [3, 3, 1],
+    "SQL": [2, 2, 2],
+    "OneStream": [0, 0, 0],
+    "Cloud Computing": [2, 2, 2]
+}
+
+# Create DataFrame
+df_skills = pd.DataFrame(skills_data)
+df_skills.set_index("Name", inplace=True)
+
+# Get skill categories
+categories = df_skills.columns.tolist()
+
+# Create Plotly radar chart
+fig = go.Figure()
+
+for name in df_skills.index:
+    values = df_skills.loc[name].tolist()
+    values += values[:1]  # close the radar loop
+
+    fig.add_trace(go.Scatterpolar(
+        r=values,
+        theta=categories + [categories[0]],  # close the loop
+        fill='toself',
+        name=name
+    ))
+
+# Customize layout
+fig.update_layout(
+    polar=dict(
+        radialaxis=dict(
+            visible=True,
+            range=[0, 6]
+        )),
+    showlegend=True,
+    title="Team Skillset Levels"
+)
+
+fig.show()
+
+#https://plotly.com/python/radar-chart/
+```
+

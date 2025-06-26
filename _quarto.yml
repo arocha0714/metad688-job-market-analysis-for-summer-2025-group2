@@ -13,7 +13,7 @@ website:
         menu:
           - href: market_trends.qmd
             text: Market Trends / Geographic Analysis
-          - href: skill_analysis.qmd
+          - href: skill_gap.qmd
             text: Skill Analysis & Career Recommendations
 
 format:
