@@ -803,8 +803,8 @@ fig_plot = px.scatter(
     title="Average Salary by State and AI Impact",
     size_max=60,
     color_discrete_map={
-        "yes": "#2dbf78",   
-        "no": "#8adfbd"  
+        "yes": "#072418",   
+        "no": "#d8f5eb"  
     }
 
 )
@@ -825,6 +825,7 @@ fig_plot.write_html("./figures/Avg_salary.html", include_plotlyjs='cdn')
 ```{=html}
 <iframe width="1000" height="700" src="./figures/Avg_salary.html" title="AI vs Non-AI"></iframe>
 ```
+As shown above, the range of salaries and AI impact can vary greatly by an individual state.
 
 
 <div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
@@ -882,7 +883,7 @@ fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs
 ```{=html}
 <iframe width="1000" height="700" src="./figures/job_distribution_cities.html" title="Analyst Distribution"></iframe>
 ```
-
+New York City is the clear leader in analyst jobs available. Another insight is that Texas has 3 cities in the top 10, which indicates a strong job market. Something that surprised us, is that San Francisco finishes lower than expected by rounding out the bottom of the top 10.
 
 
 
