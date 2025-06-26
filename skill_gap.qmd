@@ -226,3 +226,14 @@ At this point, you should have the ability to use more complicated processes suc
 #### Advanced
 
 By now, you should be able to connect your dashboard to other applications like SQL or APIs. Your dashboards should have multiple pages, which include dynamic formatting and the ability to automatically refresh.
+
+
+### Office 365
+
+This will be broken down into 3 of the most common applications with an emphasis on Excel.
+
+#### Beginner
+
+Excel: Standard formulas are used such as SUMIF and VLOOKUP. There is familarity with pivot charts and conditional formatting.
+Outlook: User has the ability to schedule meetings and establish designated email folders.
+PowerPoint: There is an understanding of presentation structure, as well as formatting and placement of text and visuals.
