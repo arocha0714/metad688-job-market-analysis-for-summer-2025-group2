@@ -230,7 +230,7 @@ By now, you should be able to connect your dashboard to other applications like 
 
 ### Office 365
 
-This will be broken down into 3 of the most common applications with an emphasis on Excel.
+This will be broken down into 3 of the most common applications with an emphasis on Excel. Microsoft 365 is the recommended training tool, as it has learning courses available for all levels.
 
 #### Beginner
 
