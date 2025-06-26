@@ -200,3 +200,13 @@ This stage would be difficult, because you would need access to the software in 
 ### AWS
 
 #### Beginner
+
+AWS offers free tier accounts where users can begin learning the basic structure of the applications that are offered. Additionally, there are various free courses that are offered by AWS Academy. 
+
+#### Intermediate
+
+Incorporate real world data within AWS to create a storage structure, run queries, and visualize data. Additionally, you can reference Youtube or LinkedIn learning to learn more about EC2 capabilities and Quicksight (for visualization).
+
+#### Advanced
+
+Consider learning more about best practices and cost structuring, which will be crucial components of AWS design in a real world company. The goal of this is to begin optimizing your pipelines to make sure that they are production quality. To achieve this, consider completing the AWS Certified Data Analytics course.
