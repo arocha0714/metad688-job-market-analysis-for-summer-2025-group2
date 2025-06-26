@@ -1,5 +1,5 @@
 ---
-title: "Research Introduction: The Job Trends by State and their Impact on AI"
+title: "Preliminary Research"
 author: "Group 2"
 date: June 26, 2025
 format: 
