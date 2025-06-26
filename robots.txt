@@ -1,1 +1,1 @@
-Sitemap: https://arocha0714.github.io/metad688-job-market-analysis-for-summer-2025-group2/sitemap.xml
+Sitemap: ./sitemap.xml

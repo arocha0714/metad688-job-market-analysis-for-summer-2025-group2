@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Group 2">
+<meta name="dcterms.date" content="2025-06-26">
 
-<title>Geographic Analysis Group 2 – Geographic &amp; Remote Job Market Analysis</title>
+<title>Preliminary Research – Geographic &amp; Remote Job Market Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +22,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -39,7 +60,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-d0eee84908effde45992ddd4914ebb36.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b91c67fa4b5af78359063df39734c13f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +93,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -93,22 +114,25 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./geographic_analysis.html"> 
-<span class="menu-text">Geographic Data Analysis</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
+        <li>
+    <a class="dropdown-item" href="./market_trends.html">
+ <span class="dropdown-text">Market Trends / Geographic Analysis</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./market_trends.html"> 
-<span class="menu-text">Market Trends</span></a>
+        <li>
+    <a class="dropdown-item" href="./market_trends.html">
+ <span class="dropdown-text">Data Cleaning &amp; Modeling</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./skill_analysis.html"> 
-<span class="menu-text">Skill Analysis</span></a>
+        <li>
+    <a class="dropdown-item" href="./skill_gap.html">
+ <span class="dropdown-text">Skill Analysis &amp; Recommendations</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./career_strategy_recs.html"> 
-<span class="menu-text">Career Strategy Recommendations</span></a>
-  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -120,20 +144,44 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Geographic Analysis Group 2</h1>
+<h1 class="title">Preliminary Research</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Group 2 </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 26, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -145,21 +193,38 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Artificial intelligence (AI) is a technology that allows computers and machines to mimic human abilities such as learning, understanding, solving problems, making decisions, being creative, and operating independently (Stryker, 2024). Over the next several years, generative AI will become the main focus of AI researchers and enthusiasts. Generative AI is a type of technology that can produce original text, images, and videos. With the rising popularity of generative AI, many companies are faced with the question of how to walk the line between technological advancements and ethical responsibility. Advocates of AI claim that when implemented properly, AI can boost productivity, accelerate product development, and improve business decision-making. In 2024, the International Monetary Fund estimated that 40% of jobs around the world will be affected by AI. Tech experts hypothesize that industries and sectors such as cybersecurity, financial services, and manufacturing (Expert Panel, 2021) are likely to be affected. On the other hand, some argue that while job displacement is inevitable, AI will also create new jobs. According to Lee, Samanta, and Lee (2024), AI will not eliminate jobs but instead will reshape career structures. Even so, there are still job types that can be at risk of being replaced. An example of a high-risk job would be one that involves repetition and predictable tasks, such as telemarketing and a customer support specialist. On the other hand, the more resilient jobs are those that require emotional intelligence or creative problem-solving. Some examples of these careers are teachers, writers, and employees with skilled trades like plumbers. Another important aspect to consider is that there will be some jobs where AI is used in conjunction with their regular responsibilities; an example of this is teachers. Teachers may use AI to grade papers, but they still will need to perform their regular tasks, like lecturing and mentoring students. Overall, Lee, Samanta, and Lee (2024) conclude that the rise of AI has a twofold effect: potential job displacement and the creation of new opportunities.</p>
-<p>The double-edged effect appears to be the sentiment for Ito (2025), where she looks into the impact of job postings since OpenAI’s launch in 2022. Ito mentioned that she believed it would take a couple of years to truly see the impact of AI on the job market, but when evaluating in 2025, she found that AI’s revolution may have already begun. To confirm her hypothesis, Ito asked for Revelio Labs, an analytics provider, to see whether they can find jobs where AI has already replaced them. They first began by looking at current job descriptions to see which responsibilities AI could already replace or augment. Ultimately, they found that over the past three years, there was a 19% decline in jobs involving tasks that can be performed by AI. This drop was mainly due to companies hiring fewer roles that AI can handle. They also classified the jobs online into three categories: high exposure roles, low exposure roles, and those in between. Fundamentally, jobs with the highest exposure to AI started to disappear faster from online job postings. According to Revelio Labs, the jobs with the highest exposure are the ones that manage various technical functions like IT specialists, data engineers, and database administrators. On the other hand, the jobs with the lowest exposure are in-person roles like restaurant manager or mechanic. Essentially, there is data showing that AI has already disrupted the job market, but the article also emphasizes the point that its projection is still unknown. Experts cannot determine the sustainability of replacing humans with AI, especially when it comes to the quality of service that is produced.</p>
-<p>From a geographic perspective, McElheran et al.&nbsp;(2024) offers important insight into how AI adoption appears to be concentrated in select cities. This academic journal examines the 2018 Annual Business Survey to not only find out geographically where the highest AI implementation is, but also which firms are leading the charge. The data used for their analysis looks at 850,000 U.S. firms from early AI adoption to now. The journal classifies AI adoption by whether a firm has used at least one AI-related technology, including: machine learning, machine vision, automated guided vehicles, natural language processing, and voice recognition. Their findings showed that San Fransico was ranked as the top adopter of AI especially when it came to larger firms. Other notable cities with a high adoption rate were Nashville, TN; San Antonio, TX; and Tampa, FL. These findings suggest that early adopters of AI are large firms or high-growth startups in regions where there is more AI exposure.</p>
+<p>Artificial intelligence (AI) is a technology that allows computers and machines to mimic human abilities such as learning, understanding, solving problems, making decisions, being creative, and operating independently <span class="citation" data-cites="stryker2024ai">(<a href="#ref-stryker2024ai" role="doc-biblioref">Stryker (2024)</a>)</span>. Over the next several years, generative AI will become the main focus of AI researchers and enthusiasts. Generative AI is a type of technology that can produce original text, images, and videos. With the rising popularity of generative AI, many companies are faced with the question of how to walk the line between technological advancements and ethical responsibility. Advocates of AI claim that when implemented properly, AI can boost productivity, accelerate product development, and improve business decision-making. In 2024, the International Monetary Fund estimated that 40% of jobs around the world will be affected by AI. Tech experts hypothesize that industries and sectors such as cybersecurity, financial services, and manufacturing are likely to be affected <span class="citation" data-cites="expertpanel2021ai">(<a href="#ref-expertpanel2021ai" role="doc-biblioref">Panel (2021)</a>)</span>. On the other hand, some argue that while job displacement is inevitable, AI will also create new jobs. According to Lee, Samanta, and Lee <span class="citation" data-cites="lee2024redefining">Lee, Samanta, and Lee (<a href="#ref-lee2024redefining" role="doc-biblioref">(2024)</a>)</span>, AI will not eliminate jobs but instead will reshape career structures. Even so, there are still job types that can be at risk of being replaced. An example of a high-risk job would be one that involves repetition and predictable tasks, such as telemarketing and a customer support specialist. On the other hand, the more resilient jobs are those that require emotional intelligence or creative problem-solving. Some examples of these careers are teachers, writers, and employees with skilled trades like plumbers. Another important aspect to consider is that there will be some jobs where AI is used in conjunction with their regular responsibilities; an example of this is teachers. Teachers may use AI to grade papers, but they still will need to perform their regular tasks, like lecturing and mentoring students. Overall, Lee, Samanta, and Lee (2024) conclude that the rise of AI has a twofold effect: potential job displacement and the creation of new opportunities.</p>
+<p>The double-edged effect appears to be the sentiment for Ito <span class="citation" data-cites="ito2025ai">Ito (<a href="#ref-ito2025ai" role="doc-biblioref">(2025)</a>)</span>, where she looks into the impact of job postings since OpenAI’s launch in 2022. Ito mentioned that she believed it would take a couple of years to truly see the impact of AI on the job market, but when evaluating in 2025, she found that AI’s revolution may have already begun. To confirm her hypothesis, Ito asked for Revelio Labs, an analytics provider, to see whether they can find jobs where AI has already replaced them. They first began by looking at current job descriptions to see which responsibilities AI could already replace or augment. Ultimately, they found that over the past three years, there was a 19% decline in jobs involving tasks that can be performed by AI. This drop was mainly due to companies hiring fewer roles that AI can handle. They also classified the jobs online into three categories: high exposure roles, low exposure roles, and those in between. Fundamentally, jobs with the highest exposure to AI started to disappear faster from online job postings. According to Revelio Labs, the jobs with the highest exposure are the ones that manage various technical functions like IT specialists, data engineers, and database administrators. On the other hand, the jobs with the lowest exposure are in-person roles like restaurant manager or mechanic. Essentially, there is data showing that AI has already disrupted the job market, but the article also emphasizes the point that its projection is still unknown. Experts cannot determine the sustainability of replacing humans with AI, especially when it comes to the quality of service that is produced.</p>
+<p>From a geographic perspective, McElheran et al. <span class="citation" data-cites="mcelheran2024ai">McElheran et al. (<a href="#ref-mcelheran2024ai" role="doc-biblioref">(2024)</a>)</span> offers important insight into how AI adoption appears to be concentrated in select cities. This academic journal examines the 2018 Annual Business Survey to not only find out geographically where the highest AI implementation is, but also which firms are leading the charge. The data used for their analysis looks at 850,000 U.S. firms from early AI adoption to now. The journal classifies AI adoption by whether a firm has used at least one AI-related technology, including: machine learning, machine vision, automated guided vehicles, natural language processing, and voice recognition. Their findings showed that San Fransico was ranked as the top adopter of AI especially when it came to larger firms. Other notable cities with a high adoption rate were Nashville, TN; San Antonio, TX; and Tampa, FL. These findings suggest that early adopters of AI are large firms or high-growth startups in regions where there is more AI exposure.</p>
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>With this in mind, our research will look at the rising trends within different industries in regards to AI. Specifically, we will compare the differences between careers impacted or related to AI vs careers that may not be as exposed. We will also examine which states have the most upcoming AI-related jobs by looking at the job postings dataset.</p>
+<p>With this in mind, our research will look at the rising trends within the job market, with a particular focus on roles that align with our own career interests. This includes analyst positions, some of which may be influenced by advances in AI. We will also look at what working conditions, more specifically remote versus not remote jobs.</p>
 </section>
-<section id="history" class="level2">
-<h2 class="anchored" data-anchor-id="history">History</h2>
+<section id="references" class="level2">
+
+
 
 
 </section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-ito2025ai" class="csl-entry" role="listitem">
+<span class="smallcaps">Ito, A.</span> (2025): <span>“New Data Confirms It: AI Is Taking Human Jobs,”</span>Business Insider<a href="https://www.businessinsider.com/ai-hiring-white-collar-recession-jobs-tech-new-data-2025-6">https://www.businessinsider.com/ai-hiring-white-collar-recession-jobs-tech-new-data-2025-6</a>.
+</div>
+<div id="ref-lee2024redefining" class="csl-entry" role="listitem">
+<span class="smallcaps">Lee, J. J., A. Samanta, and M. Lee</span>. (2024): <span>“<a href="https://doi.org/10.48009/3_iis_2024_132">Redefining careers in the age of artificial intelligence</a>,”</span> <em>Issues in Information Systems</em>, 25, 428–38.
+</div>
+<div id="ref-mcelheran2024ai" class="csl-entry" role="listitem">
+<span class="smallcaps">McElheran, K., J. F. Li, E. Brynjolfsson, Z. Kroff, E. Dinlersoz, L. Foster, and N. Zolas</span>. (2024): <span>“<a href="https://doi.org/10.1111/jems.12576">AI adoption in america: Who, what, and where</a>,”</span> <em>Journal of Economics &amp; Management Strategy</em>, 33, 375–415.
+</div>
+<div id="ref-expertpanel2021ai" class="csl-entry" role="listitem">
+<span class="smallcaps">Panel, E.</span> (2021): <span>“14 Tech Experts Predict Which Industries and Sectors Will Benefit Most from AI,”</span>Forbes<a href="https://www.forbes.com/councils/forbestechcouncil/2021/01/20/14-tech-experts-predict-which-industries-and-sectors-will-benefit-most-from-ai/">https://www.forbes.com/councils/forbestechcouncil/2021/01/20/14-tech-experts-predict-which-industries-and-sectors-will-benefit-most-from-ai/</a>.
+</div>
+<div id="ref-stryker2024ai" class="csl-entry" role="listitem">
+<span class="smallcaps">Stryker, C.</span> (2024): <span>“What Is Artificial Intelligence (AI)?”</span>IBM<a href="https://www.ibm.com/think/topics/artificial-intelligence">https://www.ibm.com/think/topics/artificial-intelligence</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -232,7 +297,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/arocha0714\.github\.io\/metad688-job-market-analysis-for-summer-2025-group2\/");
+        var filterRegex = new RegExp("\.");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
