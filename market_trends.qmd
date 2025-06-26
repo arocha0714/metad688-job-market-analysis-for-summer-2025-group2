@@ -889,7 +889,7 @@ fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs
 
 ```{python}
 #| echo: false
-#| eval: true
+#| eval: false
 #| output: false
 import pandas as pd
 import plotly.express as px
