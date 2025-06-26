@@ -237,3 +237,13 @@ This will be broken down into 3 of the most common applications with an emphasis
 Excel: Standard formulas are used such as SUMIF and VLOOKUP. There is familarity with pivot charts and conditional formatting.
 Outlook: User has the ability to schedule meetings and establish designated email folders.
 PowerPoint: There is an understanding of presentation structure, as well as formatting and placement of text and visuals.
+
+#### Intermediate
+
+Excel: Power Query, Data Validation tabs, Index formulas, KPI dashboards with slicers.
+Outlook: Creating shared calendars and group inboxes.
+PowerPoint: Linking visuals from other applications, such as Excel.
+
+#### Advanced
+Excel: VBA and macros combined with dynamic visuals.
+PowerPoint: Creating custom templates to align with a company's brand.
