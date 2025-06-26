@@ -1,130 +1,8 @@
 ---
-title: Market Trends
-format:
-    html:
-        code-fold: true
-        toc: true
-        toc-depth: 2
-exeucte:
-    eval: false
-    echo: true
-    freeze: auto
+jupyter: python3
 ---
 
-# Introduction
-
-Our group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word "analyst" and categorized them by state. The results of this are shown below.
-
-<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0 40px 0;">
-Analyst Job Distribution Across the United States
-</div>
-
 ```{python}
-#| eval: false
-#| echo: false
-#| warning: false
-#| fig-cap: "Analyst Job Distribution Across the United States"
-#| fig-align: center
-#| label: fig-analyst-distribution
-import pandas as pd
-import plotly.express as px
-import plotly.io as pio
-import plotly.graph_objects as go
-
-# Configure plotly for CI environments - use notebook renderer
-pio.renderers.default = "notebook"
-pio.templates.default = "plotly_white"
-
-# Additional configuration for Quarto
-import plotly.offline as pyo
-pyo.init_notebook_mode(connected=True)
-
-# Load the data
-df = pd.read_csv("./data/lightcast_job_postings.csv")
-
-# Create nationwide data - filter for analyst jobs
-all_states_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
-
-# Group by all states and count jobs
-all_state_counts = all_states_df.groupby('STATE_NAME').size().reset_index(name='job_count')
-all_state_counts_sorted = all_state_counts.sort_values(by='job_count', ascending=False)
-
-# Comprehensive state abbreviation mapping
-state_abbrev_map = {
-    'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA',
-    'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE', 'Florida': 'FL', 'Georgia': 'GA',
-    'Hawaii': 'HI', 'Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA',
-    'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
-    'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS', 'Missouri': 'MO',
-    'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ',
-    'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH',
-    'Oklahoma': 'OK', 'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
-    'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT', 'Vermont': 'VT',
-    'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY',
-    'District of Columbia': 'DC'
-}
-
-# Add state abbreviations to the data
-all_state_counts_sorted['state_abbrev'] = all_state_counts_sorted['STATE_NAME'].map(state_abbrev_map)
-
-# Filter out any states that couldn't be mapped (in case of data issues)
-mapped_states = all_state_counts_sorted.dropna(subset=['state_abbrev'])
-
-# Create a choropleth map showing job counts for all states
-fig = px.choropleth(
-    mapped_states,
-    locations='state_abbrev',
-    color='job_count',
-    locationmode='USA-states',
-    color_continuous_scale=[[0, '#f0f9f9'], [0.2, '#cceeee'], [0.4, '#7dd3c0'], [0.6, '#42b883'], [0.8, '#2c8577'], [1, '#1a5d56']],
-    labels={'job_count': 'Number of Jobs', 'STATE_NAME': 'State'},
-    hover_name='STATE_NAME',
-    hover_data={'state_abbrev': False, 'job_count': True},
-    range_color=[0, mapped_states['job_count'].max()]
-)
-
-# Update layout with no title to maximize map space
-fig.update_layout(
-    geo_scope='usa',
-    width=750,
-    height=400,
-    margin=dict(t=0, b=0, l=0, r=0),
-    geo=dict(
-        projection_type='albers usa',
-        showlakes=True,
-        domain=dict(x=[0, 0.95], y=[0, 1]),
-        lakecolor='rgb(255, 255, 255)',
-        bgcolor='rgba(0,0,0,0)'
-    ),
-    coloraxis_colorbar=dict(
-        len=0.9,  # Make colorbar same height as the plot
-        thickness=20,  # Width of the colorbar
-        x=0.96,  # Position from left edge
-        y=0.5,   # Center vertically
-        yanchor='middle'
-    )
-)
-
-# Show the interactive map
-fig.write_html("./figures/analyst_job_distribution.html", include_plotlyjs='cdn')
-```
-
-```{=html}
-<iframe width="1000" height="700" src="./figures/analyst_job_distribution.html" title="Analyst Distribution"></iframe>
-```
-
-According to the visual above, Texas and California are the two clear leaders in the total amount of jobs being offered that contain the word "analyst" in the title. Additionally, eastern states show a considerably greater amount of these jobs compared to western states.
-
-
-
-<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
-Analyst Job Distribution Across Cities in the United States
-</div>
-
-```{python}
-#| eval: false
-#| echo: false
-#| warning: false
 
 import findspark
 findspark.init()
@@ -151,10 +29,6 @@ df.show(5)
 ```
 
 ```{python}
-#| eval: false
-#| echo: false
-#| warning: false
-
 # clean the data
 
 from pyspark.ml.feature import StringIndexer, OneHotEncoder, VectorAssembler
@@ -179,18 +53,12 @@ df_clean.show(5)
 ```
 
 ```{python}
-#| eval: false
-#| echo: false
-#| warning: false
 titles = df_clean.select("TITLE_NAME").distinct().rdd.flatMap(lambda x: x).collect()
 for title in titles:
     print(title)
 ```
 
 ```{python}
-#| eval: false
-#| echo: false
-#| warning: false
 
 #gave chatgpt the list and told it to split into ai impacted and not
 ai_impacted_jobs = [
@@ -763,9 +631,6 @@ ai_impacted_jobs = [
 ```
 
 ```{python}
-#| eval: false
-#| echo: false
-#| warning: false
 from pyspark.sql.functions import when, col, lit, avg, count
 
 df_final = df_clean.withColumn(
@@ -787,15 +652,9 @@ df_final.select("count").distinct().show()
 ```
 
 ```{python}
-#| echo: false
-#| eval: false
-#| warning: false
-#| fig-cap: "Analyst Job Distribution Across Cities in the United States"
-#| fig-align: center
-
 df_final_pd = df_final.toPandas()
 
-fig_plot = px.scatter(
+fig = px.scatter(
     df_final_pd,  
     x="STATE_NAME",                       
     y="avg_salary",                 
@@ -810,7 +669,7 @@ fig_plot = px.scatter(
 
 )
 
-fig_plot.update_layout(
+fig.update_layout(
     legend_title_text="AI Impacted",
     xaxis_title="State",
     yaxis_title="Average Salary",
@@ -818,143 +677,6 @@ fig_plot.update_layout(
     yaxis=dict(categoryorder='category descending')
 )
 
-fig_plot.show()
-fig_plot.write_html("./figures/Avg_salary.html", include_plotlyjs='cdn')
+fig.show()
 ```
 
-```{=html}
-<iframe width="1000" height="700" src="./figures/Avg_salary.html" "></iframe>
-```
-
-```{python}
-#| echo: false
-#| eval: false
-#| warning: false
-#| fig-cap: "Analyst Job Distribution Across Cities in the United States"
-#| fig-align: center
-#| label: fig-job-distribution-cities
-
-# Filter for analyst jobs from all states (not just the selected 5)
-all_states_analyst_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
-
-# Group by CITY_NAME and count jobs for analysts
-city_counts_jobs = all_states_analyst_df.groupby('CITY_NAME').size().reset_index(name='job_count')
-
-# Sort city_counts_jobs from greatest to least by job_count and get top 10
-city_counts_jobs_sorted = city_counts_jobs.sort_values(by='job_count', ascending=False).head(10)
-
-# Create discrete colors for each bar
-colors = ['#1a5d56', '#2c8577', '#42b883', '#42b883', '#7dd3c0', '#7dd3c0', '#a8e6cf', '#cceeee', '#f0f9f9', '#f0f9f9']
-
-# Create bar chart using plotly with discrete colors
-fig_cities = go.Figure(data=[
-    go.Bar(
-        x=city_counts_jobs_sorted['CITY_NAME'],
-        y=city_counts_jobs_sorted['job_count'],
-        text=city_counts_jobs_sorted['job_count'],
-        textposition='outside',
-        marker_color=colors[:len(city_counts_jobs_sorted)]
-    )
-])
-
-# Update layout and styling
-fig_cities.update_layout(
-    title='',
-    xaxis_title='City',
-    yaxis_title='Number of Jobs',
-    width=750,
-    height=400,
-    margin=dict(t=20, b=80, l=50, r=50),
-    showlegend=False,
-    xaxis=dict(tickangle=45),
-    template='plotly_white'
-)
-
-# Show the interactive chart
-fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs='cdn')
-```
-
-```{=html}
-<iframe width="1000" height="700" src="./figures/job_distribution_cities.html" title="Analyst Distribution"></iframe>
-```
-
-
-```{python}
-#| echo: false
-#| eval: true
-#| output: false
-import pandas as pd
-import plotly.express as px
-
-# Load the data
-df = pd.read_csv("./data/lightcast_job_postings.csv")
-
-analyst_df = df[df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
-analyst_salary_df = analyst_df[analyst_df['SALARY'].notna()]
-
-print(f"Total analyst jobs: {len(analyst_df)}")
-print(f"Analyst jobs with salary data: {len(analyst_salary_df)}")
-
-# Group by state and calculate metrics
-bubble_data = analyst_salary_df.groupby('STATE_NAME').agg({
-    'SALARY': 'mean',  # Average salary for bubble size
-    'STATE_NAME': 'count'  # Count of jobs for y-axis
-}).rename(columns={'STATE_NAME': 'job_count'})
-
-bubble_data = bubble_data.reset_index()
-
-print(f"\nStates with analyst salary data: {len(bubble_data)}")
-print("\nTop 10 states by job count:")
-print(bubble_data.sort_values('job_count', ascending=False).head(10))
-
-# Filter to top 10 states by job count
-top_10_states = bubble_data.sort_values('job_count', ascending=False).head(10)
-
-# Create the bubble chart
-fig = px.scatter(
-    top_10_states,
-    x='STATE_NAME',
-    y='job_count',
-    size='SALARY',
-    color='SALARY',
-    hover_name='STATE_NAME',
-    hover_data={
-        'SALARY': ':,.0f',
-        'job_count': True,
-        'STATE_NAME': False
-    },
-    labels={
-        'SALARY': 'Average Salary ($)',
-        'STATE_NAME': 'State',
-        'job_count': 'Number of Jobs (Excludes Null Salaries)'
-    },
-    title='Top 10 States for Analyst Jobs (Bubble Size = Salary)',
-    color_continuous_scale='Greens'
-)
-
-# Customize the layout
-fig.update_layout(
-    width=950,
-    height=650,
-    xaxis_tickangle=-45,
-    showlegend=True,
-    margin=dict(t=60, b=80, l=50, r=50)
-)
-
-# Update traces for better bubble appearance
-fig.update_traces(
-    marker=dict(
-        sizemode='diameter',
-        sizeref=max(top_10_states['SALARY'])/50,
-        sizemin=8,
-        line=dict(width=1, color='white')
-    )
-)
-
-fig_salaries = fig
-fig_salaries.write_html("./figures/salary_distribution_states.html", include_plotlyjs='cdn')
-```
-
-```{=html}
-<iframe width="1000" height="700" src="./figures/salary_distribution_states.html" title="Analyst Distribution (with Salaries)"></iframe>
-```
