@@ -116,11 +116,6 @@ fig.write_html("./figures/analyst_job_distribution.html", include_plotlyjs='cdn'
 According to the visual above, Texas and California are the two clear leaders in the total amount of jobs being offered that contain the word "analyst" in the title. Additionally, eastern states show a considerably greater amount of these jobs compared to western states.
 
 
-
-<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
-Analyst Job Distribution Across Cities in the United States
-</div>
-
 ```{python}
 #| eval: false
 #| echo: false
@@ -784,6 +779,8 @@ count = df_final.groupBy("state_name").agg(count("*").alias("count"))
 df_final = df_final.join(count, on="state_name", how="left")
 
 df_final.select("count").distinct().show()
+
+df_final_pd = df_final.toPandas()
 ```
 
 ```{python}
@@ -793,7 +790,7 @@ df_final.select("count").distinct().show()
 #| fig-cap: "Analyst Job Distribution Across Cities in the United States"
 #| fig-align: center
 
-df_final_pd = df_final.toPandas()
+
 
 fig_plot = px.scatter(
     df_final_pd,  
@@ -825,6 +822,10 @@ fig_plot.write_html("./figures/Avg_salary.html", include_plotlyjs='cdn')
 ```{=html}
 <iframe width="1000" height="700" src="./figures/Avg_salary.html" "></iframe>
 ```
+
+<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
+Analyst Job Distribution Across Cities in the United States
+</div>
 
 ```{python}
 #| echo: false
