@@ -969,9 +969,47 @@ fig_salaries.write_html("./figures/salary_distribution_states.html", include_plo
 ```
 
 
+
+# Remote VS Onsite job 
+
+## Remote Job Distribution by General Industry
+```{=html}
+<iframe width="1000" height="700" src="./figures/top_industries.html" title="Remote Job Distribution by Industry(Top 10 Industries)"></iframe>
+```
+In terms of the Remote Job Distribution by general industry, the top 3 industries are Real Estate and Rental and Leasing, Information, Finance and Insurance. As we can see even the traditional industries such as manufacturing, educational services starte to have higher remote job proportion, which means the remote work nowadays has already became a widespread jobs or requirements across multiple industries.
+
+###Top Industries: Remote job Trends Over time
+
+```{=html}
+<iframe width="1000" height="700" src="./figures/remote_job_over_time.html" title="Remote Job increase over time(Top 5 Industries)"></iframe>
+```
+Take a dive into the Top industries over time with specific industries, in general, this plot displays monthly trends in job postings for from May 2024 to September 2024. As we can see in here, the remote job ratio was represented by the y-axis, which is the proportion of job postings marked as remote out of total postings in each industry per month. Higher remote ratio, represents their have more remote job opportunities open in each industry.
+
+Indeed, we can see the general trend in this plot as the remote job among different industries, which reaches the peak in Auguest 2024 and 
+
+
+
 ![Remote jobs Administrative and Support and Waste Management and Remediation Services](./figures/Remote_jobs_Administrative and Support and Waste Management and Remediation Services.jpg){width=90% fig-align="center"}
 
 
+
+
+
+![Remote jobs Finance and Insurance](./figures/Remote_jobs_Finance and Insurance.jpg){width=90% fig-align="center"}
+
+
+
+
+
+![Remote jobs Real Estate and Rental and Leasing](./figures/Remote_jobs_Real Estate and Rental and Leasing.jpg){width=90% fig-align="center"}
+
+
+
+
+
+
 ```{=html}
-<iframe width="1000" height="700" src="./figures/top_industries.html" title="Analyst Distribution (with Salaries)"></iframe>
+<iframe width="1000" height="700" src="./figures/state_remote_job_ratio.html" title="Remote state job ratio with average"></iframe>
 ```
+
+
