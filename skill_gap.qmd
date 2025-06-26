@@ -177,3 +177,26 @@ Next, we will incorporate real-world data sets (ex. Kaggle) to begin creating an
 #### Advanced 
 
 At this stage, we will aim for constructing pipelines that are sufficient from beginning to end and that integrate a prouction quality result. As a final step, DataLemur provides candidates with interview questions that correspond to SQL and have been confirmed by various companies such as Amazon, Google, etc.
+
+
+### OneStream
+
+It is important to note that this is a private software application so receiving quality training will be difficult without being sponsored by a company.
+
+#### Beginner 
+
+Youtube is the best resource for beginning to familiarize yourself with the main functionality and goals of the software. The company does have their own channel, so it would be advised to watch their videos and learn more about what the application does and how it works.
+
+
+#### Intermediate 
+
+Consider purchasing an online course through Udemy or Keyteach. While this does require personal spending, it would be the easiest way to gain an understanding without requiring an official license to operate the software. This would help to practice working with the application and exploring key concepts.
+
+#### Advanced
+
+This stage would be difficult, because you would need access to the software in order to achieve an advanced level. If you are employed (especially in the financial services industry) consider asking IT for access. There you can work more on complicated structures such as macros and visualization.
+
+
+### AWS
+
+#### Beginner
