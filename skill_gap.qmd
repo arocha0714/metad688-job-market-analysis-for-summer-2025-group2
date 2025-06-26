@@ -99,7 +99,7 @@ df_skills
 #| eval: false
 #| echo: false
 #| warning: false
-#| fig-cap: "Analyst Job Distribution Across the United States"
+#| fig-cap: "Skillset Analysis"
 #| fig-align: center
 #| label: fig-analyst-distribution
 

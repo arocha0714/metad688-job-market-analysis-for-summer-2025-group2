@@ -783,14 +783,16 @@ df_final.select("count").distinct().show()
 df_final_pd = df_final.toPandas()
 ```
 
+
+
+
 ```{python}
 #| echo: false
 #| eval: false
 #| warning: false
-#| fig-cap: "Analyst Job Distribution Across Cities in the United States"
 #| fig-align: center
 
-
+import plotly.express as px
 
 fig_plot = px.scatter(
     df_final_pd,  
@@ -815,13 +817,15 @@ fig_plot.update_layout(
     yaxis=dict(categoryorder='category descending')
 )
 
-fig_plot.show()
+
+
 fig_plot.write_html("./figures/Avg_salary.html", include_plotlyjs='cdn')
 ```
 
 ```{=html}
-<iframe width="1000" height="700" src="./figures/Avg_salary.html" "></iframe>
+<iframe width="1000" height="700" src="./figures/Avg_salary.html" title="AI vs Non-AI"></iframe>
 ```
+
 
 <div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
 Analyst Job Distribution Across Cities in the United States
@@ -878,6 +882,9 @@ fig_cities.write_html("./figures/job_distribution_cities.html", include_plotlyjs
 ```{=html}
 <iframe width="1000" height="700" src="./figures/job_distribution_cities.html" title="Analyst Distribution"></iframe>
 ```
+
+
+
 
 
 ```{python}
