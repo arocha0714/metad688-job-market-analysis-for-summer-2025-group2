@@ -1,5 +1,14 @@
 ---
+title: "Ai Vs Non AI Jobs"
+
+format:
+    html:
+        code-fold: true
+
 jupyter: python3
+execute:
+    echo: true
+    eval: false
 ---
 
 ```{python}
