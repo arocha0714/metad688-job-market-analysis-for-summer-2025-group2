@@ -776,3 +776,10 @@ for industry in selected_industries:
 
 ```
 
+### Random Forest results 
+
+![Random Forest results](./figures/classification_report.png){width=90% fig-align="center"}
+
+![Confustion Matrix](./figures/Confusion_matrix.png){width=90% fig-align="center"}
+
+![Featured importance](./figures/Featured_imporatnce.png){width=90% fig-align="center"}
