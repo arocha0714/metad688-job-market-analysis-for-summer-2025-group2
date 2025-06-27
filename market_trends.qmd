@@ -825,7 +825,7 @@ fig_plot.write_html("./figures/Avg_salary.html", include_plotlyjs='cdn')
 ```{=html}
 <iframe width="1000" height="700" src="./figures/Avg_salary.html" title="AI vs Non-AI"></iframe>
 ```
-As shown above, the range of salaries and AI impact can vary greatly by an individual state.
+The chart above shows
 
 
 <div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
