@@ -1,14 +1,22 @@
 ---
-title: Geographic Analysis
-jupyter: python3
+title: Market Trends
+format:
+    html:
+        code-fold: true
+        toc: true
+        toc-depth: 2
+exeucte:
+    eval: false
+    echo: true
+    freeze: auto
 ---
 
-# Introduction
 
-
-
+## Data Cleaning
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 
 import findspark
 findspark.init()
@@ -37,6 +45,8 @@ df.show(5)
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 ## Listing Columns So We Can Reference them in Visuals
 
 import pandas as pd
@@ -45,6 +55,8 @@ print(df.columns.tolist())
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 import pandas as pd
 
 df = pd.read_csv("./data/lightcast_job_postings.csv")
@@ -59,14 +71,19 @@ df.drop(columns=columns_to_drop, inplace=True)
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 print(df.columns.tolist())
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 !pip install missingno
 ```
 
 ```{python}
+#| echo: false
 import missingno as msno
 import matplotlib.pyplot as plt
 # Visualize missing values
@@ -84,20 +101,28 @@ if 'Industry' in df.columns:
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 df = df.drop_duplicates(subset=["TITLE", "COMPANY", "LOCATION", "POSTED"], keep="first")
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 df = df[df['NAICS_2022_2_NAME'] != 'Unclassified Industry']
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].replace('[None]', 'Not Remote')
 
 
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 import pandas as pd
 import plotly.express as px
 
@@ -175,6 +200,9 @@ fig.show()
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
+
 import pandas as pd
 from IPython.display import display
 # 1. Load the dataset and parse dates
@@ -186,12 +214,16 @@ df['POSTED_MONTH'] = df['POSTED'].dt.to_period("M")
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 # Define AI and non-AI impacted NAICS codes
 ai_impacted_naics = [31, 32, 33, 42, 44, 45, 51, 52, 54, 55, 56]
 non_ai_impacted_naics = [11, 21, 22, 23, 48, 49, 61, 62, 71, 72]
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 # Create IS_AI_JOB flag
 df['IS_AI_JOB'] = df['NAICS_2022_2'].apply(lambda x: 1 if pd.notna(x) and x in ai_impacted_naics else 0)
 
@@ -207,6 +239,8 @@ job_counts = (
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 # Pivot to put months as rows, states as columns
 pivot_df = job_counts.pivot_table(index=['STATE_NAME', 'IS_AI_JOB'], 
                                    columns='POSTED_MONTH', 
@@ -225,6 +259,8 @@ pivot_df['2024-06'].reset_index(drop=True)
 ```
 
 ```{python}
+
+#| echo: false
 # Calculate % growth from first to last month
 
 # pivot_df["PCT_7"]=(pivot_df['2024-07']-pivot_df['2024-06'])*100/pivot_df['2024-06']
@@ -236,6 +272,8 @@ pivot_df.head()
 ```
 
 ```{python}
+#| results: 'hide'
+#| echo: false
 
 # Drop rows with undefined % growth (divide by zero)
 pivot_df = pivot_df.dropna(subset=['PCT_CHANGE'])
@@ -245,6 +283,8 @@ pivot_df = pivot_df.reset_index()
 ```
 
 ```{python}
+
+#| echo: false
 # Get top 10 states by % growth
 top_ai = pivot_df[pivot_df['IS_AI_JOB'] == 1].sort_values('PCT_CHANGE', ascending=False).head(10)
 top_non_ai = pivot_df[pivot_df['IS_AI_JOB'] == 0].sort_values('PCT_CHANGE', ascending=False).head(10)
@@ -259,206 +299,9 @@ top_combined = pd.concat([
 display(top_combined[['STATE_NAME', 'IS_AI_JOB', 'PCT_CHANGE', 'JOB_TYPE']])
 ```
 
-```{python}
-def label_ai_impact(naics):
-    try:
-        code = int(naics)
-        if code in ai_impacted_naics:
-            return "AI-Impacted"
-        elif code in non_ai_impacted_naics:
-            return "Non-AI-Impacted"
-        else:
-            return "Unclassified"
-    except:
-        return "Unclassified"
-```
 
-```{python}
-df['AI_IMPACTED'] = df['NAICS_2022_2'].apply(label_ai_impact)
-# Filter only AI and Non-AI impacted
-df = df[df["AI_IMPACTED"].isin(["AI-Impacted", "Non-AI-Impacted"])]
 
-# Now split the data
-ai_df = df[df["AI_IMPACTED"] == "AI-Impacted"][
-    ["STATE_NAME", "NAICS_2022_2", "NAICS_2022_2_NAME", "LOT_SPECIALIZED_OCCUPATION_NAME"]
-]
-
-non_ai_df = df[df["AI_IMPACTED"] == "Non-AI-Impacted"][
-    ["STATE_NAME", "NAICS_2022_2", "NAICS_2022_2_NAME", "LOT_SPECIALIZED_OCCUPATION_NAME"]
-]
-```
-
-```{python}
-from IPython.display import display
-
-print("AI-Impacted Industries:")
-display(ai_df)
-
-print("\nNon-AI-Impacted Industries:")
-display(non_ai_df)
-```
-
-```{python}
-# Step 1: Count total jobs by state
-total_jobs_by_state = df.groupby('STATE_NAME').size().rename('Total_Jobs')
-```
-
-```{python}
-# Step 2: Count AI-impacted jobs by state
-ai_jobs_by_state = df[df['AI_IMPACTED'] == 'AI-Impacted'].groupby('STATE_NAME').size().rename('AI_Impacted_Jobs')
-# Step 3: Merge the two counts into a single DataFrame
-ai_impact_summary = pd.concat([total_jobs_by_state, ai_jobs_by_state], axis=1).fillna(0)
-```
-
-```{python}
-# Step 1: Clean and convert date columns
-df = df[df['NAICS_2022_2_NAME'] != 'Unclassified Industry']
-df['POSTED'] = pd.to_datetime(df['POSTED'], errors='coerce')
-df['EXPIRED'] = pd.to_datetime(df['EXPIRED'], errors='coerce')
-
-# Drop rows with missing POSTED or EXPIRED dates
-df = df.dropna(subset=['POSTED', 'EXPIRED'])
-```
-
-```{python}
-import plotly.express as px
-
-# Count postings per industry
-industry_counts = df['NAICS2_NAME'].value_counts().reset_index()
-industry_counts.columns = ['NAICS2_NAME', 'count']
-
-# Sort values for better readability
-industry_counts = industry_counts.sort_values(by='count', ascending=True)
-
-# Horizontal bar plot
-fig = px.bar(
-    industry_counts,
-    x='count',
-    y='NAICS2_NAME',
-    orientation='h',
-    title='Job Postings by Industry',
-    labels={'NAICS2_NAME': 'Industry', 'count': 'Number of Postings'},
-    color='count',
-    color_continuous_scale='Blues'
-)
-
-# Clean layout
-fig.update_layout(
-    yaxis_title='Industry',
-    xaxis_title='Number of Postings',
-    title_font_size=20,
-    plot_bgcolor='white',
-    xaxis=dict(showgrid=True),
-    yaxis=dict(showgrid=False)
-)
-
-fig.show()
-```
-
-```{python}
-# import plotly.express as px
-
-# # AI job growth plot
-# fig_ai = px.bar(
-#     top_ai,
-#     x='STATE_NAME',
-#     y='Avg_AI_Job_Growth',
-#     title='Top 10 States by Average AI Job Growth',
-#     labels={'STATE_NAME': 'State', 'Avg_AI_Job_Growth': 'Avg % AI Job Growth'},
-#     text='Avg_AI_Job_Growth'
-# )
-# fig_ai.update_traces(texttemplate='%{text:.2f}%', textposition='outside')
-# fig_ai.update_layout(yaxis_title='Average % Growth', xaxis_title='State')
-# fig_ai.show()
-
-# # Non-AI job growth plot
-# fig_non_ai = px.bar(
-#     top_non_ai,
-#     x='STATE_NAME',
-#     y='Avg_Non_AI_Job_Growth',
-#     title='Top 10 States by Average Non-AI Job Growth',
-#     labels={'STATE_NAME': 'State', 'Avg_Non_AI_Job_Growth': 'Avg % Non-AI Job Growth'},
-#     text='Avg_Non_AI_Job_Growth'
-# )
-# fig_non_ai.update_traces(texttemplate='%{text:.2f}%', textposition='outside')
-# fig_non_ai.update_layout(yaxis_title='Average % Growth', xaxis_title='State')
-# fig_non_ai.show()
-
-```
-
-```{python}
-df['AVERAGE_SALARY'] = df[['SALARY_FROM', 'SALARY_TO']].mean(axis=1)
-```
-
-```{python}
-avg_salary_by_state_type = (
-    df.groupby(['STATE_NAME', 'AI_IMPACTED'])['AVERAGE_SALARY']
-    .mean()
-    .reset_index()
-)
-
-```
-
-```{python}
-# import numpy as np
-
-# # Step 1: Replace infinite values (result of division by zero) with NaN
-# pivoted.replace([np.inf, -np.inf], np.nan, inplace=True)
-
-# # Step 2: Drop rows with missing percentage growth values
-# pivoted.dropna(subset=['AI_Growth_Pct', 'Non_AI_Growth_Pct'], inplace=True)
-
-# # Step 3: Group by state and calculate average percent growth
-# avg_growth = pivoted.groupby('STATE_NAME')[['AI_Growth_Pct', 'Non_AI_Growth_Pct']].mean().reset_index()
-
-# # Step 4: Sort states by AI and Non-AI growth
-# ranked = avg_growth.sort_values(by=['AI_Growth_Pct', 'Non_AI_Growth_Pct'], ascending=False)
-
-# # Step 5: Display top states for AI and Non-AI job growth
-# from IPython.display import display
-# print("Top states by AI job growth:")
-# display(ranked[['STATE_NAME', 'AI_Growth_Pct']].head(10))
-
-# print("\nTop states by Non-AI job growth:")
-# display(ranked[['STATE_NAME', 'Non_AI_Growth_Pct']].sort_values(by='Non_AI_Growth_Pct', ascending=False).head(10))
-```
-
-```{python}
-# import seaborn as sns
-# import matplotlib.pyplot as plt
-
-# # Step 9: Visualize
-# plt.figure(figsize=(14, 6))
-# avg_growth[['AI_Growth', 'Non_AI_Growth']].head(10).plot(kind='bar')
-# plt.title('Average Monthly Job Growth (Top 10 States) for AI vs. Non-AI Careers')
-# plt.ylabel('Average Monthly Job Growth')
-# plt.xticks(rotation=45)
-# plt.tight_layout()
-# plt.grid(True)
-# plt.show()
-```
-
-```{python}
-# Filter for Boston, MA and Austin, TX
-selected_state = ['California', 'Florida', 'Massachusetts', 'Texas', 'New York']
-filtered_df = df[df['STATE_NAME'].isin(selected_state)]
-
-# Further filter for NAICS_2022_6 = 518210 and show relevant columns
-final_df = filtered_df[filtered_df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
-final_df[['STATE_NAME', 'NAICS2_NAME', 'NAICS_2022_6', 'LOT_SPECIALIZED_OCCUPATION_NAME']].head(100)
-```
-
-```{python}
-# Filter for Boston, MA and Austin, TX
-selected_state = ['California', 'Florida', 'Massachusetts', 'Texas', 'New York']
-filtered_df = df[df['STATE_NAME'].isin(selected_state)]
-```
-
-```{python}
-# Further filter for NAICS_2022_6 = 518210 and show relevant columns
-final_df = filtered_df[filtered_df['LOT_SPECIALIZED_OCCUPATION_NAME'].str.contains('analyst', case=False, na=False)]
-final_df[['STATE_NAME', 'NAICS2_NAME', 'NAICS_2022_6', 'LOT_SPECIALIZED_OCCUPATION_NAME']].head(100)
-```
+## Random Forest Classification
 
 ```{python}
 import pandas as pd
