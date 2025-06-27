@@ -12,8 +12,6 @@ exeucte:
 ---
 
 
-## Data Cleaning
-
 ```{python}
 #| eval: false
 #| echo: false
@@ -220,120 +218,6 @@ fig.show()
 
 
 ```
-
-```{python}
-#| echo: false
-#| results: hide
-#| warning: false
-
-import pandas as pd
-from IPython.display import display
-# 1. Load the dataset and parse dates
-df = pd.read_csv("./data/lightcast_job_postings.csv", parse_dates=["POSTED", "EXPIRED"])
-# Calculate DURATION in days
-df['DURATION'] = (df['EXPIRED'] - df['POSTED']).dt.days
-# Extract POSTED month
-df['POSTED_MONTH'] = df['POSTED'].dt.to_period("M")
-```
-
-```{python}
-#| echo: false
-#| results: hide
-#| warning: false
-
-# Define AI and non-AI impacted NAICS codes
-ai_impacted_naics = [31, 32, 33, 42, 44, 45, 51, 52, 54, 55, 56]
-non_ai_impacted_naics = [11, 21, 22, 23, 48, 49, 61, 62, 71, 72]
-```
-
-```{python}
-#| echo: false
-#| results: hide
-#| warning: false
-
-# Create IS_AI_JOB flag
-df['IS_AI_JOB'] = df['NAICS_2022_2'].apply(lambda x: 1 if pd.notna(x) and x in ai_impacted_naics else 0)
-
-# Remove rows with missing STATE_NAME or POSTED_MONTH
-df = df[df['STATE_NAME'].notna() & df['POSTED_MONTH'].notna()]
-
-# Group by POSTED_MONTH, STATE_NAME, IS_AI_JOB to count jobs
-job_counts = (
-    df.groupby(['POSTED_MONTH', 'STATE_NAME', 'IS_AI_JOB'])
-      .size()
-      .reset_index(name='JOB_COUNT')
-)
-```
-
-```{python}
-#| eval: false
-#| echo: false
-#| warning: false
-# Pivot to put months as rows, states as columns
-pivot_df = job_counts.pivot_table(index=['STATE_NAME', 'IS_AI_JOB'], 
-                                   columns='POSTED_MONTH', 
-                                   values='JOB_COUNT', 
-                                   fill_value=0)
-
-# print(pivot_df.columns)
-# print(pivot_df.columns[-1])
-# pivot_df.rename(columns={'2024-05': 'May', 
-# '2024-06': 'June',
-# '2024-07': 'July',
-# '2024-08': 'August',
-# '2024-09': 'September'
-# },inplace=True)
-pivot_df['2024-06'].reset_index(drop=True)
-```
-
-```{python}
-
-#| eval: false
-#| echo: false
-#| warning: false
-# Calculate % growth from first to last month
-
-# pivot_df["PCT_7"]=(pivot_df['2024-07']-pivot_df['2024-06'])*100/pivot_df['2024-06']
-# pivot_df["PCT_8"]=(pivot_df['2024-08']-pivot_df['2024-07'])*100/pivot_df['2024-07']
-# pivot_df["PCT_9"]=(pivot_df['2024-09']-pivot_df['2024-08'])*100/pivot_df['2024-08']
-pivot_df["PCT_CHANGE"]=(pivot_df['2024-09']-pivot_df['2024-05'])*100/pivot_df['2024-05']
-
-pivot_df.head()
-```
-
-```{python}
-#| eval: false
-#| echo: false
-#| warning: false
-# Drop rows with undefined % growth (divide by zero)
-pivot_df = pivot_df.dropna(subset=['PCT_CHANGE'])
-
-# Reset index for sorting
-pivot_df = pivot_df.reset_index()
-```
-
-```{python}
-
-#| eval: false
-#| echo: false
-#| warning: false
-# Get top 10 states by % growth
-top_ai = pivot_df[pivot_df['IS_AI_JOB'] == 1].sort_values('PCT_CHANGE', ascending=False).head(10)
-top_non_ai = pivot_df[pivot_df['IS_AI_JOB'] == 0].sort_values('PCT_CHANGE', ascending=False).head(10)
-
-# Combine and label
-top_combined = pd.concat([
-    top_ai.assign(JOB_TYPE='AI'),
-    top_non_ai.assign(JOB_TYPE='Non-AI')
-])
-
-# Display 
-display(top_combined[['STATE_NAME', 'IS_AI_JOB', 'PCT_CHANGE', 'JOB_TYPE']])
-```
-
-
-
-## Random Forest Classification
 
 ```{python}
 #| eval: false
@@ -919,3 +803,17 @@ One major limitation is class imbalance. Remote jobs (class 1) are the minority,
 #### Featured Importance
 ![Featured importance](./figures/Featured_importance.png){width=90% fig-align="center"}
 Based on the above plot, we can see the top 9 features could be essential in predicting the peoples'prefrences on remote or onsite jobs, we can see the top three essential features are average remote salary by state, Average years of experience and location state-California. These three features can be easily interpreted as the job's salary, job's requirement for year experiences and location are vital elements that impact people's decision on onsite or remote job types, peple prioritize jobs with high salary and better geographic location
+
+
+```{python}
+#| eval: false
+#| echo: false
+#| warning: false
+
+import os
+
+file_path = './data/lightcast_job_postings.csv'
+if not os.path.exists(file_path):
+    raise FileNotFoundError(f"Missing file: {file_path}")
+
+```

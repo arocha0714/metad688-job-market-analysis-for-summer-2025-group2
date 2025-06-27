@@ -123,15 +123,8 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul class="collapse">
-  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link active" data-scroll-target="#data-cleaning">Data Cleaning</a></li>
-  <li><a href="#random-forest-classification" id="toc-random-forest-classification" class="nav-link" data-scroll-target="#random-forest-classification">Random Forest Classification</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -155,26 +148,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="data-cleaning" class="level2">
-<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
-</section>
-<section id="random-forest-classification" class="level2">
-<h2 class="anchored" data-anchor-id="random-forest-classification">Random Forest Classification</h2>
 <section id="random-forest-results" class="level3">
 <h3 class="anchored" data-anchor-id="random-forest-results">Random Forest results</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./figures/classification_report.png" class="img-fluid figure-img" style="width:90.0%"></p>
-<figcaption>Random Forest results</figcaption>
-</figure>
-</div>
-<p><img src="./figures/Confusion_matrix.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Confustion Matrix"> As</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./figures/Featured_importance.png" class="img-fluid figure-img" style="width:90.0%"></p>
-<figcaption>Featured importance</figcaption>
-</figure>
-</div>
+<p><img src="./figures/classification_report.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Random Forest results"> <img src="./figures/Confusion_matrix.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Confustion Matrix"> As the two plots displayed a clear results for random forest results, our group has set our target variable for predict people’s preferences on Remote versus Onsite job, where 1 represents a remote job and 0 represents onsite. We also had a set of independent variables, including as: ‘AVG_YEARS_EXPERIENCE’, ‘AVERAGE_SALARY_STATE_REMOTE_AVG’, ‘IS_INTERNSHIP’, ‘STATE_NAME’, ‘NAICS_2022_2_NAME’(industry) ‘EDUCATION_LEVELS_NAME’, ‘COMMON_SKILLS_NAME’, ‘SOFTWARE_SKILLS_NAME’, ‘TITLE_CLEAN’ (occupation). Meanwhile, we split the data into training and testing sets using an 80/20 ratio to ensure generalizability, This means 20% of the data will go into the test set, and 80% will go into the training set. Then we conduct the randam forest model analysis. According to plots, we can conclude the accuracy reached to 94.6%;F1 score as 84.7%, which reflects the robust balance between precision and recall; the precision as 99.4%, which means it has highly accurate rate on predict the results;the sensitivity for class1 as 73.8%, which means it correctly identified the 74% people who pick remote; the sensitivity for class 0 even reached to 99.9%, which means almost all the people who choose non-remote job has correctly classified; balanced accuracy as 86.8%, which represents there is a balance performance between both cases. From the confusion matrix, there has a detailed display, which represents the model correctly predicts 11536 people who choose onsite jobs with only 13 false positives, and it also orrectly predicts 2177 people who choose remote jobs with 774 missed results.</p>
+<p>One major limitation is class imbalance. Remote jobs (class 1) are the minority, which leads the model to perform less effectively on them.To counter this, we used class_weight=‘balanced’ in our Random Forest to give more weight to underrepresented classes. We also built a preprocessing pipeline using ColumnTransformer for encoding categorical and scaling numerical features.Still, further optimization is needed. we recommended three ways to overcome this issue in the future study: Adjusting sample sizes;Tuning model hyperparameters, like n_estimators and max_categories; experimenting with resampling techniques; add crossvalidation steps to void overfitting and ensure the final results’ accuracy.</p>
+<section id="featured-importance" class="level4">
+<h4 class="anchored" data-anchor-id="featured-importance">Featured Importance</h4>
+<p><img src="./figures/Featured_importance.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Featured importance"> Based on the above plot, we can see the top 9 features could be essential in predicting the peoples’prefrences on remote or onsite jobs, we can see the top three essential features are average remote salary by state, Average years of experience and location state-California. These three features can be easily interpreted as the job’s salary, job’s requirement for year experiences and location are vital elements that impact people’s decision on onsite or remote job types, peple prioritize jobs with high salary and better geographic location</p>
 
 
 </section>
