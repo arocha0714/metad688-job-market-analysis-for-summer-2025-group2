@@ -825,7 +825,7 @@ fig_plot.write_html("./figures/Avg_salary.html", include_plotlyjs='cdn')
 ```{=html}
 <iframe width="1000" height="700" src="./figures/Avg_salary.html" title="AI vs Non-AI"></iframe>
 ```
-The chart above shows
+The chart above displays the salary breakdown between states for job postings impacted and not impacted by AI. The size of the data points illustrates the number of job postings that each state has. Interestingly, both Texas and California have the largest amount of job postings not affected by AI. We can conclude that a possiblity for this is that in those tech hubs, the jobs AI can replace decreased in demand.
 
 
 <div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
