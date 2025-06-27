@@ -1,5 +1,5 @@
 ---
-title: Market Trends
+title: Data Cleaning and Modeling
 format:
     html:
         code-fold: true
@@ -15,8 +15,9 @@ exeucte:
 ## Data Cleaning
 
 ```{python}
-#| results: 'hide'
 #| echo: false
+#| results: hide
+#| warning: false
 
 import findspark
 findspark.init()
@@ -55,8 +56,10 @@ print(df.columns.tolist())
 ```
 
 ```{python}
-#| results: 'hide'
 #| echo: false
+#| results: hide
+#| warning: false
+
 import pandas as pd
 
 df = pd.read_csv("./data/lightcast_job_postings.csv")
@@ -71,14 +74,18 @@ df.drop(columns=columns_to_drop, inplace=True)
 ```
 
 ```{python}
-#| results: 'hide'
 #| echo: false
+#| results: hide
+#| warning: false
+
 print(df.columns.tolist())
 ```
 
 ```{python}
-#| results: 'hide'
 #| echo: false
+#| results: hide
+#| warning: false
+
 !pip install missingno
 ```
 
@@ -200,8 +207,9 @@ fig.show()
 ```
 
 ```{python}
-#| results: 'hide'
 #| echo: false
+#| results: hide
+#| warning: false
 
 import pandas as pd
 from IPython.display import display
@@ -214,16 +222,20 @@ df['POSTED_MONTH'] = df['POSTED'].dt.to_period("M")
 ```
 
 ```{python}
-#| results: 'hide'
 #| echo: false
+#| results: hide
+#| warning: false
+
 # Define AI and non-AI impacted NAICS codes
 ai_impacted_naics = [31, 32, 33, 42, 44, 45, 51, 52, 54, 55, 56]
 non_ai_impacted_naics = [11, 21, 22, 23, 48, 49, 61, 62, 71, 72]
 ```
 
 ```{python}
-#| results: 'hide'
 #| echo: false
+#| results: hide
+#| warning: false
+
 # Create IS_AI_JOB flag
 df['IS_AI_JOB'] = df['NAICS_2022_2'].apply(lambda x: 1 if pd.notna(x) and x in ai_impacted_naics else 0)
 
