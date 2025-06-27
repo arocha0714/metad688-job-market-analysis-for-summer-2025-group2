@@ -158,6 +158,9 @@ fig.write_html("./figures/skill_gap.html", include_plotlyjs='cdn')
 ```{=html}
 <iframe width="1000" height="700" src="./figures/skill_gap.html" title="Market Comparison"></iframe>
 ```
+
+The radar chart above displays each individual evaluation of our skills for the top five skills on demand for analyst roles.
+
 # Recomendations
 
 Given our analysis above, we have decided to focus on some of the key actions and learning goals that each of us can take in order to further our chances of landing a high quality position in our chosen industry.
