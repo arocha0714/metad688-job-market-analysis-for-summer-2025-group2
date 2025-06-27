@@ -6,7 +6,6 @@ format:
         toc-depth: 2
 execute:
   echo: false   
-  warning: false  
   message: false   
   eval: false
 ---
@@ -39,7 +38,7 @@ df = spark.read.option("header", "true").option("inferSchema", "true").option("m
 
 ```{python}
 #| echo: false
-
+#| results: 'hide'
 df.createOrReplaceTempView("jobs")
 ```
 
@@ -101,7 +100,7 @@ df_skills
 #| warning: false
 #| fig-cap: "Skillset Analysis"
 #| fig-align: center
-#| label: fig-analyst-distribution
+
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -147,7 +146,7 @@ fig.update_layout(
     showlegend=True,
     title="Team Skillset Levels"
 )
-fig.show()
+
 
 
 fig.write_html("./figures/skill_gap.html", include_plotlyjs='cdn')
@@ -156,7 +155,7 @@ fig.write_html("./figures/skill_gap.html", include_plotlyjs='cdn')
 ```
 
 ```{=html}
-<iframe width="1000" height="700" src="./figures/skill_gap.html" title="Market Comparison"></iframe>
+<iframe width="1000" height="700" src="./figures/skill_gap.html" title="Skill Gap Analysis"></iframe>
 ```
 
 The radar chart above displays each individual evaluation of our skills for the top five skills on demand for analyst roles.

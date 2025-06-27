@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Geographic & Remote Job Market Analysis"
+  title: "Job Market Analysis"
   page-navigation: true
   site-url: "."
   navbar:
@@ -15,7 +15,7 @@ website:
             text: Market Trends / Geographic Analysis
           - href: modeling.qmd
             text: Data Cleaning & Modeling
-          - href: AI.qmd
+          - href: skill_gap.qmd
             text: Skill Analysis & Recommendations
 
 format:
