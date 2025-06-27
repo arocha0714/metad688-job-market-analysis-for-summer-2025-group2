@@ -15,10 +15,12 @@ exeucte:
 ## Data Cleaning
 
 ```{python}
+#| eval: false
 #| echo: false
-#| results: hide
 #| warning: false
-
+#| fig-cap: "Analyst Job Distribution Across the United States"
+#| fig-align: center
+#| label: fig-analyst-distribution
 import findspark
 findspark.init()
 
@@ -48,17 +50,18 @@ df.show(5)
 ```{python}
 #| results: 'hide'
 #| echo: false
-## Listing Columns So We Can Reference them in Visuals
+#| warning: false
+#| eval: false
 
 import pandas as pd
 df = pd.read_csv("./data/lightcast_job_postings.csv")
-print(df.columns.tolist())
 ```
 
 ```{python}
 #| echo: false
 #| results: hide
 #| warning: false
+#| eval: false
 
 import pandas as pd
 
@@ -77,6 +80,7 @@ df.drop(columns=columns_to_drop, inplace=True)
 #| echo: false
 #| results: hide
 #| warning: false
+#| eval: false
 
 print(df.columns.tolist())
 ```
@@ -85,12 +89,15 @@ print(df.columns.tolist())
 #| echo: false
 #| results: hide
 #| warning: false
-
+#| eval: false
 !pip install missingno
 ```
 
 ```{python}
+#| results: 'hide'
+#| eval: false
 #| echo: false
+#| warning: false
 import missingno as msno
 import matplotlib.pyplot as plt
 # Visualize missing values
@@ -109,19 +116,25 @@ if 'Industry' in df.columns:
 
 ```{python}
 #| results: 'hide'
+#| eval: false
 #| echo: false
+#| warning: false
 df = df.drop_duplicates(subset=["TITLE", "COMPANY", "LOCATION", "POSTED"], keep="first")
 ```
 
 ```{python}
 #| results: 'hide'
+#| eval: false
 #| echo: false
+#| warning: false
 df = df[df['NAICS_2022_2_NAME'] != 'Unclassified Industry']
 ```
 
 ```{python}
 #| results: 'hide'
+#| eval: false
 #| echo: false
+#| warning: false
 df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].replace('[None]', 'Not Remote')
 
 
@@ -129,7 +142,9 @@ df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].replace('[None]', 'Not Remote')
 
 ```{python}
 #| results: 'hide'
+#| eval: false
 #| echo: false
+#| warning: false
 import pandas as pd
 import plotly.express as px
 
@@ -251,8 +266,9 @@ job_counts = (
 ```
 
 ```{python}
-#| results: 'hide'
+#| eval: false
 #| echo: false
+#| warning: false
 # Pivot to put months as rows, states as columns
 pivot_df = job_counts.pivot_table(index=['STATE_NAME', 'IS_AI_JOB'], 
                                    columns='POSTED_MONTH', 
@@ -272,7 +288,9 @@ pivot_df['2024-06'].reset_index(drop=True)
 
 ```{python}
 
+#| eval: false
 #| echo: false
+#| warning: false
 # Calculate % growth from first to last month
 
 # pivot_df["PCT_7"]=(pivot_df['2024-07']-pivot_df['2024-06'])*100/pivot_df['2024-06']
@@ -284,9 +302,9 @@ pivot_df.head()
 ```
 
 ```{python}
-#| results: 'hide'
+#| eval: false
 #| echo: false
-
+#| warning: false
 # Drop rows with undefined % growth (divide by zero)
 pivot_df = pivot_df.dropna(subset=['PCT_CHANGE'])
 
@@ -296,7 +314,9 @@ pivot_df = pivot_df.reset_index()
 
 ```{python}
 
+#| eval: false
 #| echo: false
+#| warning: false
 # Get top 10 states by % growth
 top_ai = pivot_df[pivot_df['IS_AI_JOB'] == 1].sort_values('PCT_CHANGE', ascending=False).head(10)
 top_non_ai = pivot_df[pivot_df['IS_AI_JOB'] == 0].sort_values('PCT_CHANGE', ascending=False).head(10)
@@ -316,6 +336,9 @@ display(top_combined[['STATE_NAME', 'IS_AI_JOB', 'PCT_CHANGE', 'JOB_TYPE']])
 ## Random Forest Classification
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -327,16 +350,25 @@ import seaborn as sns
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 #read files
 file_path = "./data/lightcast_job_postings.csv"
 df = pd.read_csv(file_path)
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 print(df['REMOTE_TYPE_NAME'].value_counts(dropna=False).head(10))
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 # Step 1: Standardize formatting
 df['REMOTE_TYPE_NAME'] = (
     df['REMOTE_TYPE_NAME']
@@ -348,6 +380,9 @@ df['REMOTE_TYPE_NAME'] = (
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 # Step 2: Fill missing or ambiguous entries with 'Not Remote'
 df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].fillna('Not Remote')
 df.loc[df['REMOTE_TYPE_NAME'] == "[None]", 'REMOTE_TYPE_NAME'] = "Not Remote"
@@ -355,11 +390,17 @@ print(df['REMOTE_TYPE_NAME'].value_counts(dropna=False).head(10))
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 # Convert all values to strings and strip whitespace
 df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].astype(str).str.strip()
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 # Apply new classification logic
 df['REMOTE_BINARY'] = df['REMOTE_TYPE_NAME'].apply(
     lambda x: 1 if x in ['Remote', 'Hybrid Remote'] else 0
@@ -368,13 +409,18 @@ df['REMOTE_BINARY'] = df['REMOTE_TYPE_NAME'].apply(
 ```
 
 ```{python}
-# Check result
+#| eval: false
+#| echo: false
+#| warning: false
 print(df['REMOTE_TYPE_NAME'].value_counts())
 print("\nBinary classification:")
 print(df['REMOTE_BINARY'].value_counts())
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 import pandas as pd
 import numpy as np
 
@@ -399,12 +445,18 @@ print(avg_salary_by_state_remote)
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 df = df.merge(avg_salary_by_state_remote,
               on=['STATE_NAME', 'REMOTE_TYPE_NAME'],
               how='left')
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 df = df.merge(
     avg_salary_by_state_remote,
     on=['STATE_NAME', 'REMOTE_TYPE_NAME'],
@@ -414,15 +466,24 @@ df = df.merge(
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 [col for col in df.columns if 'AVG' in col or 'SALARY' in col]
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 df = df.rename(columns={'AVERAGE_SALARY_y': 'AVERAGE_SALARY_STATE_REMOTE_AVG'})
 
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -439,21 +500,32 @@ import matplotlib.pyplot as plt
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 # Remove duplicate column names across full dataframe
 df = df.loc[:, ~df.columns.duplicated()]
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 df['AVG_YEARS_EXPERIENCE'] = (df['MIN_YEARS_EXPERIENCE'] + df['MAX_YEARS_EXPERIENCE']) / 2
 df['EXP_SPREAD'] = df['MAX_YEARS_EXPERIENCE'] - df['MIN_YEARS_EXPERIENCE']
 ```
 
 ```{python}
-
+#| eval: false
+#| echo: false
+#| warning: false
 df = df.drop(columns=['MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE'])
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 num_feats = [
     'AVG_YEARS_EXPERIENCE',
     'AVERAGE_SALARY_STATE_REMOTE_AVG',
@@ -475,6 +547,9 @@ y = df['REMOTE_BINARY']
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -483,7 +558,9 @@ from sklearn.ensemble import RandomForestClassifier
 ```
 
 ```{python}
-# Preprocessing
+#| eval: false
+#| echo: false
+#| warning: false
 preprocess = ColumnTransformer(transformers=[
     ("num", StandardScaler(), num_feats),
     ("cat", OneHotEncoder(handle_unknown='ignore', sparse_output=False), cat_feats)
@@ -491,12 +568,18 @@ preprocess = ColumnTransformer(transformers=[
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 from sklearn.ensemble import RandomForestClassifier
 # Preprocessing step
 preprocess = ColumnTransformer(transformers=[
@@ -507,6 +590,9 @@ clf = RandomForestClassifier(random_state=42, class_weight='balanced')
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 
@@ -525,10 +611,16 @@ pipe = Pipeline(steps=[
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 pipe.fit(X_train, y_train)
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 y_pred = pipe.predict(X_test)
 
 # Classification report and confusion matrix
@@ -550,6 +642,9 @@ print("Balanced Accuracy:", round(balanced_accuracy_score(y_test, y_pred), 3))
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 cm = confusion_matrix(y_test, y_pred)
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
 plt.xlabel("Predicted")
@@ -559,6 +654,9 @@ plt.show()
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 rf_model       = pipe.named_steps["model"]          # RandomForestClassifier
 feature_names  = pipe.named_steps["prep"].get_feature_names_out()
 
@@ -575,6 +673,9 @@ print(feat_imp.head(9).to_string(index=False))
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -593,6 +694,9 @@ plt.show()
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 import pandas as pd
 import plotly.express as px
 
@@ -658,6 +762,9 @@ fig.show()
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -667,6 +774,9 @@ df['POSTED_YM'] = df['POSTED'].dt.to_period('M').astype(str)
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 industry_trends = (
     df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM'])['REMOTE_BINARY']
     .mean()
@@ -675,6 +785,9 @@ industry_trends = (
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 # Step 3: Select top 5 industries with highest overall average remote ratio
 top_industries = (
     industry_trends.groupby('NAICS_2022_2_NAME')['REMOTE_RATIO']
@@ -687,6 +800,9 @@ filtered_trends = industry_trends[industry_trends['NAICS_2022_2_NAME'].isin(top_
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 import plotly.express as px
 
 fig = px.line(
@@ -714,6 +830,9 @@ fig.show()
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 #Groupby industry + month and calculate both:
 industry_month_stats = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).agg(
     TOTAL_JOBS=('REMOTE_BINARY', 'count'),
@@ -722,19 +841,30 @@ industry_month_stats = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).agg(
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 job_count = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).size().reset_index(name='JOB_COUNT')
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 remote_ratio = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM'])['REMOTE_BINARY'].mean().reset_index(name='REMOTE_RATIO')
 ```
 
 ```{python}
+#| eval: false
+#| echo: false
+#| warning: false
 industry_month_stats = pd.merge(remote_ratio, job_count, on=['NAICS_2022_2_NAME', 'POSTED_YM'])
 ```
 
 ```{python}
-
+#| eval: false
+#| echo: false
+#| warning: false
 
 import matplotlib.pyplot as plt
 
@@ -779,7 +909,13 @@ for industry in selected_industries:
 ### Random Forest results 
 
 ![Random Forest results](./figures/classification_report.png){width=90% fig-align="center"}
-
 ![Confustion Matrix](./figures/Confusion_matrix.png){width=90% fig-align="center"}
+As the two plots displayed a clear results for random forest results, our group has set our target variable for predict people's preferences on Remote versus Onsite job, where 1 represents a remote job and 0 represents onsite. We also had a set of independent variables, including as: 'AVG_YEARS_EXPERIENCE', 'AVERAGE_SALARY_STATE_REMOTE_AVG', 'IS_INTERNSHIP', 'STATE_NAME', 'NAICS_2022_2_NAME'(industry) 'EDUCATION_LEVELS_NAME', 'COMMON_SKILLS_NAME',  'SOFTWARE_SKILLS_NAME',  'TITLE_CLEAN' (occupation). Meanwhile, we split the data into training and testing sets using an 80/20 ratio to ensure generalizability, This means 20% of the data will go into the test set, and 80% will go into the training set. Then we conduct the randam forest model analysis.
+According to plots, we can conclude the accuracy reached to 94.6%;F1 score as 84.7%, which reflects the robust balance between precision and recall; the precision as 99.4%, which means it has highly accurate rate on predict the results;the sensitivity for class1 as 73.8%, which means it correctly identified the 74% people who pick remote; the sensitivity for class 0 even reached to 99.9%, which means almost all the people who choose non-remote job has correctly classified; balanced accuracy as 86.8%, which represents there is a balance performance between both cases. 
+From the confusion matrix, there has a detailed display, which represents the model correctly predicts 11536 people who choose onsite jobs with only 13 false positives, and it also orrectly predicts 2177 people who choose remote jobs with 774 missed results.
 
-![Featured importance](./figures/Featured_imporatnce.png){width=90% fig-align="center"}
+One major limitation is class imbalance. Remote jobs (class 1) are the minority, which leads the model to perform less effectively on them.To counter this, we used class_weight='balanced' in our Random Forest to give more weight to underrepresented classes. We also built a preprocessing pipeline using ColumnTransformer for encoding categorical and scaling numerical features.Still, further optimization is needed. we recommended three ways to overcome this issue in the future study: Adjusting sample sizes;Tuning model hyperparameters, like n_estimators and max_categories;  experimenting with resampling techniques; add crossvalidation steps to void overfitting and ensure the final results' accuracy.
+
+#### Featured Importance
+![Featured importance](./figures/Featured_importance.png){width=90% fig-align="center"}
+Based on the above plot, we can see the top 9 features could be essential in predicting the peoples'prefrences on remote or onsite jobs, we can see the top three essential features are average remote salary by state, Average years of experience and location state-California. These three features can be easily interpreted as the job's salary, job's requirement for year experiences and location are vital elements that impact people's decision on onsite or remote job types, peple prioritize jobs with high salary and better geographic location
