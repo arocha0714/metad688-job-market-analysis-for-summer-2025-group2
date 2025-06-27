@@ -13,9 +13,9 @@ website:
         menu:
           - href: market_trends.qmd
             text: Market Trends / Geographic Analysis
-          - href: market_trends.qmd
+          - href: modeling.qmd
             text: Data Cleaning & Modeling
-          - href: skill_gap.qmd
+          - href: AI.qmd
             text: Skill Analysis & Recommendations
 
 format:
