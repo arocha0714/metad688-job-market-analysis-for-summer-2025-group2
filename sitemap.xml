@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>./ADAM geographic_analysis copy.html</loc>
-    <lastmod>2025-06-27T03:36:18.410Z</lastmod>
-  </url>
-  <url>
-    <loc>./market_trends.html</loc>
-    <lastmod>2025-06-27T03:36:18.529Z</lastmod>
-  </url>
-  <url>
-    <loc>./AI.html</loc>
-    <lastmod>2025-06-27T03:36:18.441Z</lastmod>
-  </url>
-  <url>
-    <loc>./skill_gap.html</loc>
-    <lastmod>2025-06-27T03:36:18.529Z</lastmod>
-  </url>
-  <url>
-    <loc>./geographic_analysis.html</loc>
-    <lastmod>2025-06-27T03:36:18.527Z</lastmod>
-  </url>
-  <url>
-    <loc>./index.html</loc>
-    <lastmod>2025-06-27T03:36:18.527Z</lastmod>
+    <loc>./modeling.html</loc>
+    <lastmod>2025-06-27T20:16:58.599Z</lastmod>
   </url>
   <url>
     <loc>./about.html</loc>
-    <lastmod>2025-06-27T03:36:18.505Z</lastmod>
+    <lastmod>2025-06-27T20:16:58.557Z</lastmod>
+  </url>
+  <url>
+    <loc>./index.html</loc>
+    <lastmod>2025-06-27T20:16:58.587Z</lastmod>
+  </url>
+  <url>
+    <loc>./geographic_analysis.html</loc>
+    <lastmod>2025-06-27T20:16:58.586Z</lastmod>
+  </url>
+  <url>
+    <loc>./skill_gap.html</loc>
+    <lastmod>2025-06-27T20:16:58.599Z</lastmod>
+  </url>
+  <url>
+    <loc>./modeling copy.html</loc>
+    <lastmod>2025-06-27T20:16:58.594Z</lastmod>
+  </url>
+  <url>
+    <loc>./AI.html</loc>
+    <lastmod>2025-06-27T20:16:58.477Z</lastmod>
+  </url>
+  <url>
+    <loc>./market_trends.html</loc>
+    <lastmod>2025-06-27T20:16:58.589Z</lastmod>
+  </url>
+  <url>
+    <loc>./ADAM geographic_analysis copy.html</loc>
+    <lastmod>2025-06-27T20:16:58.447Z</lastmod>
   </url>
 </urlset>

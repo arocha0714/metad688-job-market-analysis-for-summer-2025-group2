@@ -1,0 +1,778 @@
+---
+title: Data Cleaning and Modeling
+format:
+    html:
+        code-fold: true
+        toc: true
+        toc-depth: 2
+exeucte:
+    eval: false
+    echo: true
+    freeze: auto
+---
+
+
+## Data Cleaning
+
+```{python}
+#| echo: false
+#| results: hide
+#| warning: false
+
+import findspark
+findspark.init()
+
+from pyspark.sql import SparkSession
+import pandas as pd
+import plotly.express as px
+import plotly.io as pio
+import numpy as np
+
+np.random.seed(42)
+
+pio.renderers.default = "notebook"
+
+# Initialize Spark Session
+spark = SparkSession.builder.appName("LightcastData").getOrCreate()
+
+# Load Data
+df = spark.read.option("header", "true").option("inferSchema", "true").option("multiLine","true").option("escape", "\"").csv("./data/lightcast_job_postings.csv")
+
+# Show Schema and Sample Data
+print("---This is Diagnostic check, No need to print it in the final doc---")
+
+df.printSchema() # comment this line when rendering the submission
+df.show(5)
+```
+
+```{python}
+#| results: 'hide'
+#| echo: false
+## Listing Columns So We Can Reference them in Visuals
+
+import pandas as pd
+df = pd.read_csv("./data/lightcast_job_postings.csv")
+print(df.columns.tolist())
+```
+
+```{python}
+#| echo: false
+#| results: hide
+#| warning: false
+
+import pandas as pd
+
+df = pd.read_csv("./data/lightcast_job_postings.csv")
+
+columns_to_drop = [
+    "ID", "URL", "ACTIVE_URLS", "DUPLICATES", "LAST_UPDATED_TIMESTAMP",
+    "NAICS2", "NAICS3", "NAICS4", "NAICS5", "NAICS6",
+    "SOC_2", "SOC_3", "SOC_5"
+]
+
+df.drop(columns=columns_to_drop, inplace=True)
+```
+
+```{python}
+#| echo: false
+#| results: hide
+#| warning: false
+
+print(df.columns.tolist())
+```
+
+```{python}
+#| echo: false
+#| results: hide
+#| warning: false
+
+!pip install missingno
+```
+
+```{python}
+#| echo: false
+import missingno as msno
+import matplotlib.pyplot as plt
+# Visualize missing values
+msno.heatmap(df)
+plt.title("Missing Values Heatmap")
+plt.show()
+
+# Drop columns with >50% missing values
+df.dropna(thresh=len(df) * 0.5, axis=1, inplace=True)
+
+# Fill only the columns you actually have
+if 'Industry' in df.columns:
+    df["Industry"].fillna("Unknown", inplace=True)
+    df["Salary"].fillna(df["Salary"].median(), inplace=True)
+```
+
+```{python}
+#| results: 'hide'
+#| echo: false
+df = df.drop_duplicates(subset=["TITLE", "COMPANY", "LOCATION", "POSTED"], keep="first")
+```
+
+```{python}
+#| results: 'hide'
+#| echo: false
+df = df[df['NAICS_2022_2_NAME'] != 'Unclassified Industry']
+```
+
+```{python}
+#| results: 'hide'
+#| echo: false
+df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].replace('[None]', 'Not Remote')
+
+
+```
+
+```{python}
+#| results: 'hide'
+#| echo: false
+import pandas as pd
+import plotly.express as px
+
+# Step 1: Prepare data
+data = {
+    'Industry': [
+        'Wholesale Trade', 'Retail Trade', 'Real Estate and Rental and Leasing',
+        'Professional, Scientific, and Technical Services', 'Manufacturing',
+        'Information', 'Health Care and Social Assistance',
+        'Finance and Insurance', 'Educational Services',
+        'Administrative and Support and Waste Management and Remediation Services'
+    ],
+    'Flexible Remote': [87.8, 94.4, 97.6, 92.2, 89.7, 95.8, 92.1, 94.8, 89.0, 94.8],
+    'Onsite': [12.2, 5.6, 2.4, 7.8, 10.3, 4.2, 7.9, 5.2, 11.0, 5.2]
+}
+
+df = pd.DataFrame(data)
+
+# Step 2: Sort in ascending order of Flexible Remote
+df_sorted = df.sort_values(by='Flexible Remote', ascending=True)
+df_sorted['Industry'] = pd.Categorical(df_sorted['Industry'], categories=df_sorted['Industry'], ordered=True)
+
+# Step 3: Melt data for stacked bar format
+df_melted = df_sorted.melt(
+    id_vars='Industry',
+    value_vars=['Flexible Remote', 'Onsite'],
+    var_name='Remote Type',
+    value_name='Percentage'
+)
+
+# Step 4: Plot
+fig = px.bar(
+    df_melted,
+    x='Percentage',
+    y='Industry',
+    color='Remote Type',
+    orientation='h',
+    text='Percentage',
+    color_discrete_map={
+        'Flexible Remote': '#1aab89',
+        'Onsite': '#88d4c3'
+    },
+    title="Remote Job Distribution by Industry (Top 10 Industries)"
+)
+
+# Step 5: Layout adjustments
+fig.update_layout(
+    xaxis_title="Percentage of Jobs",
+    yaxis_title="",
+    xaxis=dict(tickformat=".0f"),
+    legend_title="Remote Type",
+    barmode='stack',
+    margin=dict(l=10, r=10, t=60, b=40),
+    height=500
+)
+
+# Step 6: Label formatting
+fig.update_traces(texttemplate='%{text:.1f}%', textposition='inside')
+
+# Save plot
+fig.write_html("./figures/top_industries.html")
+
+
+# Show plot
+fig.show()
+
+
+
+
+
+
+
+
+
+```
+
+```{python}
+#| echo: false
+#| results: hide
+#| warning: false
+
+import pandas as pd
+from IPython.display import display
+# 1. Load the dataset and parse dates
+df = pd.read_csv("./data/lightcast_job_postings.csv", parse_dates=["POSTED", "EXPIRED"])
+# Calculate DURATION in days
+df['DURATION'] = (df['EXPIRED'] - df['POSTED']).dt.days
+# Extract POSTED month
+df['POSTED_MONTH'] = df['POSTED'].dt.to_period("M")
+```
+
+```{python}
+#| echo: false
+#| results: hide
+#| warning: false
+
+# Define AI and non-AI impacted NAICS codes
+ai_impacted_naics = [31, 32, 33, 42, 44, 45, 51, 52, 54, 55, 56]
+non_ai_impacted_naics = [11, 21, 22, 23, 48, 49, 61, 62, 71, 72]
+```
+
+```{python}
+#| echo: false
+#| results: hide
+#| warning: false
+
+# Create IS_AI_JOB flag
+df['IS_AI_JOB'] = df['NAICS_2022_2'].apply(lambda x: 1 if pd.notna(x) and x in ai_impacted_naics else 0)
+
+# Remove rows with missing STATE_NAME or POSTED_MONTH
+df = df[df['STATE_NAME'].notna() & df['POSTED_MONTH'].notna()]
+
+# Group by POSTED_MONTH, STATE_NAME, IS_AI_JOB to count jobs
+job_counts = (
+    df.groupby(['POSTED_MONTH', 'STATE_NAME', 'IS_AI_JOB'])
+      .size()
+      .reset_index(name='JOB_COUNT')
+)
+```
+
+```{python}
+#| results: 'hide'
+#| echo: false
+# Pivot to put months as rows, states as columns
+pivot_df = job_counts.pivot_table(index=['STATE_NAME', 'IS_AI_JOB'], 
+                                   columns='POSTED_MONTH', 
+                                   values='JOB_COUNT', 
+                                   fill_value=0)
+
+# print(pivot_df.columns)
+# print(pivot_df.columns[-1])
+# pivot_df.rename(columns={'2024-05': 'May', 
+# '2024-06': 'June',
+# '2024-07': 'July',
+# '2024-08': 'August',
+# '2024-09': 'September'
+# },inplace=True)
+pivot_df['2024-06'].reset_index(drop=True)
+```
+
+```{python}
+
+#| echo: false
+# Calculate % growth from first to last month
+
+# pivot_df["PCT_7"]=(pivot_df['2024-07']-pivot_df['2024-06'])*100/pivot_df['2024-06']
+# pivot_df["PCT_8"]=(pivot_df['2024-08']-pivot_df['2024-07'])*100/pivot_df['2024-07']
+# pivot_df["PCT_9"]=(pivot_df['2024-09']-pivot_df['2024-08'])*100/pivot_df['2024-08']
+pivot_df["PCT_CHANGE"]=(pivot_df['2024-09']-pivot_df['2024-05'])*100/pivot_df['2024-05']
+
+pivot_df.head()
+```
+
+```{python}
+#| results: 'hide'
+#| echo: false
+
+# Drop rows with undefined % growth (divide by zero)
+pivot_df = pivot_df.dropna(subset=['PCT_CHANGE'])
+
+# Reset index for sorting
+pivot_df = pivot_df.reset_index()
+```
+
+```{python}
+
+#| echo: false
+# Get top 10 states by % growth
+top_ai = pivot_df[pivot_df['IS_AI_JOB'] == 1].sort_values('PCT_CHANGE', ascending=False).head(10)
+top_non_ai = pivot_df[pivot_df['IS_AI_JOB'] == 0].sort_values('PCT_CHANGE', ascending=False).head(10)
+
+# Combine and label
+top_combined = pd.concat([
+    top_ai.assign(JOB_TYPE='AI'),
+    top_non_ai.assign(JOB_TYPE='Non-AI')
+])
+
+# Display 
+display(top_combined[['STATE_NAME', 'IS_AI_JOB', 'PCT_CHANGE', 'JOB_TYPE']])
+```
+
+
+
+## Random Forest Classification
+
+```{python}
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix, f1_score, accuracy_score
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+```{python}
+#read files
+file_path = "./data/lightcast_job_postings.csv"
+df = pd.read_csv(file_path)
+```
+
+```{python}
+print(df['REMOTE_TYPE_NAME'].value_counts(dropna=False).head(10))
+```
+
+```{python}
+# Step 1: Standardize formatting
+df['REMOTE_TYPE_NAME'] = (
+    df['REMOTE_TYPE_NAME']
+    .astype(str)
+    .str.strip()
+    .str.title()
+    .replace({'None': pd.NA, 'Nan': pd.NA})
+)
+```
+
+```{python}
+# Step 2: Fill missing or ambiguous entries with 'Not Remote'
+df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].fillna('Not Remote')
+df.loc[df['REMOTE_TYPE_NAME'] == "[None]", 'REMOTE_TYPE_NAME'] = "Not Remote"
+print(df['REMOTE_TYPE_NAME'].value_counts(dropna=False).head(10))
+```
+
+```{python}
+# Convert all values to strings and strip whitespace
+df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].astype(str).str.strip()
+```
+
+```{python}
+# Apply new classification logic
+df['REMOTE_BINARY'] = df['REMOTE_TYPE_NAME'].apply(
+    lambda x: 1 if x in ['Remote', 'Hybrid Remote'] else 0
+)
+
+```
+
+```{python}
+# Check result
+print(df['REMOTE_TYPE_NAME'].value_counts())
+print("\nBinary classification:")
+print(df['REMOTE_BINARY'].value_counts())
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+
+# Ensure salary columns are numeric and handle missing values
+df['SALARY_FROM'] = pd.to_numeric(df['SALARY_FROM'], errors='coerce').replace(0, np.nan)
+df['SALARY_TO'] = pd.to_numeric(df['SALARY_TO'], errors='coerce').replace(0, np.nan)
+
+# Calculate average salary (mean of SALARY_FROM and SALARY_TO)
+df['AVERAGE_SALARY'] = df[['SALARY_FROM', 'SALARY_TO']].mean(axis=1)
+
+# Drop rows with missing values in AVERAGE_SALARY, REMOTE_TYPE_NAME, or STATE_NAME
+df_salary = df.dropna(subset=['AVERAGE_SALARY', 'REMOTE_TYPE_NAME', 'STATE_NAME'])
+
+# Group by state and remote type, then calculate average salary
+avg_salary_by_state_remote = df_salary.groupby(['STATE_NAME', 'REMOTE_TYPE_NAME'])['AVERAGE_SALARY'].mean().reset_index()
+
+# Round the results for easier reading
+avg_salary_by_state_remote['AVERAGE_SALARY'] = avg_salary_by_state_remote['AVERAGE_SALARY'].round(2)
+
+# Show results
+print(avg_salary_by_state_remote)
+```
+
+```{python}
+df = df.merge(avg_salary_by_state_remote,
+              on=['STATE_NAME', 'REMOTE_TYPE_NAME'],
+              how='left')
+```
+
+```{python}
+df = df.merge(
+    avg_salary_by_state_remote,
+    on=['STATE_NAME', 'REMOTE_TYPE_NAME'],
+    how='left',
+    suffixes=('', '_STATE_REMOTE_AVG')
+)
+```
+
+```{python}
+[col for col in df.columns if 'AVG' in col or 'SALARY' in col]
+```
+
+```{python}
+df = df.rename(columns={'AVERAGE_SALARY_y': 'AVERAGE_SALARY_STATE_REMOTE_AVG'})
+
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import (accuracy_score, f1_score, confusion_matrix,
+                             classification_report, precision_score,
+                             recall_score, balanced_accuracy_score)
+from sklearn.inspection import permutation_importance
+import seaborn as sns
+import matplotlib.pyplot as plt
+```
+
+```{python}
+# Remove duplicate column names across full dataframe
+df = df.loc[:, ~df.columns.duplicated()]
+```
+
+```{python}
+df['AVG_YEARS_EXPERIENCE'] = (df['MIN_YEARS_EXPERIENCE'] + df['MAX_YEARS_EXPERIENCE']) / 2
+df['EXP_SPREAD'] = df['MAX_YEARS_EXPERIENCE'] - df['MIN_YEARS_EXPERIENCE']
+```
+
+```{python}
+
+df = df.drop(columns=['MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE'])
+```
+
+```{python}
+num_feats = [
+    'AVG_YEARS_EXPERIENCE',
+    'AVERAGE_SALARY_STATE_REMOTE_AVG',
+    'IS_INTERNSHIP'
+]
+
+cat_feats = [
+    'STATE_NAME',
+    'NAICS_2022_2_NAME',
+    'EDUCATION_LEVELS_NAME',
+    'COMMON_SKILLS_NAME',
+    'SOFTWARE_SKILLS_NAME',
+    'TITLE_CLEAN'
+    
+]
+
+X = df[num_feats + cat_feats]
+y = df['REMOTE_BINARY']
+```
+
+```{python}
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
+```
+
+```{python}
+# Preprocessing
+preprocess = ColumnTransformer(transformers=[
+    ("num", StandardScaler(), num_feats),
+    ("cat", OneHotEncoder(handle_unknown='ignore', sparse_output=False), cat_feats)
+])
+```
+
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+```
+
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+# Preprocessing step
+preprocess = ColumnTransformer(transformers=[
+    ("num", StandardScaler(), num_feats),
+    ("cat", OneHotEncoder(handle_unknown='ignore', max_categories=500, sparse_output=False), cat_feats)
+])
+clf = RandomForestClassifier(random_state=42, class_weight='balanced')
+```
+
+```{python}
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.pipeline import Pipeline
+
+rf = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=None,
+    class_weight='balanced',
+    random_state=42,
+    n_jobs=-1
+)
+
+pipe = Pipeline(steps=[
+    ('prep', preprocess),
+    ('model', rf)
+])
+```
+
+```{python}
+pipe.fit(X_train, y_train)
+```
+
+```{python}
+y_pred = pipe.predict(X_test)
+
+# Classification report and confusion matrix
+print(classification_report(y_test, y_pred))
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+# Additional custom metrics
+print("\nCustom Metrics:")
+print("Accuracy:", round(accuracy_score(y_test, y_pred), 3))
+print("F1 Score:", round(f1_score(y_test, y_pred), 3))
+print("Precision:", round(precision_score(y_test, y_pred), 3))
+print("Sensitivity (Recall 1):", round(recall_score(y_test, y_pred), 3))
+print("Specificity (Recall 0):", round(
+    recall_score(y_test, y_pred, pos_label=0), 3))
+print("Balanced Accuracy:", round(balanced_accuracy_score(y_test, y_pred), 3))
+
+
+```
+
+```{python}
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+plt.xlabel("Predicted")
+plt.ylabel("True")
+plt.title("Confusion Matrix")
+plt.show()
+```
+
+```{python}
+rf_model       = pipe.named_steps["model"]          # RandomForestClassifier
+feature_names  = pipe.named_steps["prep"].get_feature_names_out()
+
+importances = rf_model.feature_importances_
+
+feat_imp = (
+    pd.DataFrame({"Feature": feature_names, "Importance": importances})
+      .sort_values(by="Importance", ascending=False)
+      .reset_index(drop=True)
+)
+
+print("\nTop 9 – Tree-based Importances")
+print(feat_imp.head(9).to_string(index=False))
+```
+
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+top_n = 9                     # change to show more/less
+plt.figure(figsize=(8, 6))
+sns.barplot(
+    data=feat_imp.head(top_n),
+    x="Importance", y="Feature",
+    palette="crest"
+)
+plt.title(f"Top {top_n} Feature Importances (Random Forest)")
+plt.xlabel("Mean Decrease in Impurity")
+plt.ylabel("")
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# Step 1: Create state abbreviation mapping
+us_state_abbrev = {
+    'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
+    'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
+    'Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI', 'Idaho': 'ID',
+    'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA', 'Kansas': 'KS',
+    'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD',
+    'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MS',
+    'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV',
+    'New Hampshire': 'NH', 'New Jersey': 'NJ', 'New Mexico': 'NM', 'New York': 'NY',
+    'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK',
+    'Oregon': 'OR', 'Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
+    'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT',
+    'Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV',
+    'Wisconsin': 'WI', 'Wyoming': 'WY', 'District of Columbia': 'DC'
+}
+
+# Step 2: Map state names to abbreviations
+df['STATE_ABBR'] = df['STATE_NAME'].map(us_state_abbrev)
+
+# Step 3: Group by state and compute metrics
+choropleth_data = df.groupby('STATE_ABBR').agg(
+    remote_ratio=('REMOTE_BINARY', 'mean'),
+    avg_salary=('AVERAGE_SALARY_STATE_REMOTE_AVG', 'mean'),
+    avg_experience=('AVG_YEARS_EXPERIENCE', 'mean'),
+    job_count=('STATE_NAME', 'count')
+).reset_index()
+
+# Step 4: Define custom green scale (start from light, move to #1aab89)
+custom_green_scale = [
+    [0, "#e0f7f1"],     # light mint
+    [0.5, "#70d8b5"],   # mid-green
+    [1, "#1aab89"]      # deep teal green
+]
+
+# Step 5: Create the choropleth with custom green
+fig = px.choropleth(
+    data_frame=choropleth_data,
+    locations='STATE_ABBR',
+    locationmode="USA-states",
+    color='remote_ratio',
+    color_continuous_scale=custom_green_scale,
+    scope="usa",
+    labels={'remote_ratio': 'Remote Job Ratio'},
+    hover_data={
+        'remote_ratio': ':.2f',
+        'avg_salary': ':.0f',
+        'avg_experience': ':.1f',
+        'job_count': True
+    },
+    title='Remote Job Ratio by State (Custom Green), Avg Salary & Experience in Hover'
+)
+
+fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+fig.write_html("./figures/state_remote_job_ratio.html")
+
+fig.show()
+
+
+```
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Step 1: Ensure 'POSTED' is in datetime format and create Year-Month
+df['POSTED'] = pd.to_datetime(df['POSTED'])
+df['POSTED_YM'] = df['POSTED'].dt.to_period('M').astype(str)
+```
+
+```{python}
+industry_trends = (
+    df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM'])['REMOTE_BINARY']
+    .mean()
+    .reset_index(name='REMOTE_RATIO')
+)
+```
+
+```{python}
+# Step 3: Select top 5 industries with highest overall average remote ratio
+top_industries = (
+    industry_trends.groupby('NAICS_2022_2_NAME')['REMOTE_RATIO']
+    .mean()
+    .sort_values(ascending=False)
+    .head(5)
+    .index.tolist()
+)
+filtered_trends = industry_trends[industry_trends['NAICS_2022_2_NAME'].isin(top_industries)]
+```
+
+```{python}
+import plotly.express as px
+
+fig = px.line(
+    filtered_trends,
+    x='POSTED_YM',
+    y='REMOTE_RATIO',
+    color='NAICS_2022_2_NAME',
+    markers=True,
+    title="Top Industries: Remote Job Trends Over Time"
+)
+
+fig.update_layout(
+    xaxis_title="Posted Month",
+    yaxis_title="Remote Job Ratio",
+    legend_title="Industry",
+    legend=dict(x=1.02, y=1, bordercolor="Black"),
+    margin=dict(l=40, r=40, t=60, b=40),
+    width=1000,
+    height=500
+)
+
+fig.update_xaxes(tickangle=45)
+fig.write_html("./figures/remote_job_over_time.html")
+fig.show()
+```
+
+```{python}
+#Groupby industry + month and calculate both:
+industry_month_stats = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).agg(
+    TOTAL_JOBS=('REMOTE_BINARY', 'count'),
+    REMOTE_RATIO=('REMOTE_BINARY', 'mean')
+).reset_index()
+```
+
+```{python}
+job_count = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).size().reset_index(name='JOB_COUNT')
+```
+
+```{python}
+remote_ratio = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM'])['REMOTE_BINARY'].mean().reset_index(name='REMOTE_RATIO')
+```
+
+```{python}
+industry_month_stats = pd.merge(remote_ratio, job_count, on=['NAICS_2022_2_NAME', 'POSTED_YM'])
+```
+
+```{python}
+
+
+import matplotlib.pyplot as plt
+
+# Choose 2–3 industries to plot (or loop one at a time)
+selected_industries = [
+    'Administrative and Support and Waste Management and Remediation Services',
+    'Arts, Entertainment, and Recreation',
+    'Finance and Insurance',
+    'Real Estate and Rental and Leasing',
+    'Utilities'
+]
+
+
+
+for industry in selected_industries:
+    data = industry_month_stats[industry_month_stats['NAICS_2022_2_NAME'] == industry]  
+
+    fig, ax1 = plt.subplots(figsize=(10, 4))
+
+    # Plot remote ratio
+    ax1.plot(data['POSTED_YM'], data['REMOTE_RATIO'], color='tab:blue', marker='o')
+    ax1.set_xlabel('Month')
+    ax1.set_ylabel('Remote Job Ratio', color='tab:blue')
+    ax1.tick_params(axis='y', labelcolor='tab:blue')
+    ax1.set_title(f"Remote Job Ratio & Volume Over Time: {industry}")
+
+    # Plot job count on secondary y-axis
+    ax2 = ax1.twinx()
+    ax2.bar(data['POSTED_YM'], data['JOB_COUNT'], color='tab:gray', alpha=0.3)
+    ax2.set_ylabel('Total Job Postings', color='gray')
+    ax2.tick_params(axis='y', labelcolor='gray')
+
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig("./figures/Remote_jobs_"+str(industry)+".jpg", dpi=300)
+    plt.show()
+
+
+
+```
+
