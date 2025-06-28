@@ -1,0 +1,18 @@
+---
+title: report
+format:
+  docx:
+    toc: true
+bibliography: references.bib
+csl: csl/econometrica.csl  
+---
+
+{{< include "index.qmd" >}}
+{{< include "market_trends.qmd" >}}
+{{< include "AI.qmd" >}}
+{{< include "modeling.qmd" >}}
+{{< include "skill_gap.qmd" >}}
+{{< include "about.qmd" >}}
+{{< embed ADAM georgraphic_analysis copy.ipynb >}}
+{{< embed georgraphic_analysis.ipynb >}}
+## References
