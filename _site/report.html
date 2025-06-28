@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Group 2">
+<meta name="dcterms.date" content="2025-06-26">
+
+<title>About – Job Market Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-cd4424963292fe0285b5af0b215a656c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Job Market Analysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-analysis" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
+        <li>
+    <a class="dropdown-item" href="./market_trends.html">
+ <span class="dropdown-text">Market Trends / Geographic Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./modeling.html">
+ <span class="dropdown-text">Data Cleaning &amp; Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./skill_gap.html">
+ <span class="dropdown-text">Skill Analysis &amp; Recommendations</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#problem" id="toc-problem" class="nav-link active" data-scroll-target="#problem">Problem</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1">Introduction</a></li>
+  <li><a href="#remote-vs-onsite-job" id="toc-remote-vs-onsite-job" class="nav-link" data-scroll-target="#remote-vs-onsite-job">Remote VS Onsite job</a>
+  <ul class="collapse">
+  <li><a href="#remote-job-distribution-by-general-industry" id="toc-remote-job-distribution-by-general-industry" class="nav-link" data-scroll-target="#remote-job-distribution-by-general-industry">Remote Job Distribution by General Industry</a></li>
+  </ul></li>
+  <li><a href="#recomendations" id="toc-recomendations" class="nav-link" data-scroll-target="#recomendations">Recomendations</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">About</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Group 2 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 26, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="problem" class="level1">
+<h1>Problem</h1>
+<p>What does the job market look like, and how can we refine our skills to better match the career we want?</p>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>To answer this question, our group began by analyzing information on how the job market has evolved over recent years. A major change that has impacted the workforce is COVID-19, which has accelerated shifts toward remote work, automation, and digital evolution. During the pandemic, organizations were forced to adapt quickly, which in turn altered the way the workplace was structured and facilitated further technological implementation. Now that it’s been a few years since the pandemic, how are the working conditions distributed within the workforce? According to <span class="citation" data-cites="roberthalf2024remote">(<a href="#ref-roberthalf2024remote" role="doc-biblioref">Half (2024)</a>)</span>, 26% of U.S. workers are fully remote while 29% are hybrid. This article also highlights that altough remote has decline since the pandemic, it still very much remains as an option in the workforce. A survey was conducted an 50% of workers said they would quit if they had to return to the office full-time. Similarly, workers also mentioned that they would accept a lower salary for remote options. This demonstrates how important working conditions are for employees, therefore it should be something management considers. This article also compared job titles to flexibility of work conditions. They discovered that 31% of newly created senior-level roles were hybrid, while 15% were fully remote. By analyzing the market, we can adapt effectively and refine our strategies; therefore, we need to assess whether this element of a job posting should be something to consider.</p>
+<p>Artificial intelligence (AI) is a technology that allows computers and machines to mimic human abilities such as learning, understanding, solving problems, making decisions, being creative, and operating independently <span class="citation" data-cites="stryker2024ai">(<a href="#ref-stryker2024ai" role="doc-biblioref">Stryker (2024)</a>)</span>. Over the next several years, generative AI will become the main focus of AI researchers and enthusiasts. Generative AI is a type of technology that can produce original text, images, and videos. With the rising popularity of generative AI, many companies are faced with the question of how to walk the line between technological advancements and ethical responsibility. Advocates of AI claim that when implemented properly, AI can boost productivity, accelerate product development, and improve business decision-making. In 2024, the International Monetary Fund estimated that 40% of jobs around the world will be affected by AI. Tech experts hypothesize that industries and sectors such as cybersecurity, financial services, and manufacturing are likely to be affected <span class="citation" data-cites="expertpanel2021ai">(<a href="#ref-expertpanel2021ai" role="doc-biblioref">Panel (2021)</a>)</span>. On the other hand, some argue that while job displacement is inevitable, AI will also create new jobs. According to Lee, Samanta, and Lee <span class="citation" data-cites="lee2024redefining">Lee, Samanta, and Lee (<a href="#ref-lee2024redefining" role="doc-biblioref">(2024)</a>)</span>, AI will not eliminate jobs but instead will reshape career structures. Even so, there are still job types that can be at risk of being replaced. An example of a high-risk job would be one that involves repetition and predictable tasks, such as telemarketing and a customer support specialist. On the other hand, the more resilient jobs are those that require emotional intelligence or creative problem-solving. Some examples of these careers are teachers, writers, and employees with skilled trades like plumbers. Another important aspect to consider is that there will be some jobs where AI is used in conjunction with their regular responsibilities; an example of this is teachers. Teachers may use AI to grade papers, but they still will need to perform their regular tasks, like lecturing and mentoring students. Overall, Lee, Samanta, and Lee (2024) conclude that the rise of AI has a twofold effect: potential job displacement and the creation of new opportunities.</p>
+<p>The double-edged effect appears to be the sentiment for Ito <span class="citation" data-cites="ito2025ai">Ito (<a href="#ref-ito2025ai" role="doc-biblioref">(2025)</a>)</span>, where she looks into the impact of job postings since OpenAI’s launch in 2022. Ito mentioned that she believed it would take a couple of years to truly see the impact of AI on the job market, but when evaluating in 2025, she found that AI’s revolution may have already begun. To confirm her hypothesis, Ito asked for Revelio Labs, an analytics provider, to see whether they can find jobs where AI has already replaced them. They first began by looking at current job descriptions to see which responsibilities AI could already replace or augment. Ultimately, they found that over the past three years, there was a 19% decline in jobs involving tasks that can be performed by AI. This drop was mainly due to companies hiring fewer roles that AI can handle. They also classified the jobs online into three categories: high exposure roles, low exposure roles, and those in between. Fundamentally, jobs with the highest exposure to AI started to disappear faster from online job postings. According to Revelio Labs, the jobs with the highest exposure are the ones that manage various technical functions like IT specialists, data engineers, and database administrators. On the other hand, the jobs with the lowest exposure are in-person roles like restaurant manager or mechanic. Essentially, there is data showing that AI has already disrupted the job market, but the article also emphasizes the point that its projection is still unknown. Experts cannot determine the sustainability of replacing humans with AI, especially when it comes to the quality of service that is produced.</p>
+<p>From a geographic perspective, McElheran et al. <span class="citation" data-cites="mcelheran2024ai">McElheran et al. (<a href="#ref-mcelheran2024ai" role="doc-biblioref">(2024)</a>)</span> offers important insight into how AI adoption appears to be concentrated in select cities. This academic journal examines the 2018 Annual Business Survey to not only find out geographically where the highest AI implementation is, but also which firms are leading the charge. The data used for their analysis looks at 850,000 U.S. firms from early AI adoption to now. The journal classifies AI adoption by whether a firm has used at least one AI-related technology, including: machine learning, machine vision, automated guided vehicles, natural language processing, and voice recognition. Their findings showed that San Fransico was ranked as the top adopter of AI especially when it came to larger firms. Other notable cities with a high adoption rate were Nashville, TN; San Antonio, TX; and Tampa, FL. These findings suggest that early adopters of AI are large firms or high-growth startups in regions where there is more AI exposure.</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>With this in mind, our research will look at the rising trends within the job market, with a particular focus on roles that align with our own career interests. This includes analyst positions, some of which may be influenced by advances in AI. We will also look at what working conditions, more specifically remote versus not remote jobs.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<hr>
+<p>title: Market Trends format: html: code-fold: true toc: true toc-depth: 2 exeucte: eval: false echo: true freeze: auto —</p>
+</section>
+</section>
+<section id="introduction-1" class="level1">
+<h1>Introduction</h1>
+<p>Our group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word “analyst” and categorized them by state. The results of this are shown below.</p>
+<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0 40px 0;">
+<p>Analyst Job Distribution Across the United States</p>
+</div>
+<iframe width="1000" height="700" src="./figures/analyst_job_distribution.html" title="Analyst Distribution"></iframe>
+<p>According to the visual above, Texas and California are the two clear leaders in the total amount of jobs being offered that contain the word “analyst” in the title. Additionally, eastern states show a considerably greater amount of these jobs compared to western states.</p>
+<iframe width="1000" height="700" src="./figures/Avg_salary.html" title="AI vs Non-AI"></iframe>
+<p>The chart above displays the salary breakdown between states for job postings impacted and not impacted by AI. The size of the data points illustrates the number of job postings that each state has. Interestingly, both Texas and California have the largest amount of job postings not affected by AI. We can conclude that a possiblity for this is that in those tech hubs, the jobs AI can replace decreased in demand.</p>
+<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
+<p>Analyst Job Distribution Across Cities in the United States</p>
+</div>
+<iframe width="1000" height="700" src="./figures/job_distribution_cities.html" title="Analyst Distribution"></iframe>
+<p>New York City is the clear leader in analyst jobs available. Another insight is that Texas has 3 cities in the top 10, which indicates a strong job market. Something that surprised us, is that San Francisco finishes lower than expected by rounding out the bottom of the top 10.</p>
+<iframe width="1000" height="700" src="./figures/salary_distribution_states.html" title="Analyst Distribution (with Salaries)"></iframe>
+</section>
+<section id="remote-vs-onsite-job" class="level1">
+<h1>Remote VS Onsite job</h1>
+<section id="remote-job-distribution-by-general-industry" class="level2">
+<h2 class="anchored" data-anchor-id="remote-job-distribution-by-general-industry">Remote Job Distribution by General Industry</h2>
+<iframe width="1000" height="700" src="./figures/top_industries.html" title="Remote Job Distribution by Industry(Top 10 Industries)"></iframe>
+<p>In terms of the Remote Job Distribution by general industry, the top 3 industries are Real Estate and Rental and Leasing, Information, Finance and Insurance. As we can see even the traditional industries such as manufacturing, educational services starte to have higher remote job proportion, which means the remote work nowadays has already became a widespread jobs or requirements across multiple industries.</p>
+<p>###Top Industries: Remote job Trends Over time</p>
+<iframe width="1000" height="700" src="./figures/remote_job_over_time.html" title="Remote Job increase over time(Top 5 Industries)"></iframe>
+<p>Take a dive into the Top industries over time with specific industries, in general, this plot displays monthly trends in job postings for from May 2024 to September 2024. As we can see in here, the remote job ratio was represented by the y-axis, which is the proportion of job postings marked as remote out of total postings in each industry per month. Higher remote ratio, represents their have more remote job opportunities open in each industry.</p>
+<p>Indeed, we can see the general trend in this plot as the remote job among different industries, which reaches the peak in Auguest 2024 and then drop siginificantly in September, which suggests that the many companies end their summer recruitings. As we can see the real estate and rental industry goes from high and crash in September. In contrast, the Finance and Insurance industry has higher stability， which has consistent job postings from May to September.</p>
+<p><img src="./figures/Remote_jobs_Administrative and Support and Waste Management and Remediation Services.jpg" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Remote jobs Administrative and Support and Waste Management and Remediation Services"> From the above plot result, we can see that the remote job ratio trend started low in May, then continue drop low in June, then reached the peak in August (31%), after that drop low in September. In compare with the trend alighed with gray area: job postings are also have more postings in Auguest and less in September.</p>
+<p><img src="./figures/Remote_jobs_Finance and Insurance.jpg" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Remote jobs Finance and Insurance"> From the above plot result, we can see that the remote job ratio trend started low in May, gradually increase in June, then reached the peak in July (33%), after that gradually drop low August. The job posting area remained high and stable through july, which is friendly for people who are seek for remote jobs.</p>
+<p><img src="./figures/Remote_jobs_Real Estate and Rental and Leasing.jpg" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Remote jobs Real Estate and Rental and Leasing"> From the above plot result, we can see that the remote job ratio trend started high (43%) in May, drop in June, then rebound in July then reached the peak in August (53%), after that has a significantly drop in September(near 0). The job posting area remained comparable stable, which has high volumn in May and June, then has a siginificant drop in July and modest increase in Auguest and September. The differences between Job posting</p>
+<iframe width="1000" height="700" src="./figures/state_remote_job_ratio.html" title="Remote state job ratio with average"></iframe>
+<p>From above choreleograph, we can see that the green color depth represents the remote jobs proportions to their job postings, and with the average salary and average job experiences. To be more clearly, we can see that the Maine, Vermont, Alaska and Colorado have higher remote ratio, which represents their high demands on remote jobs souther state on the othe hand has lighter remote ratio, which represents that there are fewer remote job demands in these regions’ industries.</p>
+<section id="random-forest-results" class="level3">
+<h3 class="anchored" data-anchor-id="random-forest-results">Random Forest results</h3>
+<p><img src="./figures/classification_report.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Random Forest results"> <img src="./figures/Confusion_matrix.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Confustion Matrix"> As the two plots displayed a clear results for random forest results, our group has set our target variable for predict people’s preferences on Remote versus Onsite job, where 1 represents a remote job and 0 represents onsite. We also had a set of independent variables, including as: ‘AVG_YEARS_EXPERIENCE’, ‘AVERAGE_SALARY_STATE_REMOTE_AVG’, ‘IS_INTERNSHIP’, ‘STATE_NAME’, ‘NAICS_2022_2_NAME’(industry) ‘EDUCATION_LEVELS_NAME’, ‘COMMON_SKILLS_NAME’, ‘SOFTWARE_SKILLS_NAME’, ‘TITLE_CLEAN’ (occupation). Meanwhile, we split the data into training and testing sets using an 80/20 ratio to ensure generalizability, This means 20% of the data will go into the test set, and 80% will go into the training set. Then we conduct the randam forest model analysis. According to plots, we can conclude the accuracy reached to 94.6%;F1 score as 84.7%, which reflects the robust balance between precision and recall; the precision as 99.4%, which means it has highly accurate rate on predict the results;the sensitivity for class1 as 73.8%, which means it correctly identified the 74% people who pick remote; the sensitivity for class 0 even reached to 99.9%, which means almost all the people who choose non-remote job has correctly classified; balanced accuracy as 86.8%, which represents there is a balance performance between both cases. From the confusion matrix, there has a detailed display, which represents the model correctly predicts 11536 people who choose onsite jobs with only 13 false positives, and it also orrectly predicts 2177 people who choose remote jobs with 774 missed results.</p>
+<p>One major limitation is class imbalance. Remote jobs (class 1) are the minority, which leads the model to perform less effectively on them.To counter this, we used class_weight=‘balanced’ in our Random Forest to give more weight to underrepresented classes. We also built a preprocessing pipeline using ColumnTransformer for encoding categorical and scaling numerical features.Still, further optimization is needed. we recommended three ways to overcome this issue in the future study: Adjusting sample sizes;Tuning model hyperparameters, like n_estimators and max_categories; experimenting with resampling techniques; add crossvalidation steps to void overfitting and ensure the final results’ accuracy.</p>
+<section id="featured-importance" class="level4">
+<h4 class="anchored" data-anchor-id="featured-importance">Featured Importance</h4>
+<p><img src="./figures/Featured_importance.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Featured importance"> Based on the above plot, we can see the top 9 features could be essential in predicting the peoples’prefrences on remote or onsite jobs, we can see the top three essential features are average remote salary by state, Average years of experience and location state-California. These three features can be easily interpreted as the job’s salary, job’s requirement for year experiences and location are vital elements that impact people’s decision on onsite or remote job types, peple prioritize jobs with high salary and better geographic location</p>
+<iframe width="1000" height="700" src="./figures/skill_gap.html" title="Skill Gap Analysis"></iframe>
+<p>The radar chart above displays each individual evaluation of our skills for the top five skills on demand for analyst roles.</p>
+</section>
+</section>
+</section>
+</section>
+<section id="recomendations" class="level1">
+<h1>Recomendations</h1>
+<p>Given our analysis above, we have decided to focus on some of the key actions and learning goals that each of us can take in order to further our chances of landing a high quality position in our chosen industry.</p>
+<section id="sql" class="level3">
+<h3 class="anchored" data-anchor-id="sql">SQL</h3>
+<section id="beginner" class="level4">
+<h4 class="anchored" data-anchor-id="beginner">Beginner</h4>
+<p>We recommend using tools such as SQLBolt to begin developing a foundational understanding of basic syntax, queries, and selecting columns from datasets. This will build familiarity with the program itself and develop a confidence in import and simple manipulation of data.</p>
+</section>
+<section id="intermediate" class="level4">
+<h4 class="anchored" data-anchor-id="intermediate">Intermediate</h4>
+<p>Next, we will incorporate real-world data sets (ex. Kaggle) to begin creating analysis. As an example, you could utilize sales data, new customers, inventory levels, certain trends over time, etc. Utilizng applications such as LinkedIn Learning or Coursera can assist with this.</p>
+</section>
+<section id="advanced" class="level4">
+<h4 class="anchored" data-anchor-id="advanced">Advanced</h4>
+<p>At this stage, we will aim for constructing pipelines that are sufficient from beginning to end and that integrate a prouction quality result. As a final step, DataLemur provides candidates with interview questions that correspond to SQL and have been confirmed by various companies such as Amazon, Google, etc.</p>
+</section>
+</section>
+<section id="onestream" class="level3">
+<h3 class="anchored" data-anchor-id="onestream">OneStream</h3>
+<p>It is important to note that this is a private software application so receiving quality training will be difficult without being sponsored by a company.</p>
+<section id="beginner-1" class="level4">
+<h4 class="anchored" data-anchor-id="beginner-1">Beginner</h4>
+<p>Youtube is the best resource for beginning to familiarize yourself with the main functionality and goals of the software. The company does have their own channel, so it would be advised to watch their videos and learn more about what the application does and how it works.</p>
+</section>
+<section id="intermediate-1" class="level4">
+<h4 class="anchored" data-anchor-id="intermediate-1">Intermediate</h4>
+<p>Consider purchasing an online course through Udemy or Keyteach. While this does require personal spending, it would be the easiest way to gain an understanding without requiring an official license to operate the software. This would help to practice working with the application and exploring key concepts.</p>
+</section>
+<section id="advanced-1" class="level4">
+<h4 class="anchored" data-anchor-id="advanced-1">Advanced</h4>
+<p>This stage would be difficult, because you would need access to the software in order to achieve an advanced level. If you are employed (especially in the financial services industry) consider asking IT for access. There you can work more on complicated structures such as macros and visualization.</p>
+</section>
+</section>
+<section id="aws" class="level3">
+<h3 class="anchored" data-anchor-id="aws">AWS</h3>
+<section id="beginner-2" class="level4">
+<h4 class="anchored" data-anchor-id="beginner-2">Beginner</h4>
+<p>AWS offers free tier accounts where users can begin learning the basic structure of the applications that are offered. Additionally, there are various free courses that are offered by AWS Academy.</p>
+</section>
+<section id="intermediate-2" class="level4">
+<h4 class="anchored" data-anchor-id="intermediate-2">Intermediate</h4>
+<p>Incorporate real world data within AWS to create a storage structure, run queries, and visualize data. Additionally, you can reference Youtube or LinkedIn learning to learn more about EC2 capabilities and Quicksight (for visualization).</p>
+</section>
+<section id="advanced-2" class="level4">
+<h4 class="anchored" data-anchor-id="advanced-2">Advanced</h4>
+<p>Consider learning more about best practices and cost structuring, which will be crucial components of AWS design in a real world company. The goal of this is to begin optimizing your pipelines to make sure that they are production quality. To achieve this, consider completing the AWS Certified Data Analytics course.</p>
+</section>
+</section>
+<section id="power-bi" class="level3">
+<h3 class="anchored" data-anchor-id="power-bi">Power BI</h3>
+<section id="beginner-3" class="level4">
+<h4 class="anchored" data-anchor-id="beginner-3">Beginner</h4>
+<p>At the beginner level it is important to understand the basic UI interface of the application, such as importing data and generating visuals (bar charts, line charts, cards, etc.). Microsoft Learn can help to achieve this with their beginner course.</p>
+</section>
+<section id="intermediate-3" class="level4">
+<h4 class="anchored" data-anchor-id="intermediate-3">Intermediate</h4>
+<p>At this point, you should have the ability to use more complicated processes such as data cleaning, DAX functions, and establishing relationships between multiple datasets. Again, Microsoft Learn has courses called “Design Power BI reports” and “Configure Power BI report filters” that will help achieve this competency.</p>
+</section>
+<section id="advanced-3" class="level4">
+<h4 class="anchored" data-anchor-id="advanced-3">Advanced</h4>
+<p>By now, you should be able to connect your dashboard to other applications like SQL or APIs. Your dashboards should have multiple pages, which include dynamic formatting and the ability to automatically refresh.</p>
+</section>
+</section>
+<section id="office-365" class="level3">
+<h3 class="anchored" data-anchor-id="office-365">Office 365</h3>
+<p>This will be broken down into 3 of the most common applications with an emphasis on Excel. Microsoft 365 is the recommended training tool, as it has learning courses available for all levels.</p>
+<section id="beginner-4" class="level4">
+<h4 class="anchored" data-anchor-id="beginner-4">Beginner</h4>
+<p>Excel: Standard formulas are used such as SUMIF and VLOOKUP. There is familarity with pivot charts and conditional formatting. Outlook: User has the ability to schedule meetings and establish designated email folders. PowerPoint: There is an understanding of presentation structure, as well as formatting and placement of text and visuals.</p>
+</section>
+<section id="intermediate-4" class="level4">
+<h4 class="anchored" data-anchor-id="intermediate-4">Intermediate</h4>
+<p>Excel: Power Query, Data Validation tabs, Index formulas, KPI dashboards with slicers. Outlook: Creating shared calendars and group inboxes. PowerPoint: Linking visuals from other applications, such as Excel.</p>
+</section>
+<section id="advanced-4" class="level4">
+<h4 class="anchored" data-anchor-id="advanced-4">Advanced</h4>
+<p>Excel: VBA and macros combined with dynamic visuals. PowerPoint: Creating custom templates to align with a company’s brand.</p>
+<p>Hello</p>
+<p>About this site</p>
+<p>{{&lt; embed ADAM georgraphic_analysis copy.ipynb &gt;}} {{&lt; embed georgraphic_analysis.ipynb &gt;}} ## References</p>
+
+
+
+</section>
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-roberthalf2024remote" class="csl-entry" role="listitem">
+<span class="smallcaps">Half, R.</span> (2024): <span>“Remote Work Statistics and Trends,”</span>Robert Half<a href="https://www.roberthalf.com/us/en/insights/research/remote-work-statistics-and-trends">https://www.roberthalf.com/us/en/insights/research/remote-work-statistics-and-trends</a>.
+</div>
+<div id="ref-ito2025ai" class="csl-entry" role="listitem">
+<span class="smallcaps">Ito, A.</span> (2025): <span>“New Data Confirms It: AI Is Taking Human Jobs,”</span>Business Insider<a href="https://www.businessinsider.com/ai-hiring-white-collar-recession-jobs-tech-new-data-2025-6">https://www.businessinsider.com/ai-hiring-white-collar-recession-jobs-tech-new-data-2025-6</a>.
+</div>
+<div id="ref-lee2024redefining" class="csl-entry" role="listitem">
+<span class="smallcaps">Lee, J. J., A. Samanta, and M. Lee</span>. (2024): <span>“<a href="https://doi.org/10.48009/3_iis_2024_132">Redefining careers in the age of artificial intelligence</a>,”</span> <em>Issues in Information Systems</em>, 25, 428–38.
+</div>
+<div id="ref-mcelheran2024ai" class="csl-entry" role="listitem">
+<span class="smallcaps">McElheran, K., J. F. Li, E. Brynjolfsson, Z. Kroff, E. Dinlersoz, L. Foster, and N. Zolas</span>. (2024): <span>“<a href="https://doi.org/10.1111/jems.12576">AI adoption in america: Who, what, and where</a>,”</span> <em>Journal of Economics &amp; Management Strategy</em>, 33, 375–415.
+</div>
+<div id="ref-expertpanel2021ai" class="csl-entry" role="listitem">
+<span class="smallcaps">Panel, E.</span> (2021): <span>“14 Tech Experts Predict Which Industries and Sectors Will Benefit Most from AI,”</span>Forbes<a href="https://www.forbes.com/councils/forbestechcouncil/2021/01/20/14-tech-experts-predict-which-industries-and-sectors-will-benefit-most-from-ai/">https://www.forbes.com/councils/forbestechcouncil/2021/01/20/14-tech-experts-predict-which-industries-and-sectors-will-benefit-most-from-ai/</a>.
+</div>
+<div id="ref-stryker2024ai" class="csl-entry" role="listitem">
+<span class="smallcaps">Stryker, C.</span> (2024): <span>“What Is Artificial Intelligence (AI)?”</span>IBM<a href="https://www.ibm.com/think/topics/artificial-intelligence">https://www.ibm.com/think/topics/artificial-intelligence</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("\.");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

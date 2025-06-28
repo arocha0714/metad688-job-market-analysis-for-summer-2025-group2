@@ -1,10 +1,8 @@
 ---
 title: report
-format:
-  docx:
-    toc: true
+format: docx
 bibliography: references.bib
-csl: csl/econometrica.csl  
+csl: csl/econometrica.csl
 ---
 
 {{< include "index.qmd" >}}
@@ -13,6 +11,6 @@ csl: csl/econometrica.csl
 {{< include "modeling.qmd" >}}
 {{< include "skill_gap.qmd" >}}
 {{< include "about.qmd" >}}
-{{< embed ADAM georgraphic_analysis copy.ipynb >}}
-{{< embed georgraphic_analysis.ipynb >}}
+{{< include "ADAM_geographic_analysis.qmd" >}}
+{{< include "geographic_analysis.qmd" >}}
 ## References

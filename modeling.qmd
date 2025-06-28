@@ -18,7 +18,7 @@ exeucte:
 #| warning: false
 #| fig-cap: "Analyst Job Distribution Across the United States"
 #| fig-align: center
-#| label: fig-analyst-distribution
+#| label: fig-analyst-distribution-modeling
 import findspark
 findspark.init()
 
