@@ -6,15 +6,15 @@ format:
         toc: true
         toc-depth: 2
 exeucte:
-    eval: true
-    echo: false
+    eval: false
+    echo: true
     freeze: auto
 ---
 
 
 ```{python}
-#| eval: false
-#| echo: false
+#| eval: false 
+#| echo: true
 #| warning: false
 #| fig-cap: "Analyst Job Distribution Across the United States"
 #| fig-align: center
@@ -47,7 +47,7 @@ df.show(5)
 
 ```{python}
 #| results: 'hide'
-#| echo: false
+#| echo: true
 #| warning: false
 #| eval: false
 
@@ -56,7 +56,7 @@ df = pd.read_csv("./data/lightcast_job_postings.csv")
 ```
 
 ```{python}
-#| echo: false
+#| echo: true
 #| results: hide
 #| warning: false
 #| eval: false
@@ -75,7 +75,7 @@ df.drop(columns=columns_to_drop, inplace=True)
 ```
 
 ```{python}
-#| echo: false
+#| echo: true
 #| results: hide
 #| warning: false
 #| eval: false
@@ -84,7 +84,7 @@ print(df.columns.tolist())
 ```
 
 ```{python}
-#| echo: false
+#| echo: true
 #| results: hide
 #| warning: false
 #| eval: false
@@ -94,7 +94,7 @@ print(df.columns.tolist())
 ```{python}
 #| results: 'hide'
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import missingno as msno
 import matplotlib.pyplot as plt
@@ -115,7 +115,7 @@ if 'Industry' in df.columns:
 ```{python}
 #| results: 'hide'
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df = df.drop_duplicates(subset=["TITLE", "COMPANY", "LOCATION", "POSTED"], keep="first")
 ```
@@ -123,7 +123,7 @@ df = df.drop_duplicates(subset=["TITLE", "COMPANY", "LOCATION", "POSTED"], keep=
 ```{python}
 #| results: 'hide'
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df = df[df['NAICS_2022_2_NAME'] != 'Unclassified Industry']
 ```
@@ -131,7 +131,7 @@ df = df[df['NAICS_2022_2_NAME'] != 'Unclassified Industry']
 ```{python}
 #| results: 'hide'
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].replace('[None]', 'Not Remote')
 
@@ -141,7 +141,7 @@ df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].replace('[None]', 'Not Remote')
 ```{python}
 #| results: 'hide'
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import pandas as pd
 import plotly.express as px
@@ -215,7 +215,7 @@ fig.show()
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import pandas as pd
 import numpy as np
@@ -229,7 +229,7 @@ import seaborn as sns
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 #read files
 file_path = "./data/lightcast_job_postings.csv"
@@ -238,14 +238,14 @@ df = pd.read_csv(file_path)
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 print(df['REMOTE_TYPE_NAME'].value_counts(dropna=False).head(10))
 ```
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 # Step 1: Standardize formatting
 df['REMOTE_TYPE_NAME'] = (
@@ -259,7 +259,7 @@ df['REMOTE_TYPE_NAME'] = (
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 # Step 2: Fill missing or ambiguous entries with 'Not Remote'
 df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].fillna('Not Remote')
@@ -269,7 +269,7 @@ print(df['REMOTE_TYPE_NAME'].value_counts(dropna=False).head(10))
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 # Convert all values to strings and strip whitespace
 df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].astype(str).str.strip()
@@ -277,7 +277,7 @@ df['REMOTE_TYPE_NAME'] = df['REMOTE_TYPE_NAME'].astype(str).str.strip()
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 # Apply new classification logic
 df['REMOTE_BINARY'] = df['REMOTE_TYPE_NAME'].apply(
@@ -288,7 +288,7 @@ df['REMOTE_BINARY'] = df['REMOTE_TYPE_NAME'].apply(
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 print(df['REMOTE_TYPE_NAME'].value_counts())
 print("\nBinary classification:")
@@ -297,7 +297,7 @@ print(df['REMOTE_BINARY'].value_counts())
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import pandas as pd
 import numpy as np
@@ -324,7 +324,7 @@ print(avg_salary_by_state_remote)
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df = df.merge(avg_salary_by_state_remote,
               on=['STATE_NAME', 'REMOTE_TYPE_NAME'],
@@ -333,7 +333,7 @@ df = df.merge(avg_salary_by_state_remote,
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df = df.merge(
     avg_salary_by_state_remote,
@@ -345,14 +345,14 @@ df = df.merge(
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo:  true
 #| warning: false
 [col for col in df.columns if 'AVG' in col or 'SALARY' in col]
 ```
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df = df.rename(columns={'AVERAGE_SALARY_y': 'AVERAGE_SALARY_STATE_REMOTE_AVG'})
 
@@ -360,7 +360,7 @@ df = df.rename(columns={'AVERAGE_SALARY_y': 'AVERAGE_SALARY_STATE_REMOTE_AVG'})
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import pandas as pd
 import numpy as np
@@ -379,7 +379,7 @@ import matplotlib.pyplot as plt
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 # Remove duplicate column names across full dataframe
 df = df.loc[:, ~df.columns.duplicated()]
@@ -387,7 +387,7 @@ df = df.loc[:, ~df.columns.duplicated()]
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df['AVG_YEARS_EXPERIENCE'] = (df['MIN_YEARS_EXPERIENCE'] + df['MAX_YEARS_EXPERIENCE']) / 2
 df['EXP_SPREAD'] = df['MAX_YEARS_EXPERIENCE'] - df['MIN_YEARS_EXPERIENCE']
@@ -395,14 +395,14 @@ df['EXP_SPREAD'] = df['MAX_YEARS_EXPERIENCE'] - df['MIN_YEARS_EXPERIENCE']
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 df = df.drop(columns=['MIN_YEARS_EXPERIENCE', 'MAX_YEARS_EXPERIENCE'])
 ```
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 num_feats = [
     'AVG_YEARS_EXPERIENCE',
@@ -426,7 +426,7 @@ y = df['REMOTE_BINARY']
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -437,7 +437,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 preprocess = ColumnTransformer(transformers=[
     ("num", StandardScaler(), num_feats),
@@ -447,7 +447,7 @@ preprocess = ColumnTransformer(transformers=[
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
@@ -456,7 +456,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 from sklearn.ensemble import RandomForestClassifier
 # Preprocessing step
@@ -469,7 +469,7 @@ clf = RandomForestClassifier(random_state=42, class_weight='balanced')
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
@@ -490,14 +490,14 @@ pipe = Pipeline(steps=[
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 pipe.fit(X_train, y_train)
 ```
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 y_pred = pipe.predict(X_test)
 
@@ -521,7 +521,7 @@ print("Balanced Accuracy:", round(balanced_accuracy_score(y_test, y_pred), 3))
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 cm = confusion_matrix(y_test, y_pred)
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
@@ -533,7 +533,7 @@ plt.show()
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 rf_model       = pipe.named_steps["model"]          # RandomForestClassifier
 feature_names  = pipe.named_steps["prep"].get_feature_names_out()
@@ -552,7 +552,7 @@ print(feat_imp.head(9).to_string(index=False))
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -573,7 +573,7 @@ plt.show()
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import pandas as pd
 import plotly.express as px
@@ -641,7 +641,7 @@ fig.show()
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -653,7 +653,7 @@ df['POSTED_YM'] = df['POSTED'].dt.to_period('M').astype(str)
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 industry_trends = (
     df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM'])['REMOTE_BINARY']
@@ -664,7 +664,7 @@ industry_trends = (
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 # Step 3: Select top 5 industries with highest overall average remote ratio
 top_industries = (
@@ -679,7 +679,7 @@ filtered_trends = industry_trends[industry_trends['NAICS_2022_2_NAME'].isin(top_
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 import plotly.express as px
 
@@ -709,7 +709,7 @@ fig.show()
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 #Groupby industry + month and calculate both:
 industry_month_stats = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).agg(
@@ -720,28 +720,28 @@ industry_month_stats = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).agg(
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 job_count = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM']).size().reset_index(name='JOB_COUNT')
 ```
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 remote_ratio = df.groupby(['NAICS_2022_2_NAME', 'POSTED_YM'])['REMOTE_BINARY'].mean().reset_index(name='REMOTE_RATIO')
 ```
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 industry_month_stats = pd.merge(remote_ratio, job_count, on=['NAICS_2022_2_NAME', 'POSTED_YM'])
 ```
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 
 import matplotlib.pyplot as plt

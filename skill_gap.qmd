@@ -5,13 +5,13 @@ format:
         toc: true
         toc-depth: 2
 execute:
-  echo: false   
+  echo: true
   message: false   
-  eval: true
+  eval: false
 ---
 ```{python}
 #| results: 'hide'
-#| echo: false
+#| echo: true
 
 import findspark
 findspark.init()
@@ -37,14 +37,14 @@ df = spark.read.option("header", "true").option("inferSchema", "true").option("m
 ```
 
 ```{python}
-#| echo: false
+#| echo: true
 #| results: 'hide'
 df.createOrReplaceTempView("jobs")
 ```
 
 ```{python}
 #| results: 'hide'
-#| echo: false
+#| echo: true
 software_skill_counts_by_type = spark.sql("""
     SELECT software_skills_name, COUNT(*) AS count
     FROM jobs
@@ -60,7 +60,7 @@ software_skill_counts_by_type.show(truncate=False)
 
 ```{python}
 #| results: 'hide'
-#| echo: false
+#| echo: true
 skill_counts_by_type = spark.sql("""
     SELECT skills_name, COUNT(*) AS count
     FROM jobs
@@ -76,7 +76,7 @@ skill_counts_by_type.show(truncate=False)
 
 ```{python}
 #| results: 'hide'
-#| echo: false
+#| echo: true
 import pandas as pd
 
 skills_data = {
@@ -96,7 +96,7 @@ df_skills
 
 ```{python}
 #| eval: false
-#| echo: false
+#| echo: true
 #| warning: false
 #| fig-cap: "Skillset Analysis"
 #| fig-align: center
