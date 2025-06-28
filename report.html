@@ -288,7 +288,7 @@ div.csl-indent {
 <p><img src="./figures/Remote_jobs_Real Estate and Rental and Leasing.jpg" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Remote jobs Real Estate and Rental and Leasing"> From the above plot result, we can see that the remote job ratio trend started high (43%) in May, drop in June, then rebound in July then reached the peak in August (53%), after that has a significantly drop in September(near 0). The job posting area remained comparable stable, which has high volumn in May and June, then has a siginificant drop in July and modest increase in Auguest and September. The differences between Job posting</p>
 <iframe width="1000" height="700" src="./figures/state_remote_job_ratio.html" title="Remote state job ratio with average"></iframe>
 <p>From above choreleograph, we can see that the green color depth represents the remote jobs proportions to their job postings, and with the average salary and average job experiences. To be more clearly, we can see that the Maine, Vermont, Alaska and Colorado have higher remote ratio, which represents their high demands on remote jobs souther state on the othe hand has lighter remote ratio, which represents that there are fewer remote job demands in these regions’ industries.</p>
-<div id="b268282d" class="cell" data-execution_count="10">
+<div id="3ba9c7e7" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> findspark</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>findspark.init()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -312,7 +312,7 @@ div.csl-indent {
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>df.printSchema() <span class="co"># comment this line when rendering the submission</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="855d80af" class="cell" data-execution_count="11">
+<div id="37be9b8a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clean the data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.ml.feature <span class="im">import</span> StringIndexer, OneHotEncoder, VectorAssembler</span>
@@ -335,12 +335,12 @@ div.csl-indent {
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>df_clean.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1b93889d" class="cell" data-execution_count="12">
+<div id="1e152d14" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>titles <span class="op">=</span> df_clean.select(<span class="st">"TITLE_NAME"</span>).distinct().rdd.flatMap(<span class="kw">lambda</span> x: x).collect()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> title <span class="kw">in</span> titles:</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(title)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="da759543" class="cell" data-execution_count="13">
+<div id="f6d07ba1" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#gave chatgpt the list and told it to split into ai impacted and not</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ai_impacted_jobs <span class="op">=</span> [</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Trust Officers'</span>,</span>
@@ -910,7 +910,7 @@ div.csl-indent {
 <span id="cb4-567"><a href="#cb4-567" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Salesforce Consultants'</span></span>
 <span id="cb4-568"><a href="#cb4-568" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e5edba5f" class="cell" data-execution_count="14">
+<div id="499ddf76" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> when, col, lit, avg, count</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_final <span class="op">=</span> df_clean.withColumn(</span>
@@ -930,7 +930,7 @@ div.csl-indent {
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>df_final.select(<span class="st">"count"</span>).distinct().show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c6f02a2c" class="cell" data-execution_count="15">
+<div id="771a1a21" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_final_pd <span class="op">=</span> df_final.toPandas()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.scatter(</span>
@@ -991,11 +991,11 @@ Figure&nbsp;1
 </figcaption>
 </figure>
 </div>
-<div id="5082423f" class="cell" data-results="hide" data-execution_count="17">
+<div id="db7ea7c0" class="cell" data-results="hide" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="20e1e1bb" class="cell" data-results="hide" data-execution_count="18">
+<div id="f0b7d213" class="cell" data-results="hide" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
@@ -1008,13 +1008,13 @@ Figure&nbsp;1
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8a4af179" class="cell" data-results="hide" data-execution_count="19">
+<div id="ca442889" class="cell" data-results="hide" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2fdf6351" class="cell" data-results="hide" data-execution_count="20">
+<div id="04b72288" class="cell" data-results="hide" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install missingno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="778008e5" class="cell" data-results="hide" data-execution_count="21">
+<div id="65488f7e" class="cell" data-results="hide" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> missingno <span class="im">as</span> msno</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missing values</span></span>
@@ -1030,16 +1030,16 @@ Figure&nbsp;1
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Industry"</span>].fillna(<span class="st">"Unknown"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Salary"</span>].fillna(df[<span class="st">"Salary"</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="6191fb7c" class="cell" data-results="hide" data-execution_count="22">
+<div id="c48e4af4" class="cell" data-results="hide" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span>[<span class="st">"TITLE"</span>, <span class="st">"COMPANY"</span>, <span class="st">"LOCATION"</span>, <span class="st">"POSTED"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="70904727" class="cell" data-results="hide" data-execution_count="23">
+<div id="7e5241b9" class="cell" data-results="hide" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'NAICS_2022_2_NAME'</span>] <span class="op">!=</span> <span class="st">'Unclassified Industry'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d9c77c9c" class="cell" data-results="hide" data-execution_count="24">
+<div id="aef4577e" class="cell" data-results="hide" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].replace(<span class="st">'[None]'</span>, <span class="st">'Not Remote'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f9fdb8ee" class="cell" data-results="hide" data-execution_count="25">
+<div id="47312f37" class="cell" data-results="hide" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1106,7 +1106,7 @@ Figure&nbsp;1
 <span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
 <span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8b80fab6" class="cell" data-execution_count="26">
+<div id="fa504945" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -1116,15 +1116,15 @@ Figure&nbsp;1
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="bcf81e54" class="cell" data-execution_count="27">
+<div id="bdfe734d" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read files</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">"./data/lightcast_job_postings.csv"</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(file_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="78fe0a17" class="cell" data-execution_count="28">
+<div id="272e485e" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="dbc4ce64" class="cell" data-execution_count="29">
+<div id="de30dab7" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Standardize formatting</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> (</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'REMOTE_TYPE_NAME'</span>]</span>
@@ -1134,28 +1134,28 @@ Figure&nbsp;1
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    .replace({<span class="st">'None'</span>: pd.NA, <span class="st">'Nan'</span>: pd.NA})</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="50f02975" class="cell" data-execution_count="30">
+<div id="af13835f" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Fill missing or ambiguous entries with 'Not Remote'</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].fillna(<span class="st">'Not Remote'</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">==</span> <span class="st">"[None]"</span>, <span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> <span class="st">"Not Remote"</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0ad8d90e" class="cell" data-execution_count="31">
+<div id="c3960e76" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert all values to strings and strip whitespace</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.strip()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="34c88709" class="cell" data-execution_count="32">
+<div id="bcc93c88" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply new classification logic</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_BINARY'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].<span class="bu">apply</span>(</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="kw">in</span> [<span class="st">'Remote'</span>, <span class="st">'Hybrid Remote'</span>] <span class="cf">else</span> <span class="dv">0</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="421682c2" class="cell" data-execution_count="33">
+<div id="e3fb1a46" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts())</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Binary classification:"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_BINARY'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c52adc22" class="cell" data-execution_count="34">
+<div id="2bb897d6" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1178,12 +1178,12 @@ Figure&nbsp;1
 <span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Show results</span></span>
 <span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(avg_salary_by_state_remote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5a22ec2b" class="cell" data-execution_count="35">
+<div id="d8b59076" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.merge(avg_salary_by_state_remote,</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>              on<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'REMOTE_TYPE_NAME'</span>],</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>              how<span class="op">=</span><span class="st">'left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="dab19060" class="cell" data-execution_count="36">
+<div id="2acc3b50" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.merge(</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    avg_salary_by_state_remote,</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'REMOTE_TYPE_NAME'</span>],</span>
@@ -1191,13 +1191,13 @@ Figure&nbsp;1
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    suffixes<span class="op">=</span>(<span class="st">''</span>, <span class="st">'_STATE_REMOTE_AVG'</span>)</span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1cfbc6fd" class="cell" data-execution_count="37">
+<div id="64682aab" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>[col <span class="cf">for</span> col <span class="kw">in</span> df.columns <span class="cf">if</span> <span class="st">'AVG'</span> <span class="kw">in</span> col <span class="kw">or</span> <span class="st">'SALARY'</span> <span class="kw">in</span> col]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cd28a38a" class="cell" data-execution_count="38">
+<div id="b144e7de" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">'AVERAGE_SALARY_y'</span>: <span class="st">'AVERAGE_SALARY_STATE_REMOTE_AVG'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="3a19e246" class="cell" data-execution_count="39">
+<div id="a97af576" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -1212,18 +1212,18 @@ Figure&nbsp;1
 <span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e39ae607" class="cell" data-execution_count="40">
+<div id="34f0cd09" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicate column names across full dataframe</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.loc[:, <span class="op">~</span>df.columns.duplicated()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="760f6b04" class="cell" data-execution_count="41">
+<div id="323022a6" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'AVG_YEARS_EXPERIENCE'</span>] <span class="op">=</span> (df[<span class="st">'MIN_YEARS_EXPERIENCE'</span>] <span class="op">+</span> df[<span class="st">'MAX_YEARS_EXPERIENCE'</span>]) <span class="op">/</span> <span class="dv">2</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'EXP_SPREAD'</span>] <span class="op">=</span> df[<span class="st">'MAX_YEARS_EXPERIENCE'</span>] <span class="op">-</span> df[<span class="st">'MIN_YEARS_EXPERIENCE'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="dcbe0a82" class="cell" data-execution_count="42">
+<div id="1bc3e751" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'MIN_YEARS_EXPERIENCE'</span>, <span class="st">'MAX_YEARS_EXPERIENCE'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d0d5442e" class="cell" data-execution_count="43">
+<div id="ef4e44a8" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>num_feats <span class="op">=</span> [</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AVG_YEARS_EXPERIENCE'</span>,</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AVERAGE_SALARY_STATE_REMOTE_AVG'</span>,</span>
@@ -1243,25 +1243,25 @@ Figure&nbsp;1
 <span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[num_feats <span class="op">+</span> cat_feats]</span>
 <span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'REMOTE_BINARY'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7c4f52df" class="cell" data-execution_count="44">
+<div id="84e86013" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, OneHotEncoder</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4b7c3f9b" class="cell" data-execution_count="45">
+<div id="00630c19" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>preprocess <span class="op">=</span> ColumnTransformer(transformers<span class="op">=</span>[</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"num"</span>, StandardScaler(), num_feats),</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"cat"</span>, OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">'ignore'</span>, sparse_output<span class="op">=</span><span class="va">False</span>), cat_feats)</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="843fb51a" class="cell" data-execution_count="46">
+<div id="5c51ffa6" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b3875358" class="cell" data-execution_count="47">
+<div id="9682d661" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocessing step</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>preprocess <span class="op">=</span> ColumnTransformer(transformers<span class="op">=</span>[</span>
@@ -1270,7 +1270,7 @@ Figure&nbsp;1
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>])</span>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>, class_weight<span class="op">=</span><span class="st">'balanced'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d090ebc9" class="cell" data-execution_count="48">
+<div id="3f25de3b" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1287,10 +1287,10 @@ Figure&nbsp;1
 <span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'model'</span>, rf)</span>
 <span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="41c44365" class="cell" data-execution_count="49">
+<div id="bf583eaa" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pipe.fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0f88be73" class="cell" data-execution_count="50">
+<div id="1fc7ab62" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> pipe.predict(X_test)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification report and confusion matrix</span></span>
@@ -1308,7 +1308,7 @@ Figure&nbsp;1
 <span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    recall_score(y_test, y_pred, pos_label<span class="op">=</span><span class="dv">0</span>), <span class="dv">3</span>))</span>
 <span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Balanced Accuracy:"</span>, <span class="bu">round</span>(balanced_accuracy_score(y_test, y_pred), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2970c357" class="cell" data-execution_count="51">
+<div id="b9f066d0" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cm, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Predicted"</span>)</span>
@@ -1316,7 +1316,7 @@ Figure&nbsp;1
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix"</span>)</span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b73f0f58" class="cell" data-execution_count="52">
+<div id="e9a57973" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>rf_model       <span class="op">=</span> pipe.named_steps[<span class="st">"model"</span>]          <span class="co"># RandomForestClassifier</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>feature_names  <span class="op">=</span> pipe.named_steps[<span class="st">"prep"</span>].get_feature_names_out()</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1331,7 +1331,7 @@ Figure&nbsp;1
 <span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Top 9 – Tree-based Importances"</span>)</span>
 <span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(feat_imp.head(<span class="dv">9</span>).to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b33bff96" class="cell" data-execution_count="53">
+<div id="1094a962" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1348,7 +1348,7 @@ Figure&nbsp;1
 <span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b70a1bb2" class="cell" data-execution_count="54">
+<div id="1e9cf271" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1410,7 +1410,7 @@ Figure&nbsp;1
 <span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8d1b2fcb" class="cell" data-execution_count="55">
+<div id="b2a2e7e4" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1418,14 +1418,14 @@ Figure&nbsp;1
 <span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'POSTED'</span>])</span>
 <span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_YM'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="70e8317f" class="cell" data-execution_count="56">
+<div id="42e8c97b" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>industry_trends <span class="op">=</span> (</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>])[<span class="st">'REMOTE_BINARY'</span>]</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    .reset_index(name<span class="op">=</span><span class="st">'REMOTE_RATIO'</span>)</span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="241640b3" class="cell" data-execution_count="57">
+<div id="65180dd2" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Select top 5 industries with highest overall average remote ratio</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> (</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    industry_trends.groupby(<span class="st">'NAICS_2022_2_NAME'</span>)[<span class="st">'REMOTE_RATIO'</span>]</span>
@@ -1436,7 +1436,7 @@ Figure&nbsp;1
 <span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>filtered_trends <span class="op">=</span> industry_trends[industry_trends[<span class="st">'NAICS_2022_2_NAME'</span>].isin(top_industries)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="54ddb296" class="cell" data-execution_count="58">
+<div id="5e7c2055" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.line(</span>
@@ -1462,23 +1462,23 @@ Figure&nbsp;1
 <span id="cb49-23"><a href="#cb49-23" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/remote_job_over_time.html"</span>)</span>
 <span id="cb49-24"><a href="#cb49-24" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cf4ce666" class="cell" data-execution_count="59">
+<div id="cb91fe76" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Groupby industry + month and calculate both:</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>industry_month_stats <span class="op">=</span> df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>]).agg(</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    TOTAL_JOBS<span class="op">=</span>(<span class="st">'REMOTE_BINARY'</span>, <span class="st">'count'</span>),</span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    REMOTE_RATIO<span class="op">=</span>(<span class="st">'REMOTE_BINARY'</span>, <span class="st">'mean'</span>)</span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>).reset_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f4155f03" class="cell" data-execution_count="60">
+<div id="0defb4c5" class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>job_count <span class="op">=</span> df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'JOB_COUNT'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b8d25c5a" class="cell" data-execution_count="61">
+<div id="43319b1d" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>remote_ratio <span class="op">=</span> df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>])[<span class="st">'REMOTE_BINARY'</span>].mean().reset_index(name<span class="op">=</span><span class="st">'REMOTE_RATIO'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a421ff96" class="cell" data-execution_count="62">
+<div id="33d8e046" class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>industry_month_stats <span class="op">=</span> pd.merge(remote_ratio, job_count, on<span class="op">=</span>[<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1993d8e0" class="cell" data-execution_count="63">
+<div id="6def671e" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose 2–3 industries to plot (or loop one at a time)</span></span>
@@ -1522,7 +1522,7 @@ Figure&nbsp;1
 <section id="featured-importance" class="level4">
 <h4 class="anchored" data-anchor-id="featured-importance">Featured Importance</h4>
 <p><img src="./figures/Featured_importance.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Featured importance"> Based on the above plot, we can see the top 9 features could be essential in predicting the peoples’prefrences on remote or onsite jobs, we can see the top three essential features are average remote salary by state, Average years of experience and location state-California. These three features can be easily interpreted as the job’s salary, job’s requirement for year experiences and location are vital elements that impact people’s decision on onsite or remote job types, peple prioritize jobs with high salary and better geographic location</p>
-<div id="bcc5273d" class="cell" data-results="hide" data-execution_count="65">
+<div id="fb4a398a" class="cell" data-results="hide" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> findspark</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>findspark.init()</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1542,10 +1542,10 @@ Figure&nbsp;1
 <span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
 <span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.option(<span class="st">"header"</span>, <span class="st">"true"</span>).option(<span class="st">"inferSchema"</span>, <span class="st">"true"</span>).option(<span class="st">"multiLine"</span>,<span class="st">"true"</span>).option(<span class="st">"escape"</span>, <span class="st">"</span><span class="ch">\"</span><span class="st">"</span>).csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="13a1e7a9" class="cell" data-results="hide" data-execution_count="66">
+<div id="7e8e4dbd" class="cell" data-results="hide" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>df.createOrReplaceTempView(<span class="st">"jobs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="3e607e3f" class="cell" data-results="hide" data-execution_count="67">
+<div id="58d60283" class="cell" data-results="hide" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>software_skill_counts_by_type <span class="op">=</span> spark.sql(<span class="st">"""</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT software_skills_name, COUNT(*) AS count</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM jobs</span></span>
@@ -1558,7 +1558,7 @@ Figure&nbsp;1
 <span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
 <span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>software_skill_counts_by_type.show(truncate<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7ea2a219" class="cell" data-results="hide" data-execution_count="68">
+<div id="69859cec" class="cell" data-results="hide" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>skill_counts_by_type <span class="op">=</span> spark.sql(<span class="st">"""</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT skills_name, COUNT(*) AS count</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM jobs</span></span>
@@ -1571,7 +1571,7 @@ Figure&nbsp;1
 <span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>skill_counts_by_type.show(truncate<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e0699b06" class="cell" data-results="hide" data-execution_count="69">
+<div id="fe9aa197" class="cell" data-results="hide" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>skills_data <span class="op">=</span> {</span>
@@ -1587,7 +1587,7 @@ Figure&nbsp;1
 <span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a>df_skills.set_index(<span class="st">"Name"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>df_skills</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1c374e2c" class="cell" data-execution_count="70">
+<div id="3f0a03ab" class="cell" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
