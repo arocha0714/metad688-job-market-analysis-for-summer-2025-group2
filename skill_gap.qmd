@@ -7,7 +7,7 @@ format:
 execute:
   echo: false   
   message: false   
-  eval: false
+  eval: true
 ---
 ```{python}
 #| results: 'hide'

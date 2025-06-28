@@ -11,6 +11,5 @@ csl: csl/econometrica.csl
 {{< include "modeling.qmd" >}}
 {{< include "skill_gap.qmd" >}}
 {{< include "about.qmd" >}}
-{{< include "ADAM_geographic_analysis.qmd" >}}
-{{< include "geographic_analysis.qmd" >}}
+
 ## References

@@ -6,8 +6,8 @@ format:
         toc: true
         toc-depth: 2
 exeucte:
-    eval: false
-    echo: true
+    eval: true
+    echo: false
     freeze: auto
 ---
 

@@ -6,18 +6,13 @@ format:
         toc: true
         toc-depth: 2
 exeucte:
-    eval: false
-    echo: true
+    eval: true
+    echo: false
     freeze: auto
----
-
+    
 # Introduction
 
 Our group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word "analyst" and categorized them by state. The results of this are shown below.
-
-<div style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0 40px 0;">
-Analyst Job Distribution Across the United States
-</div>
 
 ```{python}
 #| eval: false
@@ -26,6 +21,7 @@ Analyst Job Distribution Across the United States
 #| fig-cap: "Analyst Job Distribution Across the United States"
 #| fig-align: center
 #| label: fig-analyst-distribution
+
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
