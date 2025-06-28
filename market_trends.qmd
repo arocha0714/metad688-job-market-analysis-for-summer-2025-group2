@@ -6,10 +6,10 @@ format:
         toc: true
         toc-depth: 2
 exeucte:
-    eval: true
+    eval: false
     echo: false
-    freeze: auto
-    
+---
+
 # Introduction
 
 Our group has decided to evaluate the distribution of jobs related to techonology across the United States. In order to do this, we used a count of any jobs containing the word "analyst" and categorized them by state. The results of this are shown below.
@@ -173,9 +173,9 @@ df_clean.show(5)
 #| eval: false
 #| echo: false
 #| warning: false
-titles = df_clean.select("TITLE_NAME").distinct().rdd.flatMap(lambda x: x).collect()
-for title in titles:
-    print(title)
+# titles = df_clean.select("TITLE_NAME").distinct().rdd.flatMap(lambda x: x).collect()
+# for title in titles:
+#     print(title)
 ```
 
 ```{python}
