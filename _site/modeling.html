@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -148,6 +183,707 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div id="fig-analyst-distribution-modeling" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="1">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-analyst-distribution-modeling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> findspark</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>findspark.init()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>pio.renderers.default <span class="op">=</span> <span class="st">"notebook"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Spark Session</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>spark <span class="op">=</span> SparkSession.builder.appName(<span class="st">"LightcastData"</span>).getOrCreate()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> spark.read.option(<span class="st">"header"</span>, <span class="st">"true"</span>).option(<span class="st">"inferSchema"</span>, <span class="st">"true"</span>).option(<span class="st">"multiLine"</span>,<span class="st">"true"</span>).option(<span class="st">"escape"</span>, <span class="st">"</span><span class="ch">\"</span><span class="st">"</span>).csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Show Schema and Sample Data</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"---This is Diagnostic check, No need to print it in the final doc---"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>df.printSchema() <span class="co"># comment this line when rendering the submission</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>df.show(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-analyst-distribution-modeling-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+<div id="9a2a4015" class="cell" data-results="hide" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="56446767" class="cell" data-results="hide" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/lightcast_job_postings.csv"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>df.drop(columns<span class="op">=</span>columns_to_drop, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="7dd2a46b" class="cell" data-results="hide" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="98bda0e9" class="cell" data-results="hide" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install missingno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="3ab05d85" class="cell" data-results="hide" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> missingno <span class="im">as</span> msno</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missing values</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>msno.heatmap(df)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Missing Values Heatmap"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop columns with &gt;50% missing values</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>df.dropna(thresh<span class="op">=</span><span class="bu">len</span>(df) <span class="op">*</span> <span class="fl">0.5</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill only the columns you actually have</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'Industry'</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Industry"</span>].fillna(<span class="st">"Unknown"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Salary"</span>].fillna(df[<span class="st">"Salary"</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="5b209605" class="cell" data-results="hide" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop_duplicates(subset<span class="op">=</span>[<span class="st">"TITLE"</span>, <span class="st">"COMPANY"</span>, <span class="st">"LOCATION"</span>, <span class="st">"POSTED"</span>], keep<span class="op">=</span><span class="st">"first"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="24c696a3" class="cell" data-results="hide" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'NAICS_2022_2_NAME'</span>] <span class="op">!=</span> <span class="st">'Unclassified Industry'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="aba7b5bb" class="cell" data-results="hide" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].replace(<span class="st">'[None]'</span>, <span class="st">'Not Remote'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="6f8d8c7e" class="cell" data-results="hide" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Prepare data</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Industry'</span>: [</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Wholesale Trade'</span>, <span class="st">'Retail Trade'</span>, <span class="st">'Real Estate and Rental and Leasing'</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Professional, Scientific, and Technical Services'</span>, <span class="st">'Manufacturing'</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Information'</span>, <span class="st">'Health Care and Social Assistance'</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Finance and Insurance'</span>, <span class="st">'Educational Services'</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Administrative and Support and Waste Management and Remediation Services'</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Flexible Remote'</span>: [<span class="fl">87.8</span>, <span class="fl">94.4</span>, <span class="fl">97.6</span>, <span class="fl">92.2</span>, <span class="fl">89.7</span>, <span class="fl">95.8</span>, <span class="fl">92.1</span>, <span class="fl">94.8</span>, <span class="fl">89.0</span>, <span class="fl">94.8</span>],</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Onsite'</span>: [<span class="fl">12.2</span>, <span class="fl">5.6</span>, <span class="fl">2.4</span>, <span class="fl">7.8</span>, <span class="fl">10.3</span>, <span class="fl">4.2</span>, <span class="fl">7.9</span>, <span class="fl">5.2</span>, <span class="fl">11.0</span>, <span class="fl">5.2</span>]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Sort in ascending order of Flexible Remote</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>df_sorted <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'Flexible Remote'</span>, ascending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>df_sorted[<span class="st">'Industry'</span>] <span class="op">=</span> pd.Categorical(df_sorted[<span class="st">'Industry'</span>], categories<span class="op">=</span>df_sorted[<span class="st">'Industry'</span>], ordered<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Melt data for stacked bar format</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>df_melted <span class="op">=</span> df_sorted.melt(</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span><span class="st">'Industry'</span>,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    value_vars<span class="op">=</span>[<span class="st">'Flexible Remote'</span>, <span class="st">'Onsite'</span>],</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">'Remote Type'</span>,</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    value_name<span class="op">=</span><span class="st">'Percentage'</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Plot</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.bar(</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    df_melted,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'Percentage'</span>,</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'Industry'</span>,</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'Remote Type'</span>,</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    orientation<span class="op">=</span><span class="st">'h'</span>,</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span><span class="st">'Percentage'</span>,</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    color_discrete_map<span class="op">=</span>{</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Flexible Remote'</span>: <span class="st">'#1aab89'</span>,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Onsite'</span>: <span class="st">'#88d4c3'</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Remote Job Distribution by Industry (Top 10 Industries)"</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Layout adjustments</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"Percentage of Jobs"</span>,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">""</span>,</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(tickformat<span class="op">=</span><span class="st">".0f"</span>),</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    legend_title<span class="op">=</span><span class="st">"Remote Type"</span>,</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    barmode<span class="op">=</span><span class="st">'stack'</span>,</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(l<span class="op">=</span><span class="dv">10</span>, r<span class="op">=</span><span class="dv">10</span>, t<span class="op">=</span><span class="dv">60</span>, b<span class="op">=</span><span class="dv">40</span>),</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">500</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 6: Label formatting</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>fig.update_traces(texttemplate<span class="op">=</span><span class="st">'%</span><span class="sc">{text:.1f}</span><span class="st">%'</span>, textposition<span class="op">=</span><span class="st">'inside'</span>)</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Save plot</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/top_industries.html"</span>)</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Show plot</span></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="95e8bc5f" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, confusion_matrix, f1_score, accuracy_score</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="5899ee29" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read files</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">"./data/lightcast_job_postings.csv"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(file_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="ffac8ffd" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="e518ba96" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Standardize formatting</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> (</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'REMOTE_TYPE_NAME'</span>]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    .astype(<span class="bu">str</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.strip()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.title()</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    .replace({<span class="st">'None'</span>: pd.NA, <span class="st">'Nan'</span>: pd.NA})</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="ff0b3470" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Fill missing or ambiguous entries with 'Not Remote'</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].fillna(<span class="st">'Not Remote'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">==</span> <span class="st">"[None]"</span>, <span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> <span class="st">"Not Remote"</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="f46925f4" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert all values to strings and strip whitespace</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_TYPE_NAME'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.strip()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="ef49c432" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply new classification logic</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'REMOTE_BINARY'</span>] <span class="op">=</span> df[<span class="st">'REMOTE_TYPE_NAME'</span>].<span class="bu">apply</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="dv">1</span> <span class="cf">if</span> x <span class="kw">in</span> [<span class="st">'Remote'</span>, <span class="st">'Hybrid Remote'</span>] <span class="cf">else</span> <span class="dv">0</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="8469ebcc" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_TYPE_NAME'</span>].value_counts())</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Binary classification:"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'REMOTE_BINARY'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="774b758b" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure salary columns are numeric and handle missing values</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'SALARY_FROM'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'SALARY_FROM'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>).replace(<span class="dv">0</span>, np.nan)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'SALARY_TO'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'SALARY_TO'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>).replace(<span class="dv">0</span>, np.nan)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average salary (mean of SALARY_FROM and SALARY_TO)</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'AVERAGE_SALARY'</span>] <span class="op">=</span> df[[<span class="st">'SALARY_FROM'</span>, <span class="st">'SALARY_TO'</span>]].mean(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with missing values in AVERAGE_SALARY, REMOTE_TYPE_NAME, or STATE_NAME</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>df_salary <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">'AVERAGE_SALARY'</span>, <span class="st">'REMOTE_TYPE_NAME'</span>, <span class="st">'STATE_NAME'</span>])</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by state and remote type, then calculate average salary</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>avg_salary_by_state_remote <span class="op">=</span> df_salary.groupby([<span class="st">'STATE_NAME'</span>, <span class="st">'REMOTE_TYPE_NAME'</span>])[<span class="st">'AVERAGE_SALARY'</span>].mean().reset_index()</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Round the results for easier reading</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>avg_salary_by_state_remote[<span class="st">'AVERAGE_SALARY'</span>] <span class="op">=</span> avg_salary_by_state_remote[<span class="st">'AVERAGE_SALARY'</span>].<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Show results</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(avg_salary_by_state_remote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="40d87633" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.merge(avg_salary_by_state_remote,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              on<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'REMOTE_TYPE_NAME'</span>],</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              how<span class="op">=</span><span class="st">'left'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="dbb68c7f" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.merge(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    avg_salary_by_state_remote,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span>[<span class="st">'STATE_NAME'</span>, <span class="st">'REMOTE_TYPE_NAME'</span>],</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">'left'</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    suffixes<span class="op">=</span>(<span class="st">''</span>, <span class="st">'_STATE_REMOTE_AVG'</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="38c22239" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>[col <span class="cf">for</span> col <span class="kw">in</span> df.columns <span class="cf">if</span> <span class="st">'AVG'</span> <span class="kw">in</span> col <span class="kw">or</span> <span class="st">'SALARY'</span> <span class="kw">in</span> col]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="5a615ff0" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">'AVERAGE_SALARY_y'</span>: <span class="st">'AVERAGE_SALARY_STATE_REMOTE_AVG'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="d763fb7d" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder, StandardScaler</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (accuracy_score, f1_score, confusion_matrix,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                             classification_report, precision_score,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                             recall_score, balanced_accuracy_score)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> permutation_importance</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="65f86e12" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove duplicate column names across full dataframe</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.loc[:, <span class="op">~</span>df.columns.duplicated()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="9a069350" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'AVG_YEARS_EXPERIENCE'</span>] <span class="op">=</span> (df[<span class="st">'MIN_YEARS_EXPERIENCE'</span>] <span class="op">+</span> df[<span class="st">'MAX_YEARS_EXPERIENCE'</span>]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'EXP_SPREAD'</span>] <span class="op">=</span> df[<span class="st">'MAX_YEARS_EXPERIENCE'</span>] <span class="op">-</span> df[<span class="st">'MIN_YEARS_EXPERIENCE'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="3d918164" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'MIN_YEARS_EXPERIENCE'</span>, <span class="st">'MAX_YEARS_EXPERIENCE'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="b04ce995" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>num_feats <span class="op">=</span> [</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AVG_YEARS_EXPERIENCE'</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'AVERAGE_SALARY_STATE_REMOTE_AVG'</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'IS_INTERNSHIP'</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>cat_feats <span class="op">=</span> [</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'STATE_NAME'</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'NAICS_2022_2_NAME'</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'EDUCATION_LEVELS_NAME'</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'COMMON_SKILLS_NAME'</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'SOFTWARE_SKILLS_NAME'</span>,</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TITLE_CLEAN'</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[num_feats <span class="op">+</span> cat_feats]</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'REMOTE_BINARY'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="9dcc561c" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, OneHotEncoder</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="b7c90ad2" class="cell" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>preprocess <span class="op">=</span> ColumnTransformer(transformers<span class="op">=</span>[</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"num"</span>, StandardScaler(), num_feats),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"cat"</span>, OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">'ignore'</span>, sparse_output<span class="op">=</span><span class="va">False</span>), cat_feats)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="2d59fd5f" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>y</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="87cef1e7" class="cell" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Preprocessing step</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>preprocess <span class="op">=</span> ColumnTransformer(transformers<span class="op">=</span>[</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"num"</span>, StandardScaler(), num_feats),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"cat"</span>, OneHotEncoder(handle_unknown<span class="op">=</span><span class="st">'ignore'</span>, max_categories<span class="op">=</span><span class="dv">500</span>, sparse_output<span class="op">=</span><span class="va">False</span>), cat_feats)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>, class_weight<span class="op">=</span><span class="st">'balanced'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="1f464ff6" class="cell" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestClassifier(</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">200</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    class_weight<span class="op">=</span><span class="st">'balanced'</span>,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> Pipeline(steps<span class="op">=</span>[</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'prep'</span>, preprocess),</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'model'</span>, rf)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="03a49e01" class="cell" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pipe.fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="8501e839" class="cell" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> pipe.predict(X_test)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification report and confusion matrix</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred))</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Confusion Matrix:"</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(confusion_matrix(y_test, y_pred))</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Additional custom metrics</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Custom Metrics:"</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy:"</span>, <span class="bu">round</span>(accuracy_score(y_test, y_pred), <span class="dv">3</span>))</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"F1 Score:"</span>, <span class="bu">round</span>(f1_score(y_test, y_pred), <span class="dv">3</span>))</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Precision:"</span>, <span class="bu">round</span>(precision_score(y_test, y_pred), <span class="dv">3</span>))</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sensitivity (Recall 1):"</span>, <span class="bu">round</span>(recall_score(y_test, y_pred), <span class="dv">3</span>))</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Specificity (Recall 0):"</span>, <span class="bu">round</span>(</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    recall_score(y_test, y_pred, pos_label<span class="op">=</span><span class="dv">0</span>), <span class="dv">3</span>))</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Balanced Accuracy:"</span>, <span class="bu">round</span>(balanced_accuracy_score(y_test, y_pred), <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="f2bf1e13" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, y_pred)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cm, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Blues'</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Predicted"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"True"</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Confusion Matrix"</span>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="2e3fc37e" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>rf_model       <span class="op">=</span> pipe.named_steps[<span class="st">"model"</span>]          <span class="co"># RandomForestClassifier</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>feature_names  <span class="op">=</span> pipe.named_steps[<span class="st">"prep"</span>].get_feature_names_out()</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>importances <span class="op">=</span> rf_model.feature_importances_</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>feat_imp <span class="op">=</span> (</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame({<span class="st">"Feature"</span>: feature_names, <span class="st">"Importance"</span>: importances})</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>      .sort_values(by<span class="op">=</span><span class="st">"Importance"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>      .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Top 9 – Tree-based Importances"</span>)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(feat_imp.head(<span class="dv">9</span>).to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="dc0234d2" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>top_n <span class="op">=</span> <span class="dv">9</span>                     <span class="co"># change to show more/less</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>sns.barplot(</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>feat_imp.head(top_n),</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"Importance"</span>, y<span class="op">=</span><span class="st">"Feature"</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span><span class="st">"crest"</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f"Top </span><span class="sc">{</span>top_n<span class="sc">}</span><span class="ss"> Feature Importances (Random Forest)"</span>)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Mean Decrease in Impurity"</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">""</span>)</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="24016f75" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Create state abbreviation mapping</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>us_state_abbrev <span class="op">=</span> {</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Alabama'</span>: <span class="st">'AL'</span>, <span class="st">'Alaska'</span>: <span class="st">'AK'</span>, <span class="st">'Arizona'</span>: <span class="st">'AZ'</span>, <span class="st">'Arkansas'</span>: <span class="st">'AR'</span>,</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'California'</span>: <span class="st">'CA'</span>, <span class="st">'Colorado'</span>: <span class="st">'CO'</span>, <span class="st">'Connecticut'</span>: <span class="st">'CT'</span>, <span class="st">'Delaware'</span>: <span class="st">'DE'</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Florida'</span>: <span class="st">'FL'</span>, <span class="st">'Georgia'</span>: <span class="st">'GA'</span>, <span class="st">'Hawaii'</span>: <span class="st">'HI'</span>, <span class="st">'Idaho'</span>: <span class="st">'ID'</span>,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Illinois'</span>: <span class="st">'IL'</span>, <span class="st">'Indiana'</span>: <span class="st">'IN'</span>, <span class="st">'Iowa'</span>: <span class="st">'IA'</span>, <span class="st">'Kansas'</span>: <span class="st">'KS'</span>,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Kentucky'</span>: <span class="st">'KY'</span>, <span class="st">'Louisiana'</span>: <span class="st">'LA'</span>, <span class="st">'Maine'</span>: <span class="st">'ME'</span>, <span class="st">'Maryland'</span>: <span class="st">'MD'</span>,</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Massachusetts'</span>: <span class="st">'MA'</span>, <span class="st">'Michigan'</span>: <span class="st">'MI'</span>, <span class="st">'Minnesota'</span>: <span class="st">'MN'</span>, <span class="st">'Mississippi'</span>: <span class="st">'MS'</span>,</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Missouri'</span>: <span class="st">'MO'</span>, <span class="st">'Montana'</span>: <span class="st">'MT'</span>, <span class="st">'Nebraska'</span>: <span class="st">'NE'</span>, <span class="st">'Nevada'</span>: <span class="st">'NV'</span>,</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'New Hampshire'</span>: <span class="st">'NH'</span>, <span class="st">'New Jersey'</span>: <span class="st">'NJ'</span>, <span class="st">'New Mexico'</span>: <span class="st">'NM'</span>, <span class="st">'New York'</span>: <span class="st">'NY'</span>,</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'North Carolina'</span>: <span class="st">'NC'</span>, <span class="st">'North Dakota'</span>: <span class="st">'ND'</span>, <span class="st">'Ohio'</span>: <span class="st">'OH'</span>, <span class="st">'Oklahoma'</span>: <span class="st">'OK'</span>,</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Oregon'</span>: <span class="st">'OR'</span>, <span class="st">'Pennsylvania'</span>: <span class="st">'PA'</span>, <span class="st">'Rhode Island'</span>: <span class="st">'RI'</span>, <span class="st">'South Carolina'</span>: <span class="st">'SC'</span>,</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'South Dakota'</span>: <span class="st">'SD'</span>, <span class="st">'Tennessee'</span>: <span class="st">'TN'</span>, <span class="st">'Texas'</span>: <span class="st">'TX'</span>, <span class="st">'Utah'</span>: <span class="st">'UT'</span>,</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Vermont'</span>: <span class="st">'VT'</span>, <span class="st">'Virginia'</span>: <span class="st">'VA'</span>, <span class="st">'Washington'</span>: <span class="st">'WA'</span>, <span class="st">'West Virginia'</span>: <span class="st">'WV'</span>,</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Wisconsin'</span>: <span class="st">'WI'</span>, <span class="st">'Wyoming'</span>: <span class="st">'WY'</span>, <span class="st">'District of Columbia'</span>: <span class="st">'DC'</span></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Map state names to abbreviations</span></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'STATE_ABBR'</span>] <span class="op">=</span> df[<span class="st">'STATE_NAME'</span>].<span class="bu">map</span>(us_state_abbrev)</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Group by state and compute metrics</span></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>choropleth_data <span class="op">=</span> df.groupby(<span class="st">'STATE_ABBR'</span>).agg(</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>    remote_ratio<span class="op">=</span>(<span class="st">'REMOTE_BINARY'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>    avg_salary<span class="op">=</span>(<span class="st">'AVERAGE_SALARY_STATE_REMOTE_AVG'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>    avg_experience<span class="op">=</span>(<span class="st">'AVG_YEARS_EXPERIENCE'</span>, <span class="st">'mean'</span>),</span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>    job_count<span class="op">=</span>(<span class="st">'STATE_NAME'</span>, <span class="st">'count'</span>)</span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>).reset_index()</span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Define custom green scale (start from light, move to #1aab89)</span></span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a>custom_green_scale <span class="op">=</span> [</span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="st">"#e0f7f1"</span>],     <span class="co"># light mint</span></span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.5</span>, <span class="st">"#70d8b5"</span>],   <span class="co"># mid-green</span></span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">1</span>, <span class="st">"#1aab89"</span>]      <span class="co"># deep teal green</span></span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Create the choropleth with custom green</span></span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.choropleth(</span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>    data_frame<span class="op">=</span>choropleth_data,</span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>    locations<span class="op">=</span><span class="st">'STATE_ABBR'</span>,</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>    locationmode<span class="op">=</span><span class="st">"USA-states"</span>,</span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'remote_ratio'</span>,</span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>    color_continuous_scale<span class="op">=</span>custom_green_scale,</span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>    scope<span class="op">=</span><span class="st">"usa"</span>,</span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>{<span class="st">'remote_ratio'</span>: <span class="st">'Remote Job Ratio'</span>},</span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>    hover_data<span class="op">=</span>{</span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">'remote_ratio'</span>: <span class="st">':.2f'</span>,</span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">'avg_salary'</span>: <span class="st">':.0f'</span>,</span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">'avg_experience'</span>: <span class="st">':.1f'</span>,</span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">'job_count'</span>: <span class="va">True</span></span>
+<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Remote Job Ratio by State (Custom Green), Avg Salary &amp; Experience in Hover'</span></span>
+<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-57"><a href="#cb39-57" aria-hidden="true" tabindex="-1"></a>fig.update_layout(margin<span class="op">=</span>{<span class="st">"r"</span>:<span class="dv">0</span>,<span class="st">"t"</span>:<span class="dv">40</span>,<span class="st">"l"</span>:<span class="dv">0</span>,<span class="st">"b"</span>:<span class="dv">0</span>})</span>
+<span id="cb39-58"><a href="#cb39-58" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/state_remote_job_ratio.html"</span>)</span>
+<span id="cb39-59"><a href="#cb39-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-60"><a href="#cb39-60" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="327e1fb1" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Ensure 'POSTED' is in datetime format and create Year-Month</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'POSTED'</span>])</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'POSTED_YM'</span>] <span class="op">=</span> df[<span class="st">'POSTED'</span>].dt.to_period(<span class="st">'M'</span>).astype(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="a5ac96df" class="cell" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>industry_trends <span class="op">=</span> (</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>])[<span class="st">'REMOTE_BINARY'</span>]</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    .reset_index(name<span class="op">=</span><span class="st">'REMOTE_RATIO'</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="267d481f" class="cell" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Select top 5 industries with highest overall average remote ratio</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>top_industries <span class="op">=</span> (</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    industry_trends.groupby(<span class="st">'NAICS_2022_2_NAME'</span>)[<span class="st">'REMOTE_RATIO'</span>]</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    .sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    .head(<span class="dv">5</span>)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    .index.tolist()</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>filtered_trends <span class="op">=</span> industry_trends[industry_trends[<span class="st">'NAICS_2022_2_NAME'</span>].isin(top_industries)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="b0695758" class="cell" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.line(</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    filtered_trends,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'POSTED_YM'</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'REMOTE_RATIO'</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'NAICS_2022_2_NAME'</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    markers<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Top Industries: Remote Job Trends Over Time"</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"Posted Month"</span>,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">"Remote Job Ratio"</span>,</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    legend_title<span class="op">=</span><span class="st">"Industry"</span>,</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="fl">1.02</span>, y<span class="op">=</span><span class="dv">1</span>, bordercolor<span class="op">=</span><span class="st">"Black"</span>),</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(l<span class="op">=</span><span class="dv">40</span>, r<span class="op">=</span><span class="dv">40</span>, t<span class="op">=</span><span class="dv">60</span>, b<span class="op">=</span><span class="dv">40</span>),</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">500</span></span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>fig.update_xaxes(tickangle<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>fig.write_html(<span class="st">"./figures/remote_job_over_time.html"</span>)</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="a7b168bc" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Groupby industry + month and calculate both:</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>industry_month_stats <span class="op">=</span> df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>]).agg(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    TOTAL_JOBS<span class="op">=</span>(<span class="st">'REMOTE_BINARY'</span>, <span class="st">'count'</span>),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    REMOTE_RATIO<span class="op">=</span>(<span class="st">'REMOTE_BINARY'</span>, <span class="st">'mean'</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>).reset_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="4aee7a32" class="cell" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>job_count <span class="op">=</span> df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'JOB_COUNT'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="24caa1b6" class="cell" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>remote_ratio <span class="op">=</span> df.groupby([<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>])[<span class="st">'REMOTE_BINARY'</span>].mean().reset_index(name<span class="op">=</span><span class="st">'REMOTE_RATIO'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="cc8892f6" class="cell" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>industry_month_stats <span class="op">=</span> pd.merge(remote_ratio, job_count, on<span class="op">=</span>[<span class="st">'NAICS_2022_2_NAME'</span>, <span class="st">'POSTED_YM'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="a67b7de2" class="cell" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose 2–3 industries to plot (or loop one at a time)</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>selected_industries <span class="op">=</span> [</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Administrative and Support and Waste Management and Remediation Services'</span>,</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Arts, Entertainment, and Recreation'</span>,</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Finance and Insurance'</span>,</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Real Estate and Rental and Leasing'</span>,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Utilities'</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> industry <span class="kw">in</span> selected_industries:</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> industry_month_stats[industry_month_stats[<span class="st">'NAICS_2022_2_NAME'</span>] <span class="op">==</span> industry]  </span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>    fig, ax1 <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot remote ratio</span></span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>    ax1.plot(data[<span class="st">'POSTED_YM'</span>], data[<span class="st">'REMOTE_RATIO'</span>], color<span class="op">=</span><span class="st">'tab:blue'</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>    ax1.set_xlabel(<span class="st">'Month'</span>)</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>    ax1.set_ylabel(<span class="st">'Remote Job Ratio'</span>, color<span class="op">=</span><span class="st">'tab:blue'</span>)</span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>    ax1.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelcolor<span class="op">=</span><span class="st">'tab:blue'</span>)</span>
+<span id="cb48-24"><a href="#cb48-24" aria-hidden="true" tabindex="-1"></a>    ax1.set_title(<span class="ss">f"Remote Job Ratio &amp; Volume Over Time: </span><span class="sc">{</span>industry<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb48-25"><a href="#cb48-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-26"><a href="#cb48-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot job count on secondary y-axis</span></span>
+<span id="cb48-27"><a href="#cb48-27" aria-hidden="true" tabindex="-1"></a>    ax2 <span class="op">=</span> ax1.twinx()</span>
+<span id="cb48-28"><a href="#cb48-28" aria-hidden="true" tabindex="-1"></a>    ax2.bar(data[<span class="st">'POSTED_YM'</span>], data[<span class="st">'JOB_COUNT'</span>], color<span class="op">=</span><span class="st">'tab:gray'</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb48-29"><a href="#cb48-29" aria-hidden="true" tabindex="-1"></a>    ax2.set_ylabel(<span class="st">'Total Job Postings'</span>, color<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb48-30"><a href="#cb48-30" aria-hidden="true" tabindex="-1"></a>    ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelcolor<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb48-31"><a href="#cb48-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-32"><a href="#cb48-32" aria-hidden="true" tabindex="-1"></a>    plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb48-33"><a href="#cb48-33" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb48-34"><a href="#cb48-34" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">"./figures/Remote_jobs_"</span><span class="op">+</span><span class="bu">str</span>(industry)<span class="op">+</span><span class="st">".jpg"</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb48-35"><a href="#cb48-35" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <section id="random-forest-results" class="level3">
 <h3 class="anchored" data-anchor-id="random-forest-results">Random Forest results</h3>
 <p><img src="./figures/classification_report.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Random Forest results"> <img src="./figures/Confusion_matrix.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Confustion Matrix"> As the two plots displayed a clear results for random forest results, our group has set our target variable for predict people’s preferences on Remote versus Onsite job, where 1 represents a remote job and 0 represents onsite. We also had a set of independent variables, including as: ‘AVG_YEARS_EXPERIENCE’, ‘AVERAGE_SALARY_STATE_REMOTE_AVG’, ‘IS_INTERNSHIP’, ‘STATE_NAME’, ‘NAICS_2022_2_NAME’(industry) ‘EDUCATION_LEVELS_NAME’, ‘COMMON_SKILLS_NAME’, ‘SOFTWARE_SKILLS_NAME’, ‘TITLE_CLEAN’ (occupation). Meanwhile, we split the data into training and testing sets using an 80/20 ratio to ensure generalizability, This means 20% of the data will go into the test set, and 80% will go into the training set. Then we conduct the randam forest model analysis. According to plots, we can conclude the accuracy reached to 94.6%;F1 score as 84.7%, which reflects the robust balance between precision and recall; the precision as 99.4%, which means it has highly accurate rate on predict the results;the sensitivity for class1 as 73.8%, which means it correctly identified the 74% people who pick remote; the sensitivity for class 0 even reached to 99.9%, which means almost all the people who choose non-remote job has correctly classified; balanced accuracy as 86.8%, which represents there is a balance performance between both cases. From the confusion matrix, there has a detailed display, which represents the model correctly predicts 11536 people who choose onsite jobs with only 13 false positives, and it also orrectly predicts 2177 people who choose remote jobs with 774 missed results.</p>

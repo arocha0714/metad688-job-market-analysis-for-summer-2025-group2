@@ -38,5 +38,8 @@
   "report.qmd": {
     "report.html": "d5e8e29a",
     "report.docx": "11d85ace"
+  },
+  "ADAM_geographic_analysis.ipynb": {
+    "ADAM_geographic_analysis.html": "838ab2fe"
   }
 }
