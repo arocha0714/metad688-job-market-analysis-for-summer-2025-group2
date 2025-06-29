@@ -37,6 +37,7 @@ df = spark.read.option("header", "true").option("inferSchema", "true").option("m
 ```
 
 ```{python}
+
 #| echo: true
 #| results: 'hide'
 df.createOrReplaceTempView("jobs")
@@ -56,6 +57,7 @@ software_skill_counts_by_type = spark.sql("""
     LIMIT 10
 """)
 software_skill_counts_by_type.show(truncate=False)
+
 ```
 
 ```{python}

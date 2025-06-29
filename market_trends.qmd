@@ -978,7 +978,7 @@ fig_salaries.write_html("./figures/salary_distribution_states.html", include_plo
 ```
 In terms of the Remote Job Distribution by general industry, the top 3 industries are Real Estate and Rental and Leasing, Information, Finance and Insurance. As we can see even the traditional industries such as manufacturing, educational services starte to have higher remote job proportion, which means the remote work nowadays has already became a widespread jobs or requirements across multiple industries.
 
-###Top Industries: Remote job Trends Over time
+### Top Industries: Remote job Trends Over time
 
 ```{=html}
 <iframe width="1000" height="700" src="./figures/remote_job_over_time.html" title="Remote Job increase over time(Top 5 Industries)"></iframe>
@@ -1010,6 +1010,7 @@ From the above plot result, we can see that the remote job ratio trend started h
 ```{=html}
 <iframe width="1000" height="700" src="./figures/state_remote_job_ratio.html" title="Remote state job ratio with average"></iframe>
 ```
+
 From above choreleograph, we can see that the green color depth represents the remote jobs proportions to their job postings, and with the average salary and average job experiences.
 To be more clearly, we can see that the Maine, Vermont, Alaska and Colorado have higher remote ratio, which represents their high demands on remote jobs 
 souther state on the othe hand has lighter remote ratio, which represents that there are fewer remote job demands in these regions' industries. 
