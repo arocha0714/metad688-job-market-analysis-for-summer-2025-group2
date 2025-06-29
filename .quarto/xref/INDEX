@@ -36,10 +36,17 @@
     "modeling copy.html": "1db790da"
   },
   "report.qmd": {
+<<<<<<< HEAD
     "report.html": "d5e8e29a",
     "report.docx": "11d85ace"
   },
   "ADAM_geographic_analysis.ipynb": {
     "ADAM_geographic_analysis.html": "838ab2fe"
+=======
+    "report.docx.html": "d222d219",
+    "preliminary_research.docx.html": "f57cfa60",
+    "preliminary_research.docx": "a645717d",
+    "report.docx": "d770780c"
+>>>>>>> fb6ea37 (tried to convert to report)
   }
 }
